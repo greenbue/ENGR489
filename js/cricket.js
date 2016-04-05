@@ -1,7 +1,8 @@
 var small_chart_height = 250;
 var medium_chart_height = 500;
-var small_width = 544;
-var medium_width = 768;
+var large_chart_height = 650;
+var small_width = 480; //544
+var medium_width = 720; //768
 var valueAccessor =function(d){return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
 var default_colors = d3.scale.ordinal().range(our_colors);
@@ -29,7 +30,7 @@ function cleanup(d) {
 //Queueing defer ensures that all our datasets get loaded before any work is done
 
 queue()
-    .defer(d3.csv, "data/cricket-nz.csv")
+    .defer(d3.csv, "data/cricket-odi.csv")
     // .defer(d3.csv, "import-data.csv") //change name here to load more than 1 file
     .await(showCharts);
 
@@ -57,6 +58,12 @@ function showCharts(err, data) {
       }
     }
   }
+	
+	resultByYear = configureableReduce("Result", "Value", {
+		"won":0,
+		"lost":0,
+		"tied":0
+	})
     
 	//---------------------------------FILTERS-----------------------------------------
   ndx = crossfilter(_data);
@@ -70,7 +77,7 @@ function showCharts(err, data) {
     .group(year_group)
     .colors(default_colors)
     .transitionDuration(200)
-    .height(medium_chart_height)
+    .height(large_chart_height/1.5)
 		.width(small_width)
     .ordering(function(d){ return -d.key })
 //		.x(d3.scale.linear().domain([-25, 25]))
@@ -132,6 +139,34 @@ function showCharts(err, data) {
    	.innerRadius(donut_inner)
     .radius(donut_outer)
     .colors(default_colors);
+	
+	result_year = ndx.dimension(function(d){return d.Year});
+	result_year_group = result_year.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
+	
+	
+	result_year_chart = dc.barChart('#result_year')
+		.group(result_year_group, "won")
+		.stack(result_year_group, "lost", function(d) { return d.value["lost"] })
+		.stack(result_year_group, "tied", function(d) { return d.value["tied"] })
+		.dimension(result_year)
+		.height(medium_chart_height/2)
+		.width(small_width)
+		.transitionDuration(200)
+		.label(function(d) { console.log(d); return d; })
+		.title(function(d) { 				d3.select(".area").selectAll("circle.dot").attr("r", 10);
+				return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
+		})
+		.valueAccessor(function(d){return d.value["won"]})
+		.legend(dc.legend().x(800).y(10).itemHeight(13).gap(5))
+		.x(d3.scale.linear().domain([1996,2016]))
+		.renderLabel(true)
+		.colors(default_colors)
+    .elasticX(false)
+    .elasticY(true)
+		.brushOn(false);
+	
+	result_year_chart.xAxis().ticks(5).tickFormat(d3.format("g"));
+	grey_undefined(result_year_chart);
 	
 	dc.renderAll();
 }

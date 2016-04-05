@@ -32,11 +32,7 @@
 		
 		<div class="container">
       <div class="row">
-        <div class="col-md-6" id="year">
-        	Total Games by Year
-        	<legend><a href='javascript:year_chart.filterAll(); dc.redrawAll()' class='pull-right reset' style='display:none;'><i class="fa fa-refresh"> </i> </a></legend>
-        </div>
-				<div class="col-md-5 col-md-offset-1">
+				<div class="col-md-6">
 					<div class="row">
 						<div class="col-md-6" id="opposition">
 							Total Games by Opposition
@@ -44,18 +40,25 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6" id="result">
-							Match Results
-							<legend><a href='javascript:result_chart.filterAll(); dc.redrawAll()' class='pull-right reset' style='display:none;'><i class="fa fa-refresh"> </i> </a></legend>
+						<div class="col-md-6" id="result_year">
+							Total Games by Year (Slider)
+							<legend><a href='javascript:year_bar_chart.filterAll(); dc.redrawAll()' class='pull-right reset' style='display:none;'><i class="fa fa-refresh"> </i> </a></legend>
 						</div>
+					</div>
+				</div>
+        <div class="col-md-5" id="year">
+        	Total Games by Year
+        	<legend><a href='javascript:year_chart.filterAll(); dc.redrawAll()' class='pull-right reset' style='display:none;'><i class="fa fa-refresh"> </i> </a></legend>
+        </div>
+				<div class="row">
+					<div class="col-md-5" id="result">
+						Match Results
+						<legend><a href='javascript:result_chart.filterAll(); dc.redrawAll()' class='pull-right reset' style='display:none;'><i class="fa fa-refresh"> </i> </a></legend>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6" id="year-bar">
-        	Match Results
-        	<legend><a href='javascript:year_bar_chart.filterAll(); dc.redrawAll()' class='pull-right reset' style='display:none;'><i class="fa fa-refresh"> </i> </a></legend>
-        </div>
+				
 			</div>
 		</div>
 
