@@ -138,7 +138,14 @@ function showCharts(err, data) {
     .height(small_chart_height-50)
    	.innerRadius(donut_inner)
     .radius(donut_outer)
-    .colors(default_colors);
+		.colors(d3.scale.ordinal().domain(["won", "lost", "tied"])
+                                .range(["#a1eda1","#fc9898", "#afedf0"]))
+		.colorAccessor(function(d) {
+			if (d.key == "won") return "won";
+			else if (d.key == "lost") return "lost";
+			return "tied";
+		});
+//    .colors(default_colors);
 	
 	result_year = ndx.dimension(function(d){return d.Year});
 	result_year_group = result_year.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
@@ -160,7 +167,10 @@ function showCharts(err, data) {
 		.legend(dc.legend().x(800).y(10).itemHeight(13).gap(5))
 		.x(d3.scale.linear().domain([1996,2016]))
 		.renderLabel(true)
-		.colors(default_colors)
+//		.colors(default_colors)
+		.colors(d3.scale.ordinal()
+			.domain(["won", "lost", "tied"])                    
+			.range(["#a1eda1","#fc9898", "#afedf0"]))
     .elasticX(false)
     .elasticY(true)
 		.brushOn(false);
