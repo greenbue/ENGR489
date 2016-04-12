@@ -1,5 +1,6 @@
 .dc-chart g.row text {
-  fill:black;
+  fill: whitesmoke;
+	font-size: 12px;
 }
 
 .dc-chart g.row text.row.dim {
@@ -26,11 +27,11 @@
 }
 
 .dc-chart .pie-slice {
-  fill:black;
+  fill: white;
 }
 
 .grey {
-  opacity: 0.5;
+  opacity: 0.2;
 }
 
 .dot {

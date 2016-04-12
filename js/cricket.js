@@ -5,6 +5,8 @@ var small_width = 480; //544
 var medium_width = 720; //768
 var valueAccessor =function(d){return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
+var team_default = d3.scale.ordinal().range(["#8C0300"]);
+var year_default = d3.scale.ordinal().range(["#00168C"]);
 var default_colors = d3.scale.ordinal().range(our_colors);
 //For pie chart
 var donut_inner = 40
@@ -75,7 +77,7 @@ function showCharts(err, data) {
 	year_chart = dc.rowChart('#year')
     .dimension(year)
     .group(year_group)
-    .colors(default_colors)
+    .colors(year_default)
     .transitionDuration(200)
     .height(large_chart_height/1.5)
 		.width(small_width)
@@ -114,12 +116,11 @@ function showCharts(err, data) {
 	opposition_chart = dc.rowChart('#opposition')
     .dimension(opposition)
     .group(opposition_group)
-    .colors(default_colors)
+    .colors(team_default)
     .transitionDuration(200)
     .height(small_chart_height)
 		.width(small_width)
     .ordering(function(d){ return -d.key })
-//		.x(d3.scale.linear().domain([-25, 25]))
     .elasticX('true');
 	
 	opposition_chart.xAxis().ticks(5).tickFormat(d3.format("s"));
@@ -136,7 +137,6 @@ function showCharts(err, data) {
     .group(result_group)
     .transitionDuration(200)
     .height(small_chart_height-50)
-   	.innerRadius(donut_inner)
     .radius(donut_outer)
 		.colors(d3.scale.ordinal().domain(["won", "lost", "tied"])
                                 .range(["#a1eda1","#fc9898", "#afedf0"]))
@@ -153,17 +153,20 @@ function showCharts(err, data) {
 	
 	result_year_chart = dc.barChart('#result_year')
 		.group(result_year_group, "won")
+		.valueAccessor(function(d){return d.value["won"]})
 		.stack(result_year_group, "lost", function(d) { return d.value["lost"] })
 		.stack(result_year_group, "tied", function(d) { return d.value["tied"] })
 		.dimension(result_year)
-		.height(medium_chart_height/2)
+		.height(medium_chart_height/1.25)
 		.width(small_width)
 		.transitionDuration(200)
-		.label(function(d) { console.log(d); return d; })
-		.title(function(d) { 				d3.select(".area").selectAll("circle.dot").attr("r", 10);
+		.label(function(d) { return d; })
+		.title(function(d) {
+			d3.selectAll("rect.bar")
+				.on('mouseover', function(d){
+				});
 				return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
 		})
-		.valueAccessor(function(d){return d.value["won"]})
 		.legend(dc.legend().x(800).y(10).itemHeight(13).gap(5))
 		.x(d3.scale.linear().domain([1996,2016]))
 		.renderLabel(true)
@@ -177,6 +180,8 @@ function showCharts(err, data) {
 	
 	result_year_chart.xAxis().ticks(5).tickFormat(d3.format("g"));
 	grey_undefined(result_year_chart);
+	
+	
 	
 	dc.renderAll();
 }
