@@ -26,7 +26,7 @@ function cleanup(d) {
 //Queueing defer ensures that all our datasets get loaded before any work is done
 
 queue()
-    .defer(d3.csv, "data/jobs2.csv")
+    .defer(d3.csv, "data/jobs.csv")
     // .defer(d3.csv, "import-data.csv") //change name here to load more than 1 file
     .await(showCharts);
 

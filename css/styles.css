@@ -47,3 +47,7 @@
   fill-opacity: 1 !important;
   stroke-opacity: 1 !important;
 }
+
+.dc-legend {
+  font-size: 12px;
+}
