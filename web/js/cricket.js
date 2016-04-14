@@ -140,7 +140,21 @@ function showCharts(err, data) {
 	opposition_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
 	grey_undefined(opposition_chart);
 	
-	
+	team = ndx.dimension(function(d){return d.Team});
+  team_group = team.group().reduceSum(function(d){return d.Value}); 
+    
+  team_chart = dc.rowChart('#team')
+    .dimension(team)
+    .group(team_group)
+    .colors(team_default)
+    .transitionDuration(200)
+    .height(small_chart_height)
+    .width(small_width)
+    .ordering(function(d){ return -d.key })
+    .elasticX(true);
+  
+  team_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
+  grey_undefined(team_chart); 
 	
 	result = ndx.dimension(function(d){return d.Result});
 		
