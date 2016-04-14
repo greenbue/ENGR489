@@ -23,25 +23,18 @@ grey_undefined = function(chart) {
 var yearDom = [];
 
 function cleanup(d) {
-		
-	d.Quarter = d.Date.split('-')[1];
-	d.Quarter = whichQuarter(d.Quarter);
+	
   d.Year = d.Date.slice(-2);
-  d.Year = d.Year > 16 ? 1900+parseInt(d.Year)+"."+d.Quarter : 2000+parseInt(d.Year)+"."+d.Quarter;
+  d.Year = d.Year > 16 ? 1900+parseInt(d.Year) : 2000+parseInt(d.Year);
   d.Value = 1;
+	d.properDate = new Date(d.Date.split('-')[1] + " " + d.Date.split('-')[0] + ", " + d.Year);
   d.matchAgainst = d.Team + '/' + d.Opposition;
   
 	if($.inArray(d.Year, yearDom) == -1){
-		yearDom.push(d.Year);
+		yearDom.push(d.properDate);
 	}
 	
   return d;
-}
-
-function whichQuarter(d) {
-	if (d == 'Jan' || d == 'Feb' || d == 'Mar' || d == 'Apr' || d == 'May' || d == 'Jun')
-		return 0;
-	else return 50;
 }
 
 function isOdd(num) { 
@@ -84,7 +77,8 @@ function showCharts(err, data) {
 		"won":0,
 		"lost":0,
 		"tied":0
-	})
+	});
+	
     
 	//---------------------------------FILTERS-----------------------------------------
   ndx = crossfilter(_data);
@@ -139,7 +133,7 @@ function showCharts(err, data) {
     .height(small_chart_height)
 		.width(small_width)
     .ordering(function(d){ return -d.key })
-    .elasticX('true');
+    .elasticX(true);
 	
 	opposition_chart.xAxis().ticks(5).tickFormat(d3.format("s"));
 	grey_undefined(opposition_chart);
@@ -178,9 +172,9 @@ function showCharts(err, data) {
 		.stack(result_year_group, "lost", function(d) { return d.value["lost"] })
 		.stack(result_year_group, "tied", function(d) { return d.value["tied"] })
 		.dimension(result_year)
-		.centerBar(true)
+//		.centerBar(false)
 		.height(medium_chart_height/2)
-		.width(medium_width*1.5)
+		.width(medium_width*1.2)
 		.transitionDuration(200)
 		.label(function(d) { return d; })
 		.title(function(d) {
@@ -189,18 +183,17 @@ function showCharts(err, data) {
 				});
 				return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
 		})
-		.x(d3.scale.linear().domain([1995,2016]))
-//		.gap(10)
-//		.x(d3.scale.linear().domain([yearDom[0]-1, yearDom[yearDom.length]+1]))
-//		.xUnits(function() {return 35;})
+		.x(d3.time.scale().domain(d3.extent(data, function(d) { return d.Year})))
 		.renderLabel(true)
-		.mouseZoomable(true)
-//		.colors(default_colors)
 		.colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
 		.elasticX(false)
 		.elasticY(true)
+		.renderHorizontalGridLines(true)
+		.renderVerticalGridLines(true)
 		.mouseZoomable(true)
 		.brushOn(false)
+//		.renderArea(true)
+		.margins({top: 10, right: 50, bottom: 30, left: 50})
 		.on("renderlet.result_year", function (chart) {
 				//Check if labels exist
 				var gLabels = chart.select(".labels");
@@ -239,9 +232,43 @@ function showCharts(err, data) {
         	chart.rescale();
 			});
 	
-	result_year_chart.xAxis().ticks(5).tickFormat(d3.format("g"));
+	result_year_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
 	result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
 	grey_undefined(result_year_chart);
+	
+	game = ndx.dimension(function(d){return d.properDate});
+	game_group = game.group().reduceSum(function(d) {
+		if (d.Margin.split(' ')[1] == "runs"){
+			return (d.Margin.split(' ')[0] - (d.BR*6))	
+		}
+		else if (d.Margin.split(' ')[1] == "wickets"){
+			return (d.Margin.split(' ')[0]*6)	
+		}
+		else{
+			return 0;
+		}
+	});
+
+	
+	game_chart = dc.lineChart('#game')
+		.dimension(game)
+		.group(game_group)
+		.height(medium_chart_height)
+		.width(medium_width)
+		.margins({top: 10, right: 10, bottom: 20, left: 40})
+		.title(function(d, i){
+//			console.log(data[i]);
+			return d.key + "\nResult: " + data[i].Result + "\nQuality of Game: " + d.value;
+		})
+		.mouseZoomable(true)
+		.elasticY(true)
+		.x(d3.time.scale().domain(d3.extent(data, function(d) { return d.properDate;})))
+		.y(d3.scale.linear())
+		.brushOn(false);
+	
+	game_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
+	game_chart.xAxis();
+		
 	
 	
 	
