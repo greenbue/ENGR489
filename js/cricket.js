@@ -5,8 +5,8 @@ var small_width = 480; //544
 var medium_width = 720; //768
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
-var team_default = d3.scale.ordinal().range(["#8C0300"]);
-var year_default = d3.scale.ordinal().range(["#00168C"]);
+var team_default = d3.scale.ordinal().range(["#015B64"]);
+var year_default = d3.scale.ordinal().range(["#1C293B"]);
 var default_colors = d3.scale.ordinal().range(our_colors);
 //For pie chart
 var donut_inner = 40
@@ -144,7 +144,7 @@ function showCharts(err, data) {
     })
     .radius(donut_outer)
       .colors(d3.scale.ordinal().domain(["won", "lost", "tied"])
-                              .range(["#a1eda1","#fc9898", "#afedf0"]))
+                              .range(["#45936E","#92332F", "#3E70A1"]))
       .colorAccessor(function(d) {
           if (d.key == "won") return "won";
           else if (d.key == "lost") return "lost";
@@ -162,8 +162,9 @@ function showCharts(err, data) {
 		.stack(result_year_group, "lost", function(d) { return d.value["lost"] })
 		.stack(result_year_group, "tied", function(d) { return d.value["tied"] })
 		.dimension(result_year)
-		.height(medium_chart_height/1.25)
-		.width(small_width)
+		.centerBar(true)
+		.height(medium_chart_height/2)
+		.width(medium_width*1.5)
 		.transitionDuration(200)
 		.label(function(d) { return d; })
 		.title(function(d) {
@@ -172,14 +173,15 @@ function showCharts(err, data) {
 				});
 				return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
 		})
-		.x(d3.scale.linear().domain([1996,2016]))
+		.x(d3.scale.linear().domain([1995,2016]))
 		.renderLabel(true)
 //		.colors(default_colors)
 		.colors(d3.scale.ordinal()
 			.domain(["won", "lost", "tied"])                    
-			.range(["#a1eda1","#fc9898", "#afedf0"]))
-        .elasticX(false)
-        .elasticY(true)
+			.range(["#45936E","#92332F", "#3E70A1"]))
+		.elasticX(false)
+		.elasticY(true)
+		.mouseZoomable(true)
 		.brushOn(false)
         .on("renderlet.result_year", function (chart) {
             //Check if labels exist
@@ -211,6 +213,7 @@ function showCharts(err, data) {
           });
 	
 	result_year_chart.xAxis().ticks(10).tickFormat(d3.format("g"));
+	result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
 	grey_undefined(result_year_chart);
 	
 	
