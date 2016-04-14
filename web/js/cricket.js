@@ -30,10 +30,6 @@ function cleanup(d) {
 	d.properDate = new Date(d.Date.split('-')[1] + " " + d.Date.split('-')[0] + ", " + d.Year);
   d.matchAgainst = d.Team + '/' + d.Opposition;
   
-	if($.inArray(d.Year, yearDom) == -1){
-		yearDom.push(d.properDate);
-	}
-	
   return d;
 }
 
