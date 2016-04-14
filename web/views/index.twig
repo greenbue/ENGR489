@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#guide">Quick Guide</button>
+      <div id="guide" class="collapse">
+        <ol>
+          <li>
+            Clicking on a the bar, legend, etc. will filter the results.
+              <ul>
+                <li>Colored bars are selected, while grayed ones are deselected.</li>
+              </ul>
+          </li>
+          <li>
+            Filter using more than one option. Try clicking Australia and New Zealand.
+          </li>
+          <li>
+            Try hovering over a graph segment.
+          </li>
+          <li>
+            Try filtering from multiple charts and/graphs.
+          </li>
+          <li>
+            The reset button will unselect all the filters for that chart.
+          </li>
+        </ol> 
+      </div>
+    </div>
+  </div>
+</div>
+<div class="tab-content">
+  <div id="summary" class="tab-pane fade in active">
+    <div class="container">
+      <div class="row"><!-- start first row -->
+        <div class="col-md-12">
+          <div class="row">
+              <div class="col-md-12" id="result_year">
+                Win, Loss and Ties By Team(s) Selected
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6" id="opposition">
+                  Total Games by Teams
+                  <legend><a href='javascript:opposition_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+              </div>
+              <div class="col-md-6" id="result">
+                Match Results
+                <legend><a href='javascript:result_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
+              </div>
+          </div>
+        </div>
+      </div><!-- end of first row -->
+    </div>
+  </div>
+  <div id="game_per" class="tab-pane fade">
+    <div class="container">
+      <div class="row"><!-- start first row -->
+        <div class="col-md-12">
+          <div class="row">
+              <div class="col-md-12" id="result_year">
+                Win, Loss and Ties By Team(s) Selected
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6" id="opposition">
+                  Total Games by Teams
+                  <legend><a href='javascript:opposition_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+              </div>
+              <div class="col-md-6" id="result">
+                Match Results2
+                <legend><a href='javascript:result_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
+              </div>
+          </div>
+        </div>
+      </div><!-- end of first row -->
+    </div>
+  </div>
+</div>
+
+{% endblock %}
