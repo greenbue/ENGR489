@@ -15,20 +15,30 @@ var donut_height = 100
 
 
 grey_undefined = function(chart) {
-  chart.selectAll("text.row").classed("grey",function(d) {return d.value.not_real || d.value.count == 0})
+  chart.selectAll("text.row").classed("grey",function(d) {return d.value.not_real || d.value.count == 0});
 }
 
 //---------------------CLEANUP functions-------------------------
 
+var yearDom = [];
+
 function cleanup(d) {
-		
+	
   d.Year = d.Date.slice(-2);
   d.Year = d.Year > 16 ? 1900+parseInt(d.Year) : 2000+parseInt(d.Year);
   d.Value = 1;
+	d.properDate = new Date(d.Date.split('-')[1] + " " + d.Date.split('-')[0] + ", " + d.Year);
   d.matchAgainst = d.Team + '/' + d.Opposition;
   
-  console.log(d.matchAgainst);
+	if($.inArray(d.Year, yearDom) == -1){
+		yearDom.push(d.properDate);
+	}
+	
   return d;
+}
+
+function isOdd(num) { 
+	return num % 2;
 }
 
 //Queueing defer ensures that all our datasets get loaded before any work is done
@@ -42,7 +52,7 @@ function showCharts(err, data) {
   _data = [];
 
   for (i in data) {
-    data[i] = cleanup(data[i]);
+		data[i] = cleanup(data[i]);
   }
   _data = data;
 //	console.log(data);
@@ -67,7 +77,8 @@ function showCharts(err, data) {
 		"won":0,
 		"lost":0,
 		"tied":0
-	})
+	});
+	
     
 	//---------------------------------FILTERS-----------------------------------------
   ndx = crossfilter(_data);
@@ -122,9 +133,11 @@ function showCharts(err, data) {
     .height(small_chart_height)
 		.width(small_width)
     .ordering(function(d){ return -d.key })
-    .elasticX('true');
+//		.xAxisLabel('Total Games')
+//		.xAxisPadding(500)
+    .elasticX(true);
 	
-	opposition_chart.xAxis().ticks(5).tickFormat(d3.format("s"));
+	opposition_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
 	grey_undefined(opposition_chart);
 	
 	
@@ -143,14 +156,13 @@ function showCharts(err, data) {
       return d.key + " " + d.value
     })
     .radius(donut_outer)
-      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"])
+    .colors(d3.scale.ordinal().domain(["won", "lost", "tied"])
                               .range(["#45936E","#92332F", "#3E70A1"]))
-      .colorAccessor(function(d) {
-          if (d.key == "won") return "won";
-          else if (d.key == "lost") return "lost";
-          return "tied";
-      });
-//    .colors(default_colors);
+    .colorAccessor(function(d) {
+			if (d.key == "won") return "won";
+			else if (d.key == "lost") return "lost";
+			return "tied";
+		});
 	
 	result_year = ndx.dimension(function(d){return d.Year});
 	result_year_group = result_year.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
@@ -173,48 +185,63 @@ function showCharts(err, data) {
 				});
 				return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
 		})
-		.x(d3.scale.linear().domain([1995,2016]))
+		.x(d3.scale.linear().domain([1995, 2016]))
 		.renderLabel(true)
-//		.colors(default_colors)
-		.colors(d3.scale.ordinal()
-			.domain(["won", "lost", "tied"])                    
-			.range(["#45936E","#92332F", "#3E70A1"]))
+		.colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
 		.elasticX(false)
 		.elasticY(true)
-		.mouseZoomable(true)
-		.brushOn(false)
-        .on("renderlet.result_year", function (chart) {
-            //Check if labels exist
-            var gLabels = chart.select(".labels");
-            if (gLabels.empty()){
-              gLabels = chart.select(".chart-body").append('g').classed('labels', true);
-            }
+		.yAxisLabel("Games")
+		.margins({top: 10, right: 40, bottom: 30, left: 40})
+		.renderHorizontalGridLines(true)
+		.renderVerticalGridLines(true)
+		.mouseZoomable(false)
+		.brushOn(true)
+//		.renderArea(true)
+		.margins({top: 10, right: 50, bottom: 30, left: 50})
+		.on("renderlet.result_year", function (chart) {
+				//Check if labels exist
+				var gLabels = chart.select(".labels");
+				if (gLabels.empty()){
+					gLabels = chart.select(".chart-body").append('g').classed('labels', true);
+				}
 
-            var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
+				var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
 
-            gLabelsData.exit().remove(); //Remove unused elements
+				gLabelsData.exit().remove(); //Remove unused elements
 
-            gLabelsData.enter().append("text") //Add new elements
+				gLabelsData.enter().append("text") //Add new elements
 
-            gLabelsData
-              .attr('text-anchor', 'middle  ')
-              .attr('fill', 'white')
-              .attr("font-size", "12px")
-              .text(function(d){
-                return d3.select(d).data()[0].y
-              })
-              .attr('x', function(d){ 
-                return +d.getAttribute('x') + (d.getAttribute('width')/2); 
-              })
-              .attr('y', function(d){ return +d.getAttribute('y') + 15; })
-              .attr('style', function(d){
-                if (+d.getAttribute('height') < 18) return "display:none";
-              });
-          });
+				gLabelsData
+					.attr('text-anchor', 'middle  ')
+					.attr('fill', 'white')
+					.attr("font-size", "12px")
+					.text(function(d){
+						return d3.select(d).data()[0].y
+					})
+					.attr('x', function(d){ 
+						return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+					})
+					.attr('y', function(d){ return +d.getAttribute('y') + 15; })
+					.attr('style', function(d){
+						if (+d.getAttribute('height') < 18) return "display:none";
+					});
+			})
+			.on("preRedraw", function (chart) {
+        	chart.rescale();
+			})
+			.on("preRender", function (chart) {
+					chart.rescale();
+			})
+			.on("pretransition", function (chart) {
+        	chart.rescale();
+			});
 	
-	result_year_chart.xAxis().ticks(10).tickFormat(d3.format("g"));
+	result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
 	result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
 	grey_undefined(result_year_chart);
+	
+
+		
 	
 	
 	
