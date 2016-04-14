@@ -190,7 +190,7 @@ function showCharts(err, data) {
 		.dimension(result_year)
 		.centerBar(true)
 		.height(medium_chart_height/2)
-		.width(medium_width*1.5)
+		.width(medium_width)
 		.transitionDuration(200)
 		.label(function(d) { return d; })
 		.title(function(d) {
