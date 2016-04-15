@@ -3,6 +3,7 @@ var medium_chart_height = 500;
 var large_chart_height = 650;
 var small_width = 480; //544
 var medium_width = 720; //768
+var result_chart_width = 660;
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
 var team_default = d3.scale.ordinal().range(["#015B64"]);
@@ -186,7 +187,7 @@ function showCharts(err, data) {
 		.dimension(result_year)
 		.centerBar(true)
 		.height(medium_chart_height/2)
-		.width(medium_width)
+		.width(result_chart_width)
 		.transitionDuration(200)
 		.label(function(d) { return d; })
 		.title(function(d) {
