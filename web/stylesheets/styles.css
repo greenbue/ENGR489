@@ -51,3 +51,11 @@
 .dc-legend {
   font-size: 12px;
 }
+
+.guide-margin {
+  margin: 0 auto 10px auto;
+}
+
+.data-count {
+  font-size: 16px;
+}
