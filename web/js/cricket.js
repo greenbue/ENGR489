@@ -251,9 +251,15 @@ function showCharts(err, data) {
 	result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
 	grey_undefined(result_year_chart);
 	
-
-		
-	
+  var all = ndx.groupAll();
+  data_count_chart = dc.dataCount('#data_count')
+    .dimension(ndx)
+    .group(all)
+    .html({
+        some: '<span class=\'data-count\'><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records</span>' +
+            ' | <a class=\'reset\' href=\'javascript:dc.filterAll(); dc.redrawAll();\'\'>Reset All</a>',
+        all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
+    });
 	
 	
 	dc.renderAll();
