@@ -37,8 +37,169 @@ function cleanup(d) {
 function isOdd(num) { 
 	return num % 2;
 }
+
 function capitalizeFirst(string) { 
   return string.charAt(0).toUpperCase() + string.slice(1); 
+}
+
+function result_year_create() {
+  result_year_chart = dc.barChart('#result_year')
+    .group(result_year_group, "won")
+    .valueAccessor(function(d){return d.value["won"]})
+    .stack(result_year_group, "lost", function(d) { return d.value["lost"] })
+    .stack(result_year_group, "tied", function(d) { return d.value["tied"] })
+    .dimension(result_year)
+    .centerBar(true)
+    .height(medium_chart_height/2)
+    .width(result_chart_width)
+    .transitionDuration(200)
+    .label(function(d) { return d; })
+    .title(function(d) {
+      d3.selectAll("rect.bar")
+        .on('mouseover', function(d){
+        });
+        return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
+    })
+    .x(d3.scale.linear().domain([1995, 2016]))
+    .renderLabel(true)
+    .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+    .elasticX(false)
+    .elasticY(true)
+    .yAxisLabel("Games")
+    .margins({top: 10, right: 40, bottom: 30, left: 40})
+    .renderHorizontalGridLines(true)
+    .renderVerticalGridLines(true)
+    .mouseZoomable(false)
+    .brushOn(true)
+//    .renderArea(true)
+    .margins({top: 10, right: 50, bottom: 30, left: 50})
+    .on("renderlet.result_year", function (chart) {
+        //Check if labels exist
+        var gLabels = chart.select(".labels");
+        if (gLabels.empty()){
+          gLabels = chart.select(".chart-body").append('g').classed('labels', true);
+        }
+
+        var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
+
+        gLabelsData.exit().remove(); //Remove unused elements
+
+        gLabelsData.enter().append("text") //Add new elements
+
+        gLabelsData
+          .attr('text-anchor', 'middle  ')
+          .attr('fill', 'white')
+          .attr("font-size", "12px")
+          .text(function(d){
+            return d3.select(d).data()[0].y
+          })
+          .attr('x', function(d){ 
+            return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+          })
+          .attr('y', function(d){ return +d.getAttribute('y') + 15; })
+          .attr('style', function(d){
+            if (+d.getAttribute('height') < 18) return "display:none";
+          });
+      })
+      .on("preRedraw", function (chart) {
+          chart.rescale();
+      })
+      .on("preRender", function (chart) {
+          chart.rescale();
+      })
+      .on("pretransition", function (chart) {
+          chart.rescale();
+      });
+  
+  result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
+  result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
+  grey_undefined(result_year_chart);
+  
+  result_year_chart2 = dc.barChart('#result_year_perc')
+    .group(result_year_group, "won")
+    .valueAccessor(function(d){
+      var v = parseFloat((d.value["won"]/(d.value["won"]+d.value["lost"]+d.value["tied"])).toFixed(2));
+      console.log(v);
+      if (isNaN(v)) return 0;
+      return v;
+    })
+    .stack(result_year_group, "lost", function(d) { 
+      var v = parseFloat((d.value["lost"]/(d.value["won"]+d.value["lost"]+d.value["tied"])).toFixed(2));
+      if (isNaN(v)) return 0;
+      return v;
+    })
+    .stack(result_year_group, "tied", function(d) { 
+    if (d.value["tied"] == 0) return 0
+    else 
+      var v = parseFloat((d.value["tied"] /(d.value["won"]+d.value["lost"]+d.value["tied"])).toFixed(2)); 
+      if (isNaN(v)) return 0;
+      return v;
+    })
+    .dimension(result_year)
+    .centerBar(true)
+    .height(medium_chart_height/2)
+    .width(result_chart_width)
+    .transitionDuration(200)
+    .label(function(d) { return d; })
+    .title(function(d) {
+      d3.selectAll("rect.bar")
+        .on('mouseover', function(d){
+        });
+        return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
+    })
+    .x(d3.scale.linear().domain([1995, 2016]))
+//    .y(d3.scale.linear().domain([0, 300]))
+    .renderLabel(true)
+    .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+    .elasticX(false)
+    .elasticY(true)
+    .yAxisLabel("Games")
+    .renderHorizontalGridLines(true)
+    .renderVerticalGridLines(true)
+    .mouseZoomable(false)
+    .brushOn(false)
+//    .renderArea(true)
+    .margins({top: 10, right: 50, bottom: 30, left: 50})
+    .on("renderlet.result_year", function (chart) {
+        //Check if labels exist
+        var gLabels = chart.select(".labels");
+        if (gLabels.empty()){
+          gLabels = chart.select(".chart-body").append('g').classed('labels', true);
+        }
+
+        var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
+
+        gLabelsData.exit().remove(); //Remove unused elements
+
+        gLabelsData.enter().append("text") //Add new elements
+
+        gLabelsData
+          .attr('text-anchor', 'middle  ')
+          .attr('fill', 'white')
+          .attr("font-size", "11px")
+          .text(function(d){
+            return d3.select(d).data()[0].y
+          })
+          .attr('x', function(d){ 
+            return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+          })
+          .attr('y', function(d){ return +d.getAttribute('y') + 15; })
+          .attr('style', function(d){
+            if (+d.getAttribute('height') < 18) return "display:none";
+          });
+      })
+      .on("preRedraw", function (chart) {
+          chart.rescale();
+      })
+      .on("preRender", function (chart) {
+          chart.rescale();
+      })
+      .on("pretransition", function (chart) {
+          chart.rescale();
+      });
+  result_year_chart2.xAxis().ticks(10).tickFormat(d3.format("d"));
+  result_year_chart2.yAxis().ticks(5).tickFormat(d3.format("g"));
+  grey_undefined(result_year_chart2);
 }
 
 //Queueing defer ensures that all our datasets get loaded before any work is done
@@ -191,78 +352,7 @@ function showCharts(err, data) {
 	result_year = ndx.dimension(function(d){return d.Year});
 	result_year_group = result_year.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
 	
-	
-	result_year_chart = dc.barChart('#result_year')
-		.group(result_year_group, "won")
-		.valueAccessor(function(d){return d.value["won"]})
-		.stack(result_year_group, "lost", function(d) { return d.value["lost"] })
-		.stack(result_year_group, "tied", function(d) { return d.value["tied"] })
-		.dimension(result_year)
-		.centerBar(true)
-		.height(medium_chart_height/2)
-		.width(result_chart_width)
-		.transitionDuration(200)
-		.label(function(d) { return d; })
-		.title(function(d) {
-			d3.selectAll("rect.bar")
-				.on('mouseover', function(d){
-				});
-				return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
-		})
-		.x(d3.scale.linear().domain([1995, 2016]))
-		.renderLabel(true)
-		.colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
-		.elasticX(false)
-		.elasticY(true)
-		.yAxisLabel("Games")
-		.margins({top: 10, right: 40, bottom: 30, left: 40})
-		.renderHorizontalGridLines(true)
-		.renderVerticalGridLines(true)
-		.mouseZoomable(false)
-		.brushOn(true)
-//		.renderArea(true)
-		.margins({top: 10, right: 50, bottom: 30, left: 50})
-		.on("renderlet.result_year", function (chart) {
-				//Check if labels exist
-				var gLabels = chart.select(".labels");
-				if (gLabels.empty()){
-					gLabels = chart.select(".chart-body").append('g').classed('labels', true);
-				}
-
-				var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
-
-				gLabelsData.exit().remove(); //Remove unused elements
-
-				gLabelsData.enter().append("text") //Add new elements
-
-				gLabelsData
-					.attr('text-anchor', 'middle  ')
-					.attr('fill', 'white')
-					.attr("font-size", "12px")
-					.text(function(d){
-						return d3.select(d).data()[0].y
-					})
-					.attr('x', function(d){ 
-						return +d.getAttribute('x') + (d.getAttribute('width')/2); 
-					})
-					.attr('y', function(d){ return +d.getAttribute('y') + 15; })
-					.attr('style', function(d){
-						if (+d.getAttribute('height') < 18) return "display:none";
-					});
-			})
-			.on("preRedraw", function (chart) {
-        	chart.rescale();
-			})
-			.on("preRender", function (chart) {
-					chart.rescale();
-			})
-			.on("pretransition", function (chart) {
-        	chart.rescale();
-			});
-	
-	result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
-	result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
-	grey_undefined(result_year_chart);
+  result_year_create();
 	
   var all = ndx.groupAll();
   data_count_chart = dc.dataCount('#data_count')
