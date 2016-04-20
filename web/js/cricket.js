@@ -37,6 +37,9 @@ function cleanup(d) {
 function isOdd(num) { 
 	return num % 2;
 }
+function capitalizeFirst(string) { 
+  return string.charAt(0).toUpperCase() + string.slice(1); 
+}
 
 //Queueing defer ensures that all our datasets get loaded before any work is done
 
@@ -163,8 +166,18 @@ function showCharts(err, data) {
     .transitionDuration(200)
     .legend(dc.legend().x(0).y(25).itemHeight(18).gap(5))
     .height(small_chart_height-50)
+    .title(function(d) {
+      var title = capitalizeFirst(d.key) + ": " + d.value;
+      if (d.key == "won"){
+        return "Team A \n" + title;
+      }
+      else if (d.key == "lost"){
+        return "Team B \n" + title;
+      }
+      return title;
+    })
     .label(function(d) {
-      return d.key + " " + d.value
+      return capitalizeFirst(d.key) + ": " + d.value;
     })
     .radius(donut_outer)
     .colors(d3.scale.ordinal().domain(["won", "lost", "tied"])
