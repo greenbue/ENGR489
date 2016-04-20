@@ -9,7 +9,7 @@
 
 .dc-chart .selected path {
     stroke-width: 0;
-    stroke: #ccc;
+/*    stroke: #ccc;*/
     fill-opacity: 1;
 }
 
@@ -34,6 +34,10 @@
   opacity: 0.2;
 }
 
+.deselected {
+	fill: #9DBFBA;
+}
+
 .dot {
   stroke-width: 8;
   opacity: 1;
@@ -53,9 +57,10 @@
 }
 
 .guide-margin {
-  margin: 0 auto 10px auto;
+	margin: 0 auto 10px auto;
 }
 
 .data-count {
-  font-size: 16px;
+	font-size: 16px;
 }
+
