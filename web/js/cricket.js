@@ -122,8 +122,10 @@ function showCharts(err, data) {
 	grey_undefined(year_bar_chart);
 		
 	opposition = ndx.dimension(function(d){return d.Opposition});
-		
-  opposition_group = opposition.group().reduceSum(function(d){return d.Value});	
+	opposition_group = opposition.group().reduceSum(function(d){
+    if (d.Result == "lost" || d.Result == "tied") return d.Value;
+    else return 0;
+  }); 
 		
 	opposition_chart = dc.rowChart('#opposition')
     .dimension(opposition)
@@ -141,7 +143,10 @@ function showCharts(err, data) {
 	grey_undefined(opposition_chart);
 	
 	team = ndx.dimension(function(d){return d.Team});
-  team_group = team.group().reduceSum(function(d){return d.Value}); 
+  team_group = team.group().reduceSum(function(d){
+    if (d.Result == "won" || d.Result == "tied") return d.Value;
+    else return 0;
+  });  
     
   team_chart = dc.rowChart('#team')
     .dimension(team)
