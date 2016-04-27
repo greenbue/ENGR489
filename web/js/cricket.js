@@ -307,7 +307,7 @@ function showCharts(err, data) {
 	result_year = ndx.dimension(function(d){return d.Year});
 	result_year_group = result_year.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
 	
-  result_year_create();
+  change_result_view();
 	
   var all = ndx.groupAll();
   data_count_chart = dc.dataCount('#data_count')
