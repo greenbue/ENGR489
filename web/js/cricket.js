@@ -3,6 +3,7 @@ var medium_chart_height = 500;
 var large_chart_height = 650;
 var small_width = 480; //544
 var medium_width = 720; //768
+var result_chart_width = 720;
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
 var team_default = d3.scale.ordinal().range(["#015B64"]);
@@ -12,6 +13,7 @@ var default_colors = d3.scale.ordinal().range(our_colors);
 var donut_inner = 40
 var donut_outer = 80
 var donut_height = 100
+var perc_view = false;
 
 
 grey_undefined = function(chart) {
@@ -30,15 +32,127 @@ function cleanup(d) {
 	d.properDate = new Date(d.Date.split('-')[1] + " " + d.Date.split('-')[0] + ", " + d.Year);
   d.matchAgainst = d.Team + '/' + d.Opposition;
   
-	if($.inArray(d.Year, yearDom) == -1){
-		yearDom.push(d.properDate);
-	}
-	
   return d;
 }
 
 function isOdd(num) { 
 	return num % 2;
+}
+
+function capitalizeFirst(string) { 
+  return string.charAt(0).toUpperCase() + string.slice(1); 
+}
+
+function change_result_view() {
+  result_year_chart = dc.barChart('#result_year')
+      .group(result_year_group, "won")
+      .valueAccessor(function(d){return d.value["won"]})
+      .stack(result_year_group, "lost", function(d) { return d.value["lost"] })
+      .stack(result_year_group, "tied", function(d) { return d.value["tied"] })
+      .dimension(result_year)
+      .centerBar(true)
+      .height(medium_chart_height/2)
+      .width(result_chart_width)
+      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .x(d3.scale.linear().domain([1995, 2016]))
+      .elasticX(false)
+      .elasticY(true)
+      .transitionDuration(200)
+      .mouseZoomable(false)
+      .yAxisLabel("Games")
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)
+      .brushOn(true)  
+      .margins({top: 10, right: 50, bottom: 30, left: 50})
+      .on("renderlet.result_year", function (chart) {
+          //Check if labels exist
+          var gLabels = chart.select(".labels");
+          if (gLabels.empty()){
+            gLabels = chart.select(".chart-body").append('g').classed('labels', true);
+          }
+
+          var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
+
+          gLabelsData.exit().remove(); //Remove unused elements
+
+          gLabelsData.enter().append("text") //Add new elements
+
+          gLabelsData
+            .attr('text-anchor', 'middle  ')
+            .attr('fill', 'white')
+            .attr("font-size", "11px")
+            .text(function(d){
+              return d3.select(d).data()[0].y
+            })
+            .attr('x', function(d){ 
+              return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+            })
+            .attr('y', function(d){ return +d.getAttribute('y') + 15; })
+            .attr('style', function(d){
+              if (+d.getAttribute('height') < 18) return "display:none";
+            });
+        })
+        .on("preRedraw", function (chart) {
+            chart.rescale();
+        })
+        .on("preRender", function (chart) {
+            chart.rescale();
+        })
+        .on("pretransition", function (chart) {
+            chart.rescale();
+        });
+
+    result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
+  
+  if (perc_view == false) {
+    $('.result_year_title').text("Overall Team Performance by Games");
+    result_year_chart
+      .label(function(d) { return d; })
+      .title(function(d) {
+        d3.selectAll("rect.bar")
+          .on('mouseover', function(d){
+          });
+          return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
+      });
+    
+  }
+  else {
+    $('.result_year_title').text("Overall Team Performance by Percentage");
+    result_year_chart
+      .group(result_year_group, "won")
+      .valueAccessor(function(d){
+        var v = parseFloat(d.value["won"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
+        if (isNaN(v)) return 0;
+        return parseFloat((v*100).toFixed(1));
+      })
+      .stack(result_year_group, "lost", function(d) { 
+        var v = parseFloat(d.value["lost"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
+        if (isNaN(v)) return 0;
+        return parseFloat((v*100).toFixed(1));
+      })
+      .stack(result_year_group, "tied", function(d) { 
+      if (d.value["tied"] == 0) return 0
+      else 
+        var v = parseFloat(d.value["tied"] /(d.value["won"]+d.value["lost"]+d.value["tied"])) 
+        if (isNaN(v)) return 0;
+        return parseFloat((v*100).toFixed(1));
+      })
+      .label(function(d) { return d; })
+      .title(function(d) {
+        d3.selectAll("rect.bar")
+          .on('mouseover', function(d){
+          });
+          return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
+      });
+    
+  }
+  
+  result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
+  grey_undefined(result_year_chart);
+  
+  dc.renderAll();
+  perc_view = !perc_view;
+  
 }
 
 //Queueing defer ensures that all our datasets get loaded before any work is done
@@ -131,7 +245,7 @@ function showCharts(err, data) {
     .colors(team_default)
     .transitionDuration(200)
     .height(small_chart_height)
-		.width(small_width)
+		.width(small_width-50)
     .ordering(function(d){ return -d.key })
 //		.xAxisLabel('Total Games')
 //		.xAxisPadding(500)
@@ -149,7 +263,7 @@ function showCharts(err, data) {
     .colors(team_default)
     .transitionDuration(200)
     .height(small_chart_height)
-    .width(small_width)
+    .width(small_width-50)
     .ordering(function(d){ return -d.key })
     .elasticX(true);
   
@@ -166,8 +280,20 @@ function showCharts(err, data) {
     .transitionDuration(200)
     .legend(dc.legend().x(0).y(25).itemHeight(18).gap(5))
     .height(small_chart_height-50)
+    .title(function(d) {
+      var title = capitalizeFirst(d.key) + ": " + d.value;
+      if (d.key == "won"){
+        return "Team A \n" + title;
+      }
+      else if (d.key == "lost"){
+        return "Team B \n" + title;
+      }
+      return title;
+    })
     .label(function(d) {
-      return d.key + " " + d.value
+      if (d.key == "won") return "Team A: " + d.value;
+      else if (d.key == "lost") return "Team B: " + d.value;
+      return capitalizeFirst(d.key) + ": " + d.value;
     })
     .radius(donut_outer)
     .colors(d3.scale.ordinal().domain(["won", "lost", "tied"])
@@ -181,82 +307,17 @@ function showCharts(err, data) {
 	result_year = ndx.dimension(function(d){return d.Year});
 	result_year_group = result_year.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
 	
+  change_result_view();
 	
-	result_year_chart = dc.barChart('#result_year')
-		.group(result_year_group, "won")
-		.valueAccessor(function(d){return d.value["won"]})
-		.stack(result_year_group, "lost", function(d) { return d.value["lost"] })
-		.stack(result_year_group, "tied", function(d) { return d.value["tied"] })
-		.dimension(result_year)
-		.centerBar(true)
-		.height(medium_chart_height/2)
-		.width(medium_width)
-		.transitionDuration(200)
-		.label(function(d) { return d; })
-		.title(function(d) {
-			d3.selectAll("rect.bar")
-				.on('mouseover', function(d){
-				});
-				return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
-		})
-		.x(d3.scale.linear().domain([1995, 2016]))
-		.renderLabel(true)
-		.colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
-		.elasticX(false)
-		.elasticY(true)
-		.yAxisLabel("Games")
-		.margins({top: 10, right: 40, bottom: 30, left: 40})
-		.renderHorizontalGridLines(true)
-		.renderVerticalGridLines(true)
-		.mouseZoomable(false)
-		.brushOn(true)
-//		.renderArea(true)
-		.margins({top: 10, right: 50, bottom: 30, left: 50})
-		.on("renderlet.result_year", function (chart) {
-				//Check if labels exist
-				var gLabels = chart.select(".labels");
-				if (gLabels.empty()){
-					gLabels = chart.select(".chart-body").append('g').classed('labels', true);
-				}
-
-				var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
-
-				gLabelsData.exit().remove(); //Remove unused elements
-
-				gLabelsData.enter().append("text") //Add new elements
-
-				gLabelsData
-					.attr('text-anchor', 'middle  ')
-					.attr('fill', 'white')
-					.attr("font-size", "12px")
-					.text(function(d){
-						return d3.select(d).data()[0].y
-					})
-					.attr('x', function(d){ 
-						return +d.getAttribute('x') + (d.getAttribute('width')/2); 
-					})
-					.attr('y', function(d){ return +d.getAttribute('y') + 15; })
-					.attr('style', function(d){
-						if (+d.getAttribute('height') < 18) return "display:none";
-					});
-			})
-			.on("preRedraw", function (chart) {
-        	chart.rescale();
-			})
-			.on("preRender", function (chart) {
-					chart.rescale();
-			})
-			.on("pretransition", function (chart) {
-        	chart.rescale();
-			});
-	
-	result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
-	result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
-	grey_undefined(result_year_chart);
-	
-
-		
-	
+  var all = ndx.groupAll();
+  data_count_chart = dc.dataCount('#data_count')
+    .dimension(ndx)
+    .group(all)
+    .html({
+        some: '<span class=\'data-count\'><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records</span>' +
+            ' | <a class=\'reset\' href=\'javascript:dc.filterAll(); dc.redrawAll();\'\'>Reset All</a>',
+        all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
+    });
 	
 	
 	dc.renderAll();
