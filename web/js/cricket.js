@@ -245,7 +245,7 @@ function showCharts(err, data) {
     .colors(team_default)
     .transitionDuration(200)
     .height(small_chart_height)
-		.width(small_width)
+		.width(small_width-50)
     .ordering(function(d){ return -d.key })
 //		.xAxisLabel('Total Games')
 //		.xAxisPadding(500)
@@ -263,7 +263,7 @@ function showCharts(err, data) {
     .colors(team_default)
     .transitionDuration(200)
     .height(small_chart_height)
-    .width(small_width)
+    .width(small_width-50)
     .ordering(function(d){ return -d.key })
     .elasticX(true);
   
