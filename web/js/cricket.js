@@ -321,4 +321,14 @@ function showCharts(err, data) {
 	
 	
 	dc.renderAll();
-}
+
+  initialize();
+};
+
+function initialize(){
+  var a = $('#team g .row rect:eq(0)');
+  var b = $('#opposition g .row rect:eq(3)')
+  
+  a.simulate('click');
+  b.simulate('click');
+};
