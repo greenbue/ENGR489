@@ -150,6 +150,8 @@ function change_result_view() {
   result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
   grey_undefined(result_year_chart);
   
+  //Need to reset the filter when the view changes or else, filter lingers
+  result_year_chart.filterAll();
   dc.renderAll();
   perc_view = !perc_view;
   
