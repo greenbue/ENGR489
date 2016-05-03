@@ -349,7 +349,7 @@ function showCharts(err, data) {
     .twoLabels(false)
     .rowOrdering(d3.ascending)
     .columnLabels(['Won','Lost'])
-    .columnLabelPosition([0,0])
+    .columnLabelPosition([150,0])
     .transitionDuration(200);
   
   team_opp_chart.xAxis().ticks(7).tickFormat(function(x) {return d3.format('s')(Math.abs(x))})
