@@ -3,7 +3,7 @@ var medium_chart_height = 500;
 var large_chart_height = 650;
 var small_width = 480; //544
 var medium_width = 720; //768
-var result_chart_width = 720;
+var result_chart_width = 768;
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
 var team_default = d3.scale.ordinal().range(["#015B64"]);
@@ -31,7 +31,8 @@ function cleanup(d) {
   d.Value = 1;
 	d.properDate = new Date(d.Date.split('-')[1] + " " + d.Date.split('-')[0] + ", " + d.Year);
   d.matchAgainst = d.Team + '/' + d.Opposition;
-  
+  if (d.Result != "tied") d.resultStatus = d.Team + '@' + d.Result;
+
   return d;
 }
 
@@ -321,6 +322,37 @@ function showCharts(err, data) {
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
 	
+  //pyramid chart
+  resultStatus = ndx.dimension(function(d) {return d.resultStatus});
+  result_group = resultStatus.group().reduceSum(function(d){return d.Value})
+  
+  team_opp_chart = dc.pyramidChart('#team_opp')
+    .dimension(resultStatus)
+    .group(result_group)
+    .colors(d3.scale.ordinal().domain(["won", "lost"])
+                              .range(["#45936E","#92332F"]))
+    .colorAccessor(function(d) {
+      if (d.key.split('@')[1] == "won") return "won";
+      else if (d.key.split('@')[1] == "lost") return "lost";
+    })
+    .height(small_chart_height)
+    .width(medium_width-50)
+    .leftColumn(function (d){ return d.key.split('@')[1] == "won"})
+    .rowAccessor(function(d){ return d.key.split('@')[0]})
+    .label(function(d){return d.key.split('@')[0]})
+    .title(function(d){
+      if (d.key.split('@')[1] == "won") return "Won: " + d.value;
+      else if (d.key.split('@')[1] == "lost") return "Lost: " + d.value;
+      else return NaN;
+    })
+    .elasticX(false)
+    .twoLabels(false)
+    .rowOrdering(d3.ascending)
+    .columnLabels(['Won','Lost'])
+    .columnLabelPosition([150,0])
+    .transitionDuration(200);
+  
+  team_opp_chart.xAxis().ticks(7).tickFormat(function(x) {return d3.format('s')(Math.abs(x))})
 	
 	dc.renderAll();
 
@@ -328,9 +360,28 @@ function showCharts(err, data) {
 };
 
 function initialize(){
-  var a = $('#team g .row rect:eq(0)');
-  var b = $('#opposition g .row rect:eq(3)')
+  //odd are wins, even are losses
+  var a = $('#team_opp g .row text:eq(7)'); 
+//  var b = $('#team_opp g .row rect:eq(6)');
   
   a.simulate('click');
-  b.simulate('click');
+//  b.simulate('click');
+  
+};
+
+function hideshow(id){
+  var a = $(id);
+  a.toggle('show');
+};
+
+function showAll() {
+  var idList = ["#result_year", "#team_opp", "#result", "#team", "#opposition"]
+  
+  for (x in idList) {
+    var a = $(idList[x]);
+    if (a.css('display') == "none"){
+      a.toggle('show');
+    }
+  }
+  $('[type=checkbox]').prop('checked', true); 
 };

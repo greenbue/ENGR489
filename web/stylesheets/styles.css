@@ -59,3 +59,20 @@
 .data-count {
   font-size: 16px;
 }
+
+body {
+  background: #EFF0F1;
+}
+
+.dc-chart g.row text {
+  fill: black;
+  opacity: 0.8;
+}
+
+.main-nav {
+  margin-bottom: 0;
+}
+
+.nav-border {
+  border: 0;
+}
