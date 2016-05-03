@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<div class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand " href="#">DataViz</a>
@@ -9,4 +9,32 @@
       <li><a href="#"></a></li>
     </ul>
   </div>
-</nav>
+</div>
+<div class="navbar navbar-default nav-border">
+  <div class="container">
+    <ul class="nav navbar-nav">
+      <li><a><label>
+        <input type="checkbox" checked onclick="hideshow('#result_year')">
+        Overall
+        </label></a></li>
+      <li><a><label>
+        <input type="checkbox" checked onclick="hideshow('#team_opp')">
+        Win/Loss
+        </label></a></li>
+      <li><a><label>
+        <input type="checkbox" checked onclick="hideshow('#result')">
+        Match Results
+        </label></a></li>
+      <li><a><label>
+        <input type="checkbox" checked onclick="hideshow('#team')">
+        Won
+        </label></a></li>
+      <li><a><label>
+        <input type="checkbox" checked onclick="hideshow('#opposition')">Lost
+        </label></a></li>
+      <li><a onclick="showAll()"><label>
+        Show All 
+        </label></a></li>
+    </ul>
+  </div>
+</div>
