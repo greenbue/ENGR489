@@ -343,12 +343,13 @@ function showCharts(err, data) {
     .title(function(d){
       if (d.key.split('@')[1] == "won") return "Won: " + d.value;
       else if (d.key.split('@')[1] == "lost") return "Lost: " + d.value;
+      else return NaN;
     })
-    .elasticX(true)
+    .elasticX(false)
     .twoLabels(false)
     .rowOrdering(d3.ascending)
     .columnLabels(['Won','Lost'])
-    .columnLabelPosition([0,250]) //[in,down], in pix. defaults to [5,10]
+    .columnLabelPosition([0,0])
     .transitionDuration(200);
   
   team_opp_chart.xAxis().ticks(7).tickFormat(function(x) {return d3.format('s')(Math.abs(x))})
