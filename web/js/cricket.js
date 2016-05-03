@@ -7,6 +7,8 @@ var result_chart_width = 768;
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
 var team_default = d3.scale.ordinal().range(["#015B64"]);
+var won_default = d3.scale.ordinal().range(["#45936E"]);
+var lost_default = d3.scale.ordinal().range(["#92332F"]);
 var year_default = d3.scale.ordinal().range(["#1C293B"]);
 var default_colors = d3.scale.ordinal().range(our_colors);
 //For pie chart
@@ -245,7 +247,7 @@ function showCharts(err, data) {
 	opposition_chart = dc.rowChart('#opposition')
     .dimension(opposition)
     .group(opposition_group)
-    .colors(team_default)
+    .colors(lost_default)
     .transitionDuration(200)
     .height(small_chart_height)
 		.width(small_width-50)
@@ -263,7 +265,7 @@ function showCharts(err, data) {
   team_chart = dc.rowChart('#team')
     .dimension(team)
     .group(team_group)
-    .colors(team_default)
+    .colors(won_default)
     .transitionDuration(200)
     .height(small_chart_height)
     .width(small_width-50)
