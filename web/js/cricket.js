@@ -336,6 +336,7 @@ function showCharts(err, data) {
       else if (d.key.split('@')[1] == "lost") return "lost";
     })
     .height(small_chart_height)
+    .width(medium_width-50)
     .leftColumn(function (d){ return d.key.split('@')[1] == "won"})
     .rowAccessor(function(d){ return d.key.split('@')[0]})
     .label(function(d){return d.key.split('@')[0]})
