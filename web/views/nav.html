@@ -10,32 +10,39 @@
     </ul>
   </div>
 </div>
-<div class="navbar navbar-default nav-border">
-  <div class="container">
-    <ul class="nav navbar-nav">
-      <li><a><label>
-        <input type="checkbox" checked onclick="hideshow('#result_year')">
-        Overall
-        </label></a></li>
-      <li><a><label>
-        <input type="checkbox" checked onclick="hideshow('#team_opp')">
-        Win/Loss
-        </label></a></li>
-      <li><a><label>
-        <input type="checkbox" checked onclick="hideshow('#result')">
-        Match Results
-        </label></a></li>
-      <li><a><label>
-        <input type="checkbox" checked onclick="hideshow('#team')">
-        Team A
-        </label></a></li>
-      <li><a><label>
-        <input type="checkbox" checked onclick="hideshow('#opposition')">
-        Team B
-        </label></a></li>
-      <li><a onclick="showAll()"><label>
-        Show All 
-        </label></a></li>
-    </ul>
-  </div>
-</div>
+<div class="draggable">
+      <a data-toggle="collapse" data-target="#sidebar">
+        <div class="sidebar-title">
+          Hide/Show Charts
+        </div>
+      </a>
+      <div class="sidebar collapse" id="sidebar">
+        <div class="container">
+          <ul class="no-bullets"><!-- class="nav navbar-nav" -->
+            <li><a><label>
+              <input type="checkbox" checked onclick="hideshow('#result_year')">
+              Overall
+              </label></a></li>
+            <li><a><label>
+              <input type="checkbox" checked onclick="hideshow('#team_opp')">
+              Win/Loss
+              </label></a></li>
+            <li><a><label>
+              <input type="checkbox" checked onclick="hideshow('#result')">
+              Match Results
+              </label></a></li>
+            <li><a><label>
+              <input type="checkbox" checked onclick="hideshow('#team')">
+              Team A
+              </label></a></li>
+            <li><a><label>
+              <input type="checkbox" checked onclick="hideshow('#opposition')">
+              Team B
+              </label></a></li>
+            <li><a onclick="showAll()"><label>
+              Show All 
+              </label></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>

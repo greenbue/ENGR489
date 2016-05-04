@@ -70,9 +70,52 @@ body {
 }
 
 .main-nav {
-  margin-bottom: 0;
+  
 }
 
 .nav-border {
   border: 0;
+}
+
+.no-bullets{
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar {
+  position: absolute;
+  padding: 10px;
+  top: 40px;
+  right: 20px;
+  width: 200px;
+  background: white;
+  z-index: 99999;
+  opacity: 0.8;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.sidebar-title {
+  position: absolute;
+  padding: 10px;
+  top: 0px;
+  right: 20px;
+  width: 200px;
+  color: white;
+  z-index: 99999;
+  background: #92332F;
+  border-radius: 5px;
+}
+
+.sidebar-title > a, a:focus {
+  text-decoration: none;
+  color: white;
+}
+
+.sidebar-title > a:hover {
+  opacity: 0.6;
+}
+
+.draggable:hover, .draggable:focus {
+  cursor: all-scroll;
 }
