@@ -1,7 +1,7 @@
 var small_chart_height = 250;
 var medium_chart_height = 500;
 var large_chart_height = 650;
-var small_width = 480; //544
+var small_width = 320; //544
 var medium_width = 720; //768
 var result_chart_width = 768;
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
