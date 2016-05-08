@@ -288,10 +288,10 @@ function showCharts(err, data) {
     .title(function(d) {
       var title = capitalizeFirst(d.key) + ": " + d.value;
       if (d.key == "won"){
-        return "Team A \n" + title;
+        return "Team A Won Against Team B\n" + title;
       }
       else if (d.key == "lost"){
-        return "Team B \n" + title;
+        return "Team A Lost Against Team B\n" + title;
       }
       return title;
     })
