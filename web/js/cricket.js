@@ -254,7 +254,11 @@ function showCharts(err, data) {
     .ordering(function(d){ return -d.key })
 //		.xAxisLabel('Total Games')
 //		.xAxisPadding(500)
-    .elasticX(true);
+    .elasticX(true)
+    .title(function(d){
+      var title = d.key + " \nTotal Games Won Against Team A: " + d.value;
+      return title;
+    });
 	
 	opposition_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
 	grey_undefined(opposition_chart);
@@ -270,7 +274,11 @@ function showCharts(err, data) {
     .height(small_chart_height)
     .width(small_width-50)
     .ordering(function(d){ return -d.key })
-    .elasticX(true);
+    .elasticX(true)
+    .title(function(d){
+      var title = d.key + " \nTotal Games Won Against Team B: " + d.value;
+      return title;
+    });
   
   team_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(team_chart); 
@@ -338,7 +346,7 @@ function showCharts(err, data) {
       else if (d.key.split('@')[1] == "lost") return "lost";
     })
     .height(small_chart_height)
-    .width(medium_width-50)
+    .width(medium_width-100)
     .leftColumn(function (d){ return d.key.split('@')[1] == "won"})
     .rowAccessor(function(d){ return d.key.split('@')[0]})
     .label(function(d){return d.key.split('@')[0]})
