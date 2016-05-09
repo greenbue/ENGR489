@@ -127,7 +127,7 @@ body {
   left: 400px;
   width: 500px;
   background: white;
-  z-index: 99999;
+  z-index: 99998;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -139,7 +139,7 @@ body {
   left: 400px;
   width: 200px;
   color: white;
-  z-index: 99999;
+  z-index: 99998;
   opacity: 0.8;
   background: #45936E;
   border-radius: 5px;
