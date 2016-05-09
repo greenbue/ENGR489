@@ -86,7 +86,7 @@ body {
   position: absolute;
   padding: 10px;
   top: -10px;
-  right: 200px;
+  left: 200px;
   width: 200px;
   background: white;
   z-index: 99999;
@@ -98,7 +98,7 @@ body {
   position: absolute;
   padding: 10px;
   top: -50px;
-  right: 200px;
+  left: 200px;
   width: 200px;
   color: white;
   z-index: 99999;
