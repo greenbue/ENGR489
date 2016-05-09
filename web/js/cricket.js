@@ -1,9 +1,9 @@
 var small_chart_height = 250;
 var medium_chart_height = 500;
 var large_chart_height = 650;
-var small_width = 480; //544
+var small_width = 320; //544
 var medium_width = 720; //768
-var result_chart_width = 768;
+var result_chart_width = 660;
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
 var team_default = d3.scale.ordinal().range(["#015B64"]);
@@ -254,7 +254,11 @@ function showCharts(err, data) {
     .ordering(function(d){ return -d.key })
 //		.xAxisLabel('Total Games')
 //		.xAxisPadding(500)
-    .elasticX(true);
+    .elasticX(true)
+    .title(function(d){
+      var title = d.key + " \nTotal Games Won Against Team A: " + d.value;
+      return title;
+    });
 	
 	opposition_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
 	grey_undefined(opposition_chart);
@@ -270,7 +274,11 @@ function showCharts(err, data) {
     .height(small_chart_height)
     .width(small_width-50)
     .ordering(function(d){ return -d.key })
-    .elasticX(true);
+    .elasticX(true)
+    .title(function(d){
+      var title = d.key + " \nTotal Games Won Against Team B: " + d.value;
+      return title;
+    });
   
   team_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(team_chart); 
@@ -295,6 +303,7 @@ function showCharts(err, data) {
       }
       return title;
     })
+    .width(small_width)
     .label(function(d) {
       if (d.key == "won") return "Team A: " + d.value;
       else if (d.key == "lost") return "Team B: " + d.value;
@@ -338,7 +347,7 @@ function showCharts(err, data) {
       else if (d.key.split('@')[1] == "lost") return "lost";
     })
     .height(small_chart_height)
-    .width(medium_width-50)
+    .width(medium_width-200)
     .leftColumn(function (d){ return d.key.split('@')[1] == "won"})
     .rowAccessor(function(d){ return d.key.split('@')[0]})
     .label(function(d){return d.key.split('@')[0]})

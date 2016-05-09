@@ -85,12 +85,11 @@ body {
 .sidebar {
   position: absolute;
   padding: 10px;
-  top: 40px;
-  right: 20px;
+  top: -10px;
+  left: 400px;
   width: 200px;
   background: white;
   z-index: 99999;
-  opacity: 0.8;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
@@ -98,11 +97,12 @@ body {
 .sidebar-title {
   position: absolute;
   padding: 10px;
-  top: 0px;
-  right: 20px;
+  top: -50px;
+  left: 400px;
   width: 200px;
   color: white;
   z-index: 99999;
+  opacity: 0.8;
   background: #92332F;
   border-radius: 5px;
 }
@@ -118,4 +118,29 @@ body {
 
 .draggable:hover, .draggable:focus {
   cursor: all-scroll;
+}
+
+.guide {
+  position: absolute;
+  padding: 10px;
+  top: -10px;
+  left: 600px;
+  width: 600px;
+  background: white;
+  z-index: 99999;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.guide-title {
+  position: absolute;
+  padding: 10px;
+  top: -50px;
+  left: 600px;
+  width: 200px;
+  color: white;
+  z-index: 99999;
+  opacity: 0.8;
+  background: #45936E;
+  border-radius: 5px;
 }
