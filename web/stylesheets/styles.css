@@ -86,7 +86,7 @@ body {
   position: absolute;
   padding: 10px;
   top: -10px;
-  left: 400px;
+  left: 600px;
   width: 200px;
   background: white;
   z-index: 99999;
@@ -98,7 +98,7 @@ body {
   position: absolute;
   padding: 10px;
   top: -50px;
-  left: 400px;
+  left: 600px;
   width: 200px;
   color: white;
   z-index: 99999;
@@ -124,8 +124,8 @@ body {
   position: absolute;
   padding: 10px;
   top: -10px;
-  left: 600px;
-  width: 600px;
+  left: 400px;
+  width: 500px;
   background: white;
   z-index: 99999;
   border-bottom-left-radius: 5px;
@@ -136,7 +136,7 @@ body {
   position: absolute;
   padding: 10px;
   top: -50px;
-  left: 600px;
+  left: 400px;
   width: 200px;
   color: white;
   z-index: 99999;
