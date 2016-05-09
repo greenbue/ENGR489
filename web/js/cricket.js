@@ -303,7 +303,7 @@ function showCharts(err, data) {
       }
       return title;
     })
-    .width(small_width)
+    .height(medium_chart_height/2)
     .label(function(d) {
       if (d.key == "won") return "Team A: " + d.value;
       else if (d.key == "lost") return "Team B: " + d.value;
