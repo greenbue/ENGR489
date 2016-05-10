@@ -305,8 +305,8 @@ function showCharts(err, data) {
     })
     .height(medium_chart_height/2)
     .label(function(d) {
-      if (d.key == "won") return "Team A: " + d.value;
-      else if (d.key == "lost") return "Team B: " + d.value;
+      if (d.key == "won") return "Won: " + d.value;
+      else if (d.key == "lost") return "Lost: " + d.value;
       return capitalizeFirst(d.key) + ": " + d.value;
     })
     .radius(donut_outer)
