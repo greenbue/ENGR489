@@ -335,7 +335,10 @@ function showCharts(err, data) {
 	
   //pyramid chart
   resultStatus = ndx.dimension(function(d) {return d.resultStatus});
-  result_group = resultStatus.group().reduceSum(function(d){return d.Value})
+  result_group = resultStatus.group().reduceSum(function(d){
+    if (d.Result != 'tied') return d.Value;
+    else return 0;
+  })
   
   team_opp_chart = dc.pyramidChart('#team_opp')
     .dimension(resultStatus)
