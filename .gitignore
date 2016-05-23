@@ -1,4 +1,4 @@
 vendor/
 .env
 *.csv
-web/data/
+web/data/*
