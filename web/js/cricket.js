@@ -64,8 +64,7 @@ function change_result_view() {
       .mouseZoomable(false)
       .yAxisLabel("Games")
       .renderHorizontalGridLines(true)
-      .renderVerticalGridLines(true)
-      .brushOn(true)  
+      .renderVerticalGridLines(true)  
       .margins({top: 10, right: 50, bottom: 30, left: 50})
       .on("renderlet.result_year", function (chart) {
           //Check if labels exist
@@ -116,12 +115,12 @@ function change_result_view() {
           .on('mouseover', function(d){
           });
           return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
-      });
-    
+      })
+      .brushOn(true);
   }
   else {
     $('.result_year_title').text("Overall Team Performance by Percentage");
-    result_year_chart
+    result_year_chart = dc.lineChart('#result_year')
       .group(result_year_group, "won")
       .valueAccessor(function(d){
         var v = parseFloat(d.value["won"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
@@ -142,12 +141,80 @@ function change_result_view() {
       })
       .label(function(d) { return d; })
       .title(function(d) {
-        d3.selectAll("rect.bar")
-          .on('mouseover', function(d){
-          });
-          return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
+        var v = 0;
+        if (this.layer == "won") 
+          v = parseFloat(d.value["won"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
+        else if(this.layer == "lost") 
+          v = parseFloat(d.value["lost"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
+        else 
+          v = parseFloat(d.value["tied"] /(d.value["won"]+d.value["lost"]+d.value["tied"]))
+        if (isNaN(v)) v = 0;
+        else v = parseFloat((v*100).toFixed(1));
+      
+        if(d.value[this.layer] > 0){
+          d3.select(".area").selectAll("circle.dot").attr("r", 10);
+        }
+        return d.key+": "+d3.format(',')(d.value[this.layer])+" games ("+this.layer+")\nPercentage: " + v + "%"; 
+        
+      })
+      .brushOn(false)
+      .renderArea(true)
+      .dimension(result_year)
+      .height(medium_chart_height/2)
+      .width(result_chart_width)
+      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .x(d3.scale.linear().domain([1996, 2015]))
+      .y(d3.scale.linear().domain([0, 110]))
+      .elasticX(false)
+      .elasticY(false)
+      .transitionDuration(200)
+      .yAxisLabel("Games")
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)
+      .mouseZoomable(false)
+      .margins({top: 20, right: 50, bottom: 30, left: 50})
+      .on("pretransition", stackChartTransition = function (chart) {
+        chart.selectAll("circle.dot").each(function(d, i){
+          if(d.y == 0){
+            d3.select(this)
+              .attr("visibility", "hidden");
+          }
+          else{
+            d3.select(this)
+              .attr("visibility", "visible")
+              .on("mouseover", function(d) {
+                d3.select(this)
+                  .attr("visibility", "visible")
+                  .attr("r", 5.5)
+                  .style("fill", "black");
+              })                  
+              .on("mouseout", function(d) {
+                d3.select(this)
+                  .attr("visibility", "visible")
+                  .attr("r", 5.5)
+                  .style("fill", d.color);
+              });
+          }
+        });
+        chart.selectAll(".line").each(function(d, i){
+          try {
+            if(d.values[i].y == 0){
+              d3.select(this)
+                .attr("visibility", "hidden");
+            }
+            else{
+              d3.select(this)
+                .attr("visibility", "hidden");
+            }
+          }
+          catch (e){
+          }
+
+        });
+        chart.rescale();
       });
-    
+
+    result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
   }
   
   result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
@@ -359,10 +426,10 @@ function showCharts(err, data) {
       else if (d.key.split('@')[1] == "lost") return "Lost: " + d.value;
       else return NaN;
     })
-    .elasticX(false)
+    .elasticX(true)
     .twoLabels(false)
     .rowOrdering(d3.ascending)
-    .columnLabels(['Won','Lost'])
+    // .columnLabels(['Won','Lost'])
     .columnLabelPosition([150,0])
     .transitionDuration(200);
   
