@@ -426,7 +426,7 @@ function showCharts(err, data) {
       else if (d.key.split('@')[1] == "lost") return "Lost: " + d.value;
       else return NaN;
     })
-    .elasticX(false)
+    .elasticX(true)
     .twoLabels(false)
     .rowOrdering(d3.ascending)
     .columnLabels(['Won','Lost'])
