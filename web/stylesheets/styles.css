@@ -144,3 +144,7 @@ body {
   background: #45936E;
   border-radius: 5px;
 }
+
+.dc-chart path.area {
+  fill-opacity: 0.6;
+}
