@@ -429,7 +429,7 @@ function showCharts(err, data) {
     .elasticX(true)
     .twoLabels(false)
     .rowOrdering(d3.ascending)
-    .columnLabels(['Won','Lost'])
+    // .columnLabels(['Won','Lost'])
     .columnLabelPosition([150,0])
     .transitionDuration(200);
   
