@@ -1,6 +1,6 @@
 .dc-chart g.row text {
   fill: whitesmoke;
-	font-size: 12px;
+  font-size: 12px;
 }
 
 .dc-chart g.row text.row.dim {
@@ -9,7 +9,7 @@
 
 .dc-chart .selected path {
     stroke-width: 0;
-    stroke: #ccc;
+/*    stroke: #ccc;*/
     fill-opacity: 1;
 }
 
@@ -27,18 +27,22 @@
 }
 
 .dc-chart .pie-slice {
-  fill: white;
+  fill: black;
 }
 
 .grey {
   opacity: 0.2;
 }
 
+.deselected {
+  opacity: 0.4;
+}
+
 .dot {
   stroke-width: 8;
   opacity: 1;
-  fill-opacity: 0.5 !important;
-  stroke-opacity: 0.5 !important;
+  fill-opacity: 0.8 !important;
+  stroke-opacity: 0.8 !important;
 }
 
 .dot:hover {
@@ -80,6 +84,10 @@ body {
 .no-bullets{
   list-style-type: none;
   padding: 0;
+}
+
+.no-bullets li {
+  margin-bottom: 5px;
 }
 
 .sidebar {
@@ -146,5 +154,21 @@ body {
 }
 
 .dc-chart path.area {
-  fill-opacity: 0.6;
+  fill-opacity: 0.8;
+}
+
+.left-team {
+  
+}
+
+.right-team {
+
+}
+
+input[type="checkbox"] {
+  margin-right: 20px; 
+}
+
+.dc-chart rect.deselected ~ text {
+  opacity: 0.5;
 }

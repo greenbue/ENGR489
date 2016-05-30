@@ -5,30 +5,53 @@
   <div id="summary" class="tab-pane fade in active">
     <div class="container">
       <div class="row"><!-- start first row -->
-        <div class="col-md-12 col-xs-10" id='data_count' style='padding: 0'>
-          <span class='filter-count'></span>
-         selected out of <span class='total-count'></span> records.
+        
+        <div class="col-md-6 left-team">
+          <div class="col-md-12 col-xs-10" id='data_count' style='padding: 0'>
+            <span class='filter-count'></span>
+            selected out of <span class='total-count'></span> records.
+          </div>
+          <div class="col-md-12 col-xs-10 collapse-in" id="result_year">
+            <span class="result_year_title">Win, Loss and Ties By Team(s) Selected</span> 
+            <input type='button' class='btn btn-primary btn-xs hideshow' value='change view' onclick="change_result_view()">
+            <br/>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6 collapse-in" id="team">
+            Team A
+            <legend><a href='javascript:team_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6 collapse-in" id="opposition">
+            Opposition A
+            <legend><a href='javascript:opposition_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+          </div>
+          <div class="col-md-6 col-xs-4 collapse-in" id="result">
+            Match Results of Team A
+            <legend><a href='javascript:result_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
+          </div>
         </div>
-        <div class="col-md-8 col-xs-10 collapse-in" id="result_year">
-          <span class="result_year_title">Win, Loss and Ties By Team(s) Selected</span> 
-          <input type='button' class='btn btn-primary btn-xs hideshow' value='change view' onclick="change_result_view()">
-          <br/>
-        </div>
-        <div class="col-md-4 col-xs-4 collapse-in" id="result">
-          Match Results
-          <legend><a href='javascript:result_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
-        </div>
-        <div class="col-md-6 col-sm-8 col-xs-10 collapse-in" id="team_opp">
-          Win/Loss by Team
-          <legend><a href='javascript:team_opp_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6 collapse-in" id="team">
-          Team A
-          <legend><a href='javascript:team_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6 collapse-in" id="opposition">
-          Team B
-          <legend><a href='javascript:opposition_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+
+        <div class="col-md-6 right-team">
+          <div class="col-md-12 col-xs-10" id='data_count2' style='padding: 0'>
+            <span class='filter-count'></span>
+            selected out of <span class='total-count'></span> records.
+          </div>
+          <div class="col-md-12 col-xs-10 collapse-in" id="result_year2">
+            <span class="result_year_title2">Win, Loss and Ties By Team(s) Selected</span> 
+            <input type='button' class='btn btn-primary btn-xs hideshow' value='change view' onclick="change_result_view2()">
+            <br/>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6 collapse-in" id="team2">
+            Team B
+            <legend><a href='javascript:team_chart2.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-6 collapse-in" id="opposition2">
+            Opposition B
+            <legend><a href='javascript:opposition_chart2.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+          </div>
+          <div class="col-md-6 col-xs-4 collapse-in" id="result2">
+            Match Results of Team B
+            <legend><a href='javascript:result_chart2.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
+          </div>
         </div>
       </div><!-- end of first row -->
     </div>
