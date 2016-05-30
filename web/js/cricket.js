@@ -565,7 +565,7 @@ function showCharts(err, data) {
       return label;
     })
     .title(function(d){
-      var title = d.key + " \nTotal Games Won Against Team A: " + d.value;
+      var title = d.key + " \nTotal Games Lost Against Team A: " + d.value;
       return title;
     });
   
@@ -588,7 +588,7 @@ function showCharts(err, data) {
       return label;
     })
     .title(function(d){
-      var title = d.key + " \nTotal Games Won Against Team A: " + d.value;
+      var title = d.key + " \nTotal Games Lost Against Team A: " + d.value;
       return title;
     });
   
