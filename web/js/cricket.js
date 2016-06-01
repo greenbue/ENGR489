@@ -71,6 +71,7 @@ function capitalizeFirst(string) {
 }
 
 function change_result_view() {
+  change_title();
   result_year_chart = dc.barChart('#result_year')
       .group(result_year_group, "won")
       .valueAccessor(function(d){return d.value["won"]})
@@ -131,7 +132,6 @@ function change_result_view() {
     result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
   
   if (perc_view == false) {
-    $('.result_year_title').text("Overall Team A Performance by Games");
     result_year_chart
       .label(function(d) { return d; })
       .title(function(d) {
@@ -143,7 +143,6 @@ function change_result_view() {
       .brushOn(false);
   }
   else {
-    $('.result_year_title').text("Overall Team A Performance by Percentage");
     result_year_chart = dc.lineChart('#result_year')
       .dotRadius(10)
       .group(result_year_group, "won")
@@ -313,7 +312,6 @@ function change_result_view2() {
     result_year_chart2.xAxis().ticks(10).tickFormat(d3.format("d"));
   
   if (perc_view2 == false) {
-    $('.result_year_title2').text("Overall Team B Performance by Games");
     result_year_chart2
       .label(function(d) { return d; })
       .title(function(d) {
@@ -325,7 +323,6 @@ function change_result_view2() {
       .brushOn(false);
   }
   else {
-    $('.result_year_title2').text("Overall Team B Performance by Percentage");
     result_year_chart2 = dc.lineChart('#result_year2')
       .dotRadius(10)
       .group(result_year_group2, "won")
@@ -564,13 +561,24 @@ function showCharts(err, data) {
 //    .xAxisPadding(500)
     .elasticX(true)
     .label(function(d){
-      var label = d.key + ": " + d.value;
-      return label;
+      var label = d.key;
+      if($.inArray(d.key, team_chart.filters()) == 0) return "";
+      return label + ": " + d.value;
     })
     .title(function(d){
-      var title = d.key + " \nTotal Games Lost Against Team A: " + d.value;
+      if($.inArray(d.key, team_chart.filters()) == -1) return;
+      var title = d.key + " \nTotal Games Against Team A: " + d.value;
       return title;
     });
+  
+  opposition_chart._onClick = function(d) {
+      if($.inArray(d.key, team_chart.filters()) == 0) return;
+      var filter = opposition_chart.keyAccessor()(d);
+        dc.events.trigger(function () {
+            opposition_chart.filter(filter);
+            opposition_chart.redrawGroup();
+        });
+   }
   
   opposition_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(opposition_chart);
@@ -587,13 +595,24 @@ function showCharts(err, data) {
 //    .xAxisPadding(500)
     .elasticX(true)
     .label(function(d){
-      var label = d.key + ": " + d.value;
-      return label;
+      var label = d.key;
+      if($.inArray(d.key, team_chart2.filters()) == 0) return "";
+      return label + ": " + d.value;
     })
     .title(function(d){
-      var title = d.key + " \nTotal Games Lost Against Team A: " + d.value;
+      if($.inArray(d.key, team_chart2.filters()) == -1) return;
+      var title = d.key + " \nTotal Games Against Team B: " + d.value;
       return title;
     });
+  
+  opposition_chart2._onClick = function(d) {
+      if($.inArray(d.key, team_chart2.filters()) == 0) return;
+      var filter = opposition_chart2.keyAccessor()(d);
+        dc.events.trigger(function () {
+            opposition_chart2.filter(filter);
+            opposition_chart2.redrawGroup();
+        });
+   }
   
   opposition_chart2.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(opposition_chart2);
@@ -605,18 +624,29 @@ function showCharts(err, data) {
     .group(team_group)
     .colors(won_default)
     .transitionDuration(200)
+    .filter('Australia')
     .height(small_chart_height)
     .width(small_width-50)
     .ordering(function(d){ return -d.key })
     .elasticX(true)
     .label(function(d){
-      var label = d.key + ": " + d.value;
+      var label = d.key;
+      if($.inArray(d.key, team_chart.filters()) == 0) return label + ": " + d.value;
       return label;
     })
     .title(function(d){
-      var title = d.key + " \nTotal Games Won Against Opposition: " + d.value;
+      if($.inArray(d.key, team_chart.filters()) == -1) return;
+      var title = d.key + " \nTotal Games Against Opposition(s): " + d.value;
       return title;
     });
+  
+  team_chart._onClick = function(d) {
+      dc.events.trigger(() => {
+        team_chart.replaceFilter(d.key);
+        team_chart.redrawGroup()
+      });
+      hideButton('#teamA');
+   }
   
   team_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(team_chart);
@@ -626,18 +656,29 @@ function showCharts(err, data) {
     .group(team_group2)
     .colors(won_default)
     .transitionDuration(200)
+    .filter('New Zealand')
     .height(small_chart_height)
     .width(small_width-50)
     .ordering(function(d){ return -d.key })
     .elasticX(true)
     .label(function(d){
-      var label = d.key + ": " + d.value;
+      var label = d.key;
+      if($.inArray(d.key, team_chart2.filters()) == 0) return label + ": " + d.value;
       return label;
     })
     .title(function(d){
-      var title = d.key + " \nTotal Games Won Against Opposition: " + d.value;
+      if($.inArray(d.key, team_chart2.filters()) == -1) return;
+      var title = d.key + " \nTotal Games Against Opposition(s): " + d.value;
       return title;
     });
+  
+  team_chart2._onClick = function(d) {
+      dc.events.trigger(() => {
+        team_chart2.replaceFilter(d.key);
+        team_chart2.redrawGroup()
+      });
+      hideButton('#teamB');
+   }
   
   team_chart2.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(team_chart2);
@@ -682,7 +723,7 @@ function showCharts(err, data) {
     .title(function(d) {
       var title = capitalizeFirst(d.key) + ": " + d.value;
       if (d.key == "won"){
-        return "Team A Won Against Opposition\n" + title;
+        return "Team B Won Against Opposition\n" + title;
       }
       else if (d.key == "lost"){
         return "Team B Lost Against Opposition\n" + title;
@@ -760,18 +801,10 @@ function showCharts(err, data) {
 };
 
 function initialize(){
-  //odd are wins, even are losses
-//  var a = $('#team_opp g .row text:eq(7)'); 
-  var a = $('#team g.row text:eq(3)');
-  var b = $('#team2 g.row text:eq(0)');
-//  var b = $('#team_opp g .row rect:eq(6)');
-  
-  a.simulate('click');
-  b.simulate('click');
   change_result_view();
   change_result_view2();
-//  b.simulate('click');
-  
+  hideButton("#teamA");
+  hideButton("#teamB");
 };
 
 function hideshow(id){
@@ -790,3 +823,26 @@ function showAll() {
   }
   $('[type=checkbox]').prop('checked', true); 
 };
+
+function hideButton(id){
+  if (id == "#teamA" && $.inArray("Australia", team_chart.filters()) == 0) {
+    $(id).hide();
+  }
+  if (id == "#teamB" && $.inArray("New Zealand", team_chart2.filters()) == 0) {
+    $(id).hide();
+  }
+}
+
+function change_title() {
+  var teamA_text = team_chart.filters()[0] + "'s Overall Performance by ";
+  var teamB_text = team_chart2.filters()[0] + "'s Overall Performance by ";
+  
+  if (perc_view == false) teamA_text += "Games"
+  else teamA_text += "Percentage"
+  
+  if (perc_view2 == false) teamB_text += "Games"
+  else teamB_text += "Percentage"
+  
+  $('.result_year_title').text(teamA_text);
+  $('.result_year_title2').text(teamB_text);
+}
