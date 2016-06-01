@@ -646,6 +646,7 @@ function showCharts(err, data) {
         team_chart.redrawGroup()
       });
       hideButton('#teamA');
+      change_title();
    }
   
   team_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
@@ -678,6 +679,7 @@ function showCharts(err, data) {
         team_chart2.redrawGroup()
       });
       hideButton('#teamB');
+      change_title();
    }
   
   team_chart2.xAxis().ticks(5).tickFormat(d3.format("d"));
