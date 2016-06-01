@@ -434,7 +434,7 @@ function change_result_view2() {
 
 //Queueing defer ensures that all our datasets get loaded before any work is done
 
-queue()
+this.queue()
     .defer(d3.csv, "data/cricket-odi.csv")
     // .defer(d3.csv, "import-data.csv") //change name here to load more than 1 file
     .await(showCharts);
