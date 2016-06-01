@@ -4,14 +4,15 @@ var large_chart_height = 650;
 var small_width = 320; //544
 var medium_width = 540; //768
 var default_large_width = 660;
-var original_result_chart_width = 425;
-var result_chart_width = 540;
-var resize = .45;
+var original_result_chart_width = 500;
+var resize = .425;
 var result_chart_width = function(d){
-  var w =   $(window).outerWidth() * resize;
-  if ($(window).outerWidth() < 970) return default_large_width;
+  var windowWidth = $(window).width();
+  var w =   windowWidth * resize;
+  if (windowWidth <= 972) return default_large_width;
   if (w < original_result_chart_width) return original_result_chart_width;
-  else return w;
+  if (windowWidth >1080) return original_result_chart_width+100;
+  return w;
 }
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
@@ -39,10 +40,12 @@ var yearDom = [];
 //Resize the chart based on the screen size
 $( window ).resize(function() {
   result_chart_width = function(d){
-    var w =   $(window).outerWidth() * resize;
-    if ($(window).outerWidth() < 970) return default_large_width;
+    var windowWidth = $(window).width();
+    var w =   windowWidth * resize;
+    if (windowWidth <= 972) return default_large_width;
     if (w < original_result_chart_width) return original_result_chart_width;
-    else return w;
+    if (windowWidth >1080) return original_result_chart_width+100;
+    return w;
   }
   dc.renderAll();
 });
