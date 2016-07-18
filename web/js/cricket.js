@@ -27,6 +27,7 @@ var donut_outer = 80
 var donut_height = 100
 var perc_view = true;
 var perc_view2 = true;
+var first_time = true;
 
 
 grey_undefined = function(chart) {
@@ -70,371 +71,9 @@ function capitalizeFirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1); 
 }
 
-function change_result_view() {
-  change_title();
-  result_year_chart = dc.barChart('#result_year')
-      .group(result_year_group, "won")
-      .valueAccessor(function(d){return d.value["won"]})
-      .stack(result_year_group, "lost", function(d) { return d.value["lost"] })
-      .stack(result_year_group, "tied", function(d) { return d.value["tied"] })
-      .dimension(result_year)
-      .centerBar(true)
-      .height(medium_chart_height/2)
-      .width(result_chart_width)
-      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
-      .x(d3.scale.linear().domain([1995, 2016]))
-      .elasticX(false)
-      .elasticY(true)
-      .transitionDuration(200)
-      .mouseZoomable(false)
-      .yAxisLabel("Games")
-      .renderHorizontalGridLines(true)
-      .renderVerticalGridLines(true)  
-      .margins({top: 10, right: 50, bottom: 30, left: 50})
-      .on("renderlet.result_year", function (chart) {
-          //Check if labels exist
-          var gLabels = chart.select(".labels");
-          if (gLabels.empty()){
-            gLabels = chart.select(".chart-body").append('g').classed('labels', true);
-          }
-
-          var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
-
-          gLabelsData.exit().remove(); //Remove unused elements
-
-          gLabelsData.enter().append("text") //Add new elements
-
-          gLabelsData
-            .attr('text-anchor', 'middle  ')
-            .attr('fill', 'white')
-            .attr("font-size", "11px")
-            .text(function(d){
-              return d3.select(d).data()[0].y
-            })
-            .attr('x', function(d){ 
-              return +d.getAttribute('x') + (d.getAttribute('width')/2); 
-            })
-            .attr('y', function(d){ return +d.getAttribute('y') + 15; })
-            .attr('style', function(d){
-              if (+d.getAttribute('height') < 18) return "display:none";
-            });
-        })
-        .on("preRedraw", function (chart) {
-            chart.rescale();
-        })
-        .on("preRender", function (chart) {
-            chart.rescale();
-        })
-        .on("pretransition", function (chart) {
-            chart.rescale();
-        });
-
-    result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
-  
-  if (perc_view == false) {
-    result_year_chart
-      .label(function(d) { return d; })
-      .title(function(d) {
-        d3.selectAll("rect.bar")
-          .on('mouseover', function(d){
-          });
-          return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
-      })
-      .brushOn(false);
-  }
-  else {
-    result_year_chart = dc.lineChart('#result_year')
-      .dotRadius(10)
-      .group(result_year_group, "won")
-      .valueAccessor(function(d){
-        var v = parseFloat(d.value["won"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
-        if (isNaN(v)) return 0;
-        return parseFloat((v*100).toFixed(1));
-      })
-      .stack(result_year_group, "lost", function(d) { 
-        var v = parseFloat(d.value["lost"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
-        if (isNaN(v)) return 0;
-        return parseFloat((v*100).toFixed(1));
-      })
-      .stack(result_year_group, "tied", function(d) { 
-      if (d.value["tied"] == 0) return 0
-      else 
-        var v = parseFloat(d.value["tied"] /(d.value["won"]+d.value["lost"]+d.value["tied"])) 
-        if (isNaN(v)) return 0;
-        return parseFloat((v*100).toFixed(1));
-      })
-      .label(function(d) { return d; })
-      .title(function(d) {
-        var v = 0;
-        if (this.layer == "won") 
-          v = parseFloat(d.value["won"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
-        else if(this.layer == "lost") 
-          v = parseFloat(d.value["lost"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
-        else 
-          v = parseFloat(d.value["tied"] /(d.value["won"]+d.value["lost"]+d.value["tied"]))
-        if (isNaN(v)) v = 0;
-        else v = parseFloat((v*100).toFixed(1));
-      
-        if(d.value[this.layer] > 0){
-          d3.select(".area").selectAll("circle.dot").attr("r", 10);
-        }
-        return d.key+": "+d3.format(',')(d.value[this.layer])+" games ("+this.layer+")\nPercentage: " + v + "%"; 
-        
-      })
-      .brushOn(false)
-      .renderArea(true)
-      .dimension(result_year)
-      .height(medium_chart_height/2)
-      .width(result_chart_width)
-      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
-      .x(d3.scale.linear().domain([1996, 2015]))
-      .y(d3.scale.linear().domain([0, 110]))
-      .elasticX(false)
-      .elasticY(false)
-      .transitionDuration(200)
-      .yAxisLabel("Games")
-      .renderHorizontalGridLines(true)
-      .renderVerticalGridLines(true)
-      .mouseZoomable(false)
-      .margins({top: 20, right: 50, bottom: 30, left: 50})
-      .on("pretransition", stackChartTransition = function (chart) {
-        chart.selectAll("circle.dot").each(function(d, i){
-          if(d.y == 0){
-            d3.select(this)
-              .attr("visibility", "hidden");
-          }
-          else{
-            d3.select(this)
-              .attr("r", 5.5)
-              .attr("visibility", "visible")
-              .on("mouseover", function(d) {
-                d3.select(this)
-                  .attr("visibility", "visible")
-                  .attr("r", 5.5)
-                  .style("fill", d.color);
-              })                  
-              .on("mouseout", function(d) {
-                d3.select(this)
-                  .attr("visibility", "visible")
-                  .attr("r", 5.5)
-                  .style("fill", d.color);
-              });
-          }
-        });
-        chart.selectAll(".line").each(function(d, i){
-          try {
-            if(d.values[i].y == 0){
-              d3.select(this)
-                .attr("visibility", "hidden");
-            }
-            else{
-              d3.select(this)
-                .attr("visibility", "hidden");
-            }
-          }
-          catch (e){
-          }
-
-        });
-        chart.rescale();
-      });
-
-    result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
-  }
-  
-  result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
-  grey_undefined(result_year_chart);
-  
-  //Need to reset the filter when the view changes or else, filter lingers
-  result_year_chart.filterAll();
-  dc.renderAll();
-  perc_view = !perc_view;
-}
-
-function change_result_view2() {
-  result_year_chart2 = dc.barChart('#result_year2')
-      .group(result_year_group2, "won")
-      .valueAccessor(function(d){return d.value["won"]})
-      .stack(result_year_group2, "lost", function(d) { return d.value["lost"] })
-      .stack(result_year_group2, "tied", function(d) { return d.value["tied"] })
-      .dimension(result_year)
-      .centerBar(true)
-      .height(medium_chart_height/2)
-      .width(result_chart_width)
-      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
-      .x(d3.scale.linear().domain([1995, 2016]))
-      .elasticX(false)
-      .elasticY(true)
-      .transitionDuration(200)
-      .mouseZoomable(false)
-      .yAxisLabel("Games")
-      .renderHorizontalGridLines(true)
-      .renderVerticalGridLines(true)  
-      .margins({top: 10, right: 50, bottom: 30, left: 50})
-      .on("renderlet.result_year", function (chart) {
-          //Check if labels exist
-          var gLabels = chart.select(".labels");
-          if (gLabels.empty()){
-            gLabels = chart.select(".chart-body").append('g').classed('labels', true);
-          }
-
-          var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
-
-          gLabelsData.exit().remove(); //Remove unused elements
-
-          gLabelsData.enter().append("text") //Add new elements
-
-          gLabelsData
-            .attr('text-anchor', 'middle  ')
-            .attr('fill', 'white')
-            .attr("font-size", "11px")
-            .text(function(d){
-              return d3.select(d).data()[0].y
-            })
-            .attr('x', function(d){ 
-              return +d.getAttribute('x') + (d.getAttribute('width')/2); 
-            })
-            .attr('y', function(d){ return +d.getAttribute('y') + 15; })
-            .attr('style', function(d){
-              if (+d.getAttribute('height') < 18) return "display:none";
-            });
-        })
-        .on("preRedraw", function (chart) {
-            chart.rescale();
-        })
-        .on("preRender", function (chart) {
-            chart.rescale();
-        })
-        .on("pretransition", function (chart) {
-            chart.rescale();
-        });
-
-    result_year_chart2.xAxis().ticks(10).tickFormat(d3.format("d"));
-  
-  if (perc_view2 == false) {
-    result_year_chart2
-      .label(function(d) { return d; })
-      .title(function(d) {
-        d3.selectAll("rect.bar")
-          .on('mouseover', function(d){
-          });
-          return d.key+": "+d3.format(',')(d.value[this.layer])+" ("+this.layer+")";
-      })
-      .brushOn(false);
-  }
-  else {
-    result_year_chart2 = dc.lineChart('#result_year2')
-      .dotRadius(10)
-      .group(result_year_group2, "won")
-      .valueAccessor(function(d){
-        var v = parseFloat(d.value["won"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
-        if (isNaN(v)) return 0;
-        return parseFloat((v*100).toFixed(1));
-      })
-      .stack(result_year_group2, "lost", function(d) { 
-        var v = parseFloat(d.value["lost"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
-        if (isNaN(v)) return 0;
-        return parseFloat((v*100).toFixed(1));
-      })
-      .stack(result_year_group2, "tied", function(d) { 
-      if (d.value["tied"] == 0) return 0
-      else 
-        var v = parseFloat(d.value["tied"] /(d.value["won"]+d.value["lost"]+d.value["tied"])) 
-        if (isNaN(v)) return 0;
-        return parseFloat((v*100).toFixed(1));
-      })
-      .label(function(d) { return d; })
-      .title(function(d) {
-        var v = 0;
-        if (this.layer == "won") 
-          v = parseFloat(d.value["won"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
-        else if(this.layer == "lost") 
-          v = parseFloat(d.value["lost"]/(d.value["won"]+d.value["lost"]+d.value["tied"]));
-        else 
-          v = parseFloat(d.value["tied"] /(d.value["won"]+d.value["lost"]+d.value["tied"]))
-        if (isNaN(v)) v = 0;
-        else v = parseFloat((v*100).toFixed(1));
-      
-        if(d.value[this.layer] > 0){
-          d3.select(".area").selectAll("circle.dot").attr("r", 10);
-        }
-        return d.key+": "+d3.format(',')(d.value[this.layer])+" games ("+this.layer+")\nPercentage: " + v + "%"; 
-        
-      })
-      .brushOn(false)
-      .renderArea(true)
-      .dimension(result_year)
-      .height(medium_chart_height/2)
-      .width(result_chart_width)
-      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
-      .x(d3.scale.linear().domain([1996, 2015]))
-      .y(d3.scale.linear().domain([0, 110]))
-      .elasticX(false)
-      .elasticY(false)
-      .transitionDuration(200)
-      .yAxisLabel("Games")
-      .renderHorizontalGridLines(true)
-      .renderVerticalGridLines(true)
-      .mouseZoomable(false)
-      .margins({top: 20, right: 50, bottom: 30, left: 50})
-      .on("pretransition", stackChartTransition = function (chart) {
-        chart.selectAll("circle.dot").each(function(d, i){
-          if(d.y == 0){
-            d3.select(this)
-              .attr("visibility", "hidden");
-          }
-          else{
-            d3.select(this)
-              .attr("r", 5.5)
-              .attr("visibility", "visible")
-              .on("mouseover", function(d) {
-                d3.select(this)
-                  .attr("visibility", "visible")
-                  .attr("r", 5.5)
-                  .style("fill", d.color);
-              })                  
-              .on("mouseout", function(d) {
-                d3.select(this)
-                  .attr("visibility", "visible")
-                  .attr("r", 5.5)
-                  .style("fill", d.color);
-              });
-          }
-        });
-        chart.selectAll(".line").each(function(d, i){
-          try {
-            if(d.values[i].y == 0){
-              d3.select(this)
-                .attr("visibility", "hidden");
-            }
-            else{
-              d3.select(this)
-                .attr("visibility", "hidden");
-            }
-          }
-          catch (e){
-          }
-
-        });
-        chart.rescale();
-      });
-
-    result_year_chart2.xAxis().ticks(10).tickFormat(d3.format("d"));
-  }
-  
-  result_year_chart2.yAxis().ticks(5).tickFormat(d3.format("g"));
-  grey_undefined(result_year_chart);
-  
-  //Need to reset the filter when the view changes or else, filter lingers
-  result_year_chart2.filterAll();
-  dc.renderAll();
-  perc_view2 = !perc_view2;
-  
-}
-
 //Queueing defer ensures that all our datasets get loaded before any work is done
 
-this.queue()
+queue()
     .defer(d3.csv, "data/cricket-odi.csv")
     // .defer(d3.csv, "import-data.csv") //change name here to load more than 1 file
     .await(showCharts);
@@ -465,9 +104,9 @@ function showCharts(err, data) {
   }
   
   resultByYear = configureableReduce("Result", "Value", {
-    "won":0,
-    "lost":0,
-    "tied":0
+    "won": 0,
+    "lost": 0,
+    "tied": 0
   });
   
     
@@ -477,34 +116,66 @@ function showCharts(err, data) {
   //---------------------------ORDINARY CHARTS --------------------------------------
   year = ndx.dimension(function(d){return d.Year});
   year2 = ndx2.dimension(function(d){return d.Year});
-  
+
   opposition = ndx.dimension(function(d){return d.Opposition});
   opposition2 = ndx2.dimension(function(d){return d.Opposition});
-  
+
   team = ndx.dimension(function(d){return d.Team});
   team2 = ndx2.dimension(function(d){return d.Team});
-  
+
   result = ndx.dimension(function(d){return d.Result});
   result2 = ndx2.dimension(function(d){return d.Result});
-  
+
   resultStatus = ndx.dimension(function(d) {return d.resultStatus});
   resultStatus2 = ndx.dimension(function(d) {return d.resultStatus});
-  
+
   year_group = year.group().reduceSum(function(d){return d.Value}); 
   year_group2 = year2.group().reduceSum(function(d){return d.Value}); 
-    
+
   opposition_group = opposition.group().reduceSum(function(d){return d.Value}); 
   opposition_group2 = opposition2.group().reduceSum(function(d){return d.Value});
-  
+
   team_group = team.group().reduceSum(function(d){return d.Value});
   team_group2 = team2.group().reduceSum(function(d){return d.Value}); 
-    
+
   result_pie_group = result.group().reduceSum(function(d){return d.Value});
   result_pie_group2 = result2.group().reduceSum(function(d){return d.Value});
+
+//  result_year_group = year.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
   
-  result_year_group = year.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
-  
-  result_year_group2 = year2.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
+  result_year_group = year.group().reduce(
+    function(p, v) { // add
+      p[v.Result] = p[v.Result] || [];
+      p[v.Result].push(v);
+      return p;
+    },
+    function(p, v) { // remove
+      index = p[v.Result].indexOf(v);
+
+      p[v.Result].splice(index, 1);
+      return p;
+    },
+    function() { // initial
+      return {};
+    }
+  );
+    
+  result_year_group2 = year2.group().reduce(
+    function(p, v) { // add
+      p[v.Result] = p[v.Result] || [];
+      p[v.Result].push(v);
+      return p;
+    },
+    function(p, v) { // remove
+      index = p[v.Result].indexOf(v);
+
+      p[v.Result].splice(index, 1);
+      return p;
+    },
+    function() { // initial
+      return {};
+    }
+  );
   
   result_group = resultStatus.group().reduceSum(function(d){
     if (d.Result != 'tied') return d.Value;
@@ -515,7 +186,6 @@ function showCharts(err, data) {
     if (d.Result != 'tied') return d.Value;
     else return 0;
   });
-  
   
   year_chart = dc.rowChart('#year')
     .dimension(year)
@@ -546,8 +216,6 @@ function showCharts(err, data) {
   
   year_bar_chart.xAxis().ticks(5).tickFormat(d3.format("g"));
   grey_undefined(year_bar_chart);
-    
-  
     
   opposition_chart = dc.rowChart('#opposition')
     .dimension(opposition)
@@ -647,7 +315,7 @@ function showCharts(err, data) {
       });
       hideButton('#teamA');
       change_title();
-   }
+   };
   
   team_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(team_chart);
@@ -680,7 +348,7 @@ function showCharts(err, data) {
       });
       hideButton('#teamB');
       change_title();
-   }
+   };
   
   team_chart2.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(team_chart2);
@@ -753,7 +421,7 @@ function showCharts(err, data) {
     .group(all)
     .html({
         some: '<span class=\'data-count\'><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records</span>' +
-            ' | <a class=\'reset\' href=\'javascript:team_chart.filterAll(); opposition_chart.filterAll(); result_chart.filterAll(); dc.redrawAll();\'\'>Reset All</a>',
+            ' | <a class=\'reset\' href=\'javascript: team_chart.replaceFilter("Australia"); hideButton("#teamA"); opposition_chart.filterAll(); result_chart.filterAll(); first_time = true; perc_view = true; change_result_view(); change_title(); dc.redrawAll(); \'\'>Reset All</a>',
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
   
@@ -763,7 +431,7 @@ function showCharts(err, data) {
     .group(all2)
     .html({
         some: '<span class=\'data-count\'><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records</span>' +
-            ' | <a class=\'reset\' href=\'javascript:team_chart2.filterAll(); opposition_chart2.filterAll(); result_chart2.filterAll(); dc.redrawAll();\'\'>Reset All</a>',
+            ' | <a class=\'reset\' href=\'javascript: team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); first_time = true; perc_view2 = true; change_result_view2(); change_title();\'\'>Reset All</a>',
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
   
@@ -802,11 +470,687 @@ function showCharts(err, data) {
   initialize();
 };
 
+function change_result_view() {
+  if(first_time == false) dc.deregisterChart(result_year_chart);
+  if (perc_view == false) {
+    result_year_chart = dc.barChart('#result_year')
+      .group(result_year_group, "won")
+      .valueAccessor(function(d){return d.value["won"].length })
+      .stack(result_year_group, "lost", function(d) { return d.value["lost"].length })
+      .stack(result_year_group, "tied", function(d) { 
+        if (d.value["tied"]) return d.value["tied"].length
+        else return 0;
+      })
+      .label(function(d) { return d; })
+      .title(function(d) {
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+      
+        var v = 0;
+        games_count = 0;
+      
+        label_value = 0;
+        if (d.value[this.layer] == undefined) label_value = 0;
+        else label_value = d.value[this.layer].length;
+      
+        output = d.key+": "+d3.format(',')(label_value)+" Game(s) ("+capitalizeFirst(this.layer)+")\n\n";
+      
+        if (this.layer == "won"){
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            } 
+        }
+        else if (this.layer == "lost"){
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            } 
+        }
+        else {
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            }         
+        }
+  
+        if (isNaN(v)) v = 0;
+        else v = parseFloat((v*100)).toFixed(1);
+      
+        if(d.value[this.layer] > 0){
+          d3.select(".area").selectAll("circle.dot").attr("r", 10);
+        }
+      
+        if (games_count > 5) {
+          games_count -= 5;
+          output += "\nOthers [" + games_count + "]";
+        }
+      
+        return output; 
+        
+      })
+      .brushOn(false)
+      .dimension(result_year)
+      .centerBar(true)
+      .height(medium_chart_height/2)
+      .width(result_chart_width)
+      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .x(d3.scale.linear().domain([1995, 2016]))
+      .elasticX(false)
+      .elasticY(true)
+      .transitionDuration(200)
+      .mouseZoomable(false)
+      .yAxisLabel("Games")
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)  
+      .margins({top: 10, right: 50, bottom: 30, left: 50})
+      .on("renderlet.result_year", function (chart) {
+          //Check if labels exist
+          var gLabels = chart.select(".labels");
+          if (gLabels.empty()){
+            gLabels = chart.select(".chart-body").append('g').classed('labels', true);
+          }
+
+          var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
+
+          gLabelsData.exit().remove(); //Remove unused elements
+
+          gLabelsData.enter().append("text") //Add new elements
+
+          gLabelsData
+            .attr('text-anchor', 'middle  ')
+            .attr('fill', 'white')
+            .attr("font-size", "11px")
+            .text(function(d){
+              return d3.select(d).data()[0].y
+            })
+            .attr('x', function(d){ 
+              return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+            })
+            .attr('y', function(d){ return +d.getAttribute('y') + 15; })
+            .attr('style', function(d){
+              if (+d.getAttribute('height') < 18) return "display:none";
+            });
+        })
+        .on("preRedraw", function (chart) {
+            chart.rescale();
+        })
+        .on("preRender", function (chart) {
+            chart.rescale();
+        })
+        .on("pretransition", function (chart) {
+            chart.rescale();
+        });
+
+    result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
+  }
+  else {
+    result_year_chart = dc.lineChart('#result_year')
+      .dotRadius(10)
+      .group(result_year_group, "won")
+      .valueAccessor(function(d){
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+      
+        var v = parseFloat(won/total);
+        if (isNaN(v)) return 0;
+        return parseFloat((v*100));
+      })
+      .stack(result_year_group, "lost", function(d) { 
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+      
+        var v = parseFloat(lost/total);
+        if (isNaN(v)) return 0;
+        return parseFloat((v*100).toFixed(1));
+      })
+      .stack(result_year_group, "tied", function(d) { 
+      if (d.value["tied"]) {
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+        
+        var v = parseFloat(tied/total) 
+        if (isNaN(v)) return 0;
+        return parseFloat((v*100).toFixed(1));
+      }
+      else 
+        return 0
+      })
+      .label(function(d) { return d; })
+      .title(function(d) {
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+      
+        var v = 0;
+        games_count = 0;
+      
+        label_value = 0;
+        if (d.value[this.layer] == undefined) label_value = 0;
+        else label_value = d.value[this.layer].length;
+      
+        output = d.key+": "+d3.format(',')(label_value)+" Game(s) ("+capitalizeFirst(this.layer)+")\nPercentage: ";
+      
+        if (this.layer == "won"){
+          v = parseFloat((won/total));
+          v = (v * 100).toFixed(1)
+          output += v + "%\n\n";
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            } 
+        }
+        else if (this.layer == "lost"){
+          v = parseFloat((lost/total)); 
+          v = (v * 100).toFixed(1);
+          output += v + "%\n\n";
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            } 
+        }
+        else {
+          v = parseFloat((tied/total));
+          v = (v * 100).toFixed(1);
+          output += v + "%\n\n";
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            }         
+        }
+  
+        if (isNaN(v)) v = 0;
+        else v = parseFloat((v*100)).toFixed(1);
+      
+        if(d.value[this.layer] > 0){
+          d3.select(".area").selectAll("circle.dot").attr("r", 10);
+        }
+      
+        if (games_count > 5) {
+          games_count -= 5;
+          output += "\nOthers [" + games_count + "]";
+        }
+      
+        return output; 
+        
+      })
+      .brushOn(false)
+      .renderArea(true)
+      .dimension(result_year)
+      .height(medium_chart_height/2)
+      .width(result_chart_width)
+      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .x(d3.scale.linear().domain([1996, 2015]))
+      .y(d3.scale.linear().domain([0, 110]))
+      .elasticX(false)
+      .elasticY(false)
+      .transitionDuration(200)
+      .yAxisLabel("Games")
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)
+      .mouseZoomable(false)
+      .margins({top: 20, right: 50, bottom: 30, left: 50})
+      .on("pretransition", stackChartTransition = function (chart) {
+        chart.selectAll("circle.dot").each(function(d, i){
+          if(d.y == 0){
+            d3.select(this)
+              .attr("visibility", "hidden");
+          }
+          else{
+            d3.select(this)
+              .attr("r", 5.5)
+              .attr("visibility", "visible")
+              .on("mouseover", function(d) {
+                d3.select(this)
+                  .attr("visibility", "visible")
+                  .attr("r", 5.5)
+                  .style("fill", d.color);
+              })                  
+              .on("mouseout", function(d) {
+                d3.select(this)
+                  .attr("visibility", "visible")
+                  .attr("r", 5.5)
+                  .style("fill", d.color);
+              });
+          }
+        });
+        chart.selectAll(".line").each(function(d, i){
+          try {
+            if(d.values[i].y == 0){
+              d3.select(this)
+                .attr("visibility", "hidden");
+            }
+            else{
+              d3.select(this)
+                .attr("visibility", "hidden");
+            }
+          }
+          catch (e){
+          }
+
+        });
+        chart.rescale();
+      });
+
+    result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
+  }
+  
+  result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
+  grey_undefined(result_year_chart);
+  
+  //Need to reset the filter when the view changes or else, filter lingers
+  result_year_chart.filterAll();
+  dc.renderAll();
+  perc_view = !perc_view;
+  change_title();
+}
+
+function change_result_view2() {
+  if(first_time == false) dc.deregisterChart(result_year_chart2);
+  if (perc_view2 == false) {
+    result_year_chart2 = dc.barChart('#result_year2')
+      .group(result_year_group2, "won")
+      .valueAccessor(function(d){return d.value["won"].length })
+      .stack(result_year_group2, "lost", function(d) { return d.value["lost"].length })
+      .stack(result_year_group2, "tied", function(d) { 
+        if (d.value["tied"]) return d.value["tied"].length
+        else return 0;
+      })
+      .label(function(d) { return d; })
+      .title(function(d) {
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+      
+        var v = 0;
+        games_count = 0;
+      
+        label_value = 0;
+        if (d.value[this.layer] == undefined) label_value = 0;
+        else label_value = d.value[this.layer].length;
+      
+        output = d.key+": "+d3.format(',')(label_value)+" Game(s) ("+capitalizeFirst(this.layer)+")\n\n";
+      
+        if (this.layer == "won"){
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            } 
+        }
+        else if (this.layer == "lost"){
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            } 
+        }
+        else {
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            }         
+        }
+  
+        if (isNaN(v)) v = 0;
+        else v = parseFloat((v*100)).toFixed(1);
+      
+        if(d.value[this.layer] > 0){
+          d3.select(".area").selectAll("circle.dot").attr("r", 10);
+        }
+      
+        if (games_count > 5) {
+          games_count -= 5;
+          output += "\nOthers [" + games_count + "]";
+        }
+      
+        return output; 
+        
+      })
+      .brushOn(false)
+      .dimension(result_year)
+      .centerBar(true)
+      .height(medium_chart_height/2)
+      .width(result_chart_width)
+      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .x(d3.scale.linear().domain([1995, 2016]))
+      .elasticX(false)
+      .elasticY(true)
+      .transitionDuration(200)
+      .mouseZoomable(false)
+      .yAxisLabel("Games")
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)  
+      .margins({top: 10, right: 50, bottom: 30, left: 50})
+      .on("renderlet.result_year", function (chart) {
+          //Check if labels exist
+          var gLabels = chart.select(".labels");
+          if (gLabels.empty()){
+            gLabels = chart.select(".chart-body").append('g').classed('labels', true);
+          }
+
+          var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
+
+          gLabelsData.exit().remove(); //Remove unused elements
+
+          gLabelsData.enter().append("text") //Add new elements
+
+          gLabelsData
+            .attr('text-anchor', 'middle  ')
+            .attr('fill', 'white')
+            .attr("font-size", "11px")
+            .text(function(d){
+              return d3.select(d).data()[0].y
+            })
+            .attr('x', function(d){ 
+              return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+            })
+            .attr('y', function(d){ return +d.getAttribute('y') + 15; })
+            .attr('style', function(d){
+              if (+d.getAttribute('height') < 18) return "display:none";
+            });
+        })
+        .on("preRedraw", function (chart) {
+            chart.rescale();
+        })
+        .on("preRender", function (chart) {
+            chart.rescale();
+        })
+        .on("pretransition", function (chart) {
+            chart.rescale();
+        });
+
+    result_year_chart2.xAxis().ticks(10).tickFormat(d3.format("d"));
+  }
+  else {
+    result_year_chart2 = dc.lineChart('#result_year2')
+      .dotRadius(10)
+      .group(result_year_group2, "won")
+      .valueAccessor(function(d){
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+      
+        var v = parseFloat(won/total);
+        if (isNaN(v)) return 0;
+        return parseFloat((v*100));
+      })
+      .stack(result_year_group2, "lost", function(d) { 
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+      
+        var v = parseFloat(lost/total);
+        if (isNaN(v)) return 0;
+        return parseFloat((v*100).toFixed(1));
+      })
+      .stack(result_year_group2, "tied", function(d) { 
+      if (d.value["tied"]) {
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+        
+        var v = parseFloat(tied/total) 
+        if (isNaN(v)) return 0;
+        return parseFloat((v*100).toFixed(1));
+      }
+      else 
+        return 0
+      })
+      .label(function(d) { return d; })
+      .title(function(d) {
+        won = d.value["won"].length;
+        lost = d.value["lost"].length;
+        if (d.value["tied"]) tied = d.value["tied"].length
+        else tied = 0;
+        total = won + lost + tied;
+      
+        var v = 0;
+        games_count = 0;
+      
+        label_value = 0;
+        if (d.value[this.layer] == undefined) label_value = 0;
+        else label_value = d.value[this.layer].length;
+      
+        output = d.key+": "+d3.format(',')(label_value)+" Game(s) ("+capitalizeFirst(this.layer)+")\nPercentage: ";
+      
+        if (this.layer == "won"){
+          v = parseFloat((won/total));
+          v = (v * 100).toFixed(1)
+          output += v + "%\n\n";
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            } 
+        }
+        else if (this.layer == "lost"){
+          v = parseFloat((lost/total)); 
+          v = (v * 100).toFixed(1);
+          output += v + "%\n\n";
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            } 
+        }
+        else {
+          v = parseFloat((tied/total));
+          v = (v * 100).toFixed(1);
+          output += v + "%\n\n";
+          if (d.value[this.layer] != undefined)
+            if (d.value[this.layer].length > 1)
+              d.value[this.layer].forEach(function(obj){
+                games_count++;
+                if (games_count < 6)
+                  output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+              });
+            else {
+              obj = d.value[this.layer][0];
+              if (obj != undefined)
+                output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
+            }         
+        }
+  
+        if (isNaN(v)) v = 0;
+        else v = parseFloat((v*100)).toFixed(1);
+      
+        if(d.value[this.layer] > 0){
+          d3.select(".area").selectAll("circle.dot").attr("r", 10);
+        }
+      
+        if (games_count > 5) {
+          games_count -= 5;
+          output += "\nOthers [" + games_count + "]";
+        }
+      
+        return output; 
+        
+      })
+      .brushOn(false)
+      .renderArea(true)
+      .dimension(result_year)
+      .height(medium_chart_height/2)
+      .width(result_chart_width)
+      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .x(d3.scale.linear().domain([1996, 2015]))
+      .y(d3.scale.linear().domain([0, 110]))
+      .elasticX(false)
+      .elasticY(false)
+      .transitionDuration(200)
+      .yAxisLabel("Games")
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)
+      .mouseZoomable(false)
+      .margins({top: 20, right: 50, bottom: 30, left: 50})
+      .on("pretransition", stackChartTransition = function (chart) {
+        chart.selectAll("circle.dot").each(function(d, i){
+          if(d.y == 0){
+            d3.select(this)
+              .attr("visibility", "hidden");
+          }
+          else{
+            d3.select(this)
+              .attr("r", 5.5)
+              .attr("visibility", "visible")
+              .on("mouseover", function(d) {
+                d3.select(this)
+                  .attr("visibility", "visible")
+                  .attr("r", 5.5)
+                  .style("fill", d.color);
+              })                  
+              .on("mouseout", function(d) {
+                d3.select(this)
+                  .attr("visibility", "visible")
+                  .attr("r", 5.5)
+                  .style("fill", d.color);
+              });
+          }
+        });
+        chart.selectAll(".line").each(function(d, i){
+          try {
+            if(d.values[i].y == 0){
+              d3.select(this)
+                .attr("visibility", "hidden");
+            }
+            else{
+              d3.select(this)
+                .attr("visibility", "hidden");
+            }
+          }
+          catch (e){
+          }
+
+        });
+        chart.rescale();
+      });
+
+    result_year_chart2.xAxis().ticks(10).tickFormat(d3.format("d"));
+  }
+  
+  result_year_chart2.yAxis().ticks(5).tickFormat(d3.format("g"));
+  grey_undefined(result_year_chart2);
+  
+  //Need to reset the filter when the view changes or else, filter lingers
+  result_year_chart2.filterAll();
+  dc.renderAll();
+  perc_view2 = !perc_view2;
+  change_title();
+}
+
 function initialize(){
   change_result_view();
   change_result_view2();
+  change_title();
   hideButton("#teamA");
   hideButton("#teamB");
+  first_time = false;
 };
 
 function hideshow(id){
@@ -839,10 +1183,10 @@ function change_title() {
   var teamA_text = team_chart.filters()[0] + "'s Overall Performance by ";
   var teamB_text = team_chart2.filters()[0] + "'s Overall Performance by ";
   
-  if (perc_view == false) teamA_text += "Games"
+  if (perc_view == true) teamA_text += "Games"
   else teamA_text += "Percentage"
   
-  if (perc_view2 == false) teamB_text += "Games"
+  if (perc_view2 == true) teamB_text += "Games"
   else teamB_text += "Percentage"
   
   $('.result_year_title').text(teamA_text);
