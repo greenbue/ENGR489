@@ -26,29 +26,45 @@
   <div class="sidebar collapse" id="sidebar">
     <div>
       <ul class="no-bullets"><!-- class="nav navbar-nav" -->
-        <li><a><label>
-          <input type="checkbox" checked onclick="hideshow('#result_year')">
-          Overall
-          </label></a></li>
-        <li><a><label>
-          <input type="checkbox" checked onclick="hideshow('#team_opp')">
-          Win/Loss
-          </label></a></li>
-        <li><a><label>
-          <input type="checkbox" checked onclick="hideshow('#result')">
-          Match Results
-          </label></a></li>
-        <li><a><label>
-          <input type="checkbox" checked onclick="hideshow('#team')">
-          Team A
-          </label></a></li>
-        <li><a><label>
-          <input type="checkbox" checked onclick="hideshow('#opposition')">
-          Team B
-          </label></a></li>
+        <strong>Overall</strong>
+        <li>
+          <a><label>A
+            <input type="checkbox" checked onclick="hideshow('#result_year')">
+          </label></a>
+          <a><label>B
+            <input type="checkbox" checked onclick="hideshow('#result_year2')">
+          </label></a>
+        </li>
+        <strong>Team</strong>
+        <li>
+          <a><label>A
+            <input type="checkbox" checked onclick="hideshow('#team')">
+          </label></a>
+          <a><label>B
+            <input type="checkbox" checked onclick="hideshow('#team2')">
+          </label></a>
+        </li>
+        <strong>Opposition</strong>
+        <li>
+          <a><label>A
+            <input type="checkbox" checked onclick="hideshow('#opposition')">
+          </label></a>
+          <a><label>B
+            <input type="checkbox" checked onclick="hideshow('#opposition2')">
+          </label></a>
+        </li>
+        <strong>Match Results</strong>
+        <li>
+          <a><label>A
+            <input type="checkbox" checked onclick="hideshow('#result')">
+          </label></a>
+          <a><label>B
+            <input type="checkbox" checked onclick="hideshow('#result2')">
+          </label></a>
+        </li>
         <li><a onclick="showAll()"><label>
           Show All 
-          </label></a></li>
+        </label></a></li>
       </ul>
     </div>
   </div>
