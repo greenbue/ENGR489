@@ -1199,6 +1199,23 @@ function initialize(){
   hideButton("#teamA");
   hideButton("#teamB");
   first_time = false;
+  create_search();
+};
+
+function create_search() {
+  var items = {};
+  items = captain_array.map(function(x) {
+    return { item: x };
+  });
+
+  for (i in items){
+    if (items[i].item == "") {
+      items.splice(i, i+1);
+    }
+  }
+
+  create_selectize(items);
+  create_selectize2(items);
 };
 
 function hideshow(id){
