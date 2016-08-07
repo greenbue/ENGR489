@@ -1,21 +1,19 @@
 <nav class="navbar navbar-default main-nav nav-border">
   <div class="container-fluid" id="navfluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.php">Cricket Data Visualization</a>
+        <a class="navbar-brand" href="./cricket.html">
+          Cricket Data Visualization
+        </a>
+        <ul class="nav navbar-nav">
+          <li>
+            <input type="text" placeholder="Pick a Captain for Team A" class="selectized" id="captain-search" tabindex="-1" style="display: block;">
+          </li>
+          <li>
+            <input type="text" placeholder="Pick a Captain for Team B" class="selectized" id="captain-search2" tabindex="-1" style="display: block;">
+          </li>
+        </ul>
     </div>
-    <div class="collapse navbar-collapse" id="navigationbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="index.php">Home</a></li>
-        <li><a href="#">About</a></li>
-      </ul>
-    </div>
- </div>
+  </div>
 </nav>
 <span class="draggable">
   <a data-toggle="collapse" data-target="#sidebar">
@@ -63,7 +61,7 @@
           </label></a>
         </li>
         <li><a onclick="showAll()"><label>
-          Show All 
+          Show All
         </label></a></li>
       </ul>
     </div>
@@ -96,7 +94,7 @@
         <li>
           The reset button will unselect all the filters for that chart.
         </li>
-      </ol> 
+      </ol>
     </div>
   </div>
 </span>

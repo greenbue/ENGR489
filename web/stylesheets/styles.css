@@ -1,6 +1,6 @@
 .dc-chart g.row text {
   fill: whitesmoke;
-  font-size: 12px;
+  font-size: 0.85em;
 }
 
 .dc-chart g.row text.row.dim {
@@ -28,6 +28,7 @@
 
 .dc-chart .pie-slice {
   fill: black;
+  font-size: 0.75em;
 }
 
 .grey {
@@ -36,6 +37,7 @@
 
 .deselected {
   opacity: 0.4;
+  fill: white;
 }
 
 .dot {
@@ -74,7 +76,7 @@ body {
 }
 
 .main-nav {
-  
+
 }
 
 .nav-border {
@@ -94,7 +96,7 @@ body {
   position: absolute;
   padding: 10px;
   top: -10px;
-  left: 600px;
+  left: 900px;
   width: 200px;
   background: white;
   z-index: 99999;
@@ -106,7 +108,7 @@ body {
   position: absolute;
   padding: 10px;
   top: -50px;
-  left: 600px;
+  left: 900px;
   width: 200px;
   color: white;
   z-index: 99999;
@@ -132,7 +134,7 @@ body {
   position: absolute;
   padding: 10px;
   top: -10px;
-  left: 400px;
+  left: 700px;
   width: 500px;
   background: white;
   z-index: 99998;
@@ -144,7 +146,7 @@ body {
   position: absolute;
   padding: 10px;
   top: -50px;
-  left: 400px;
+  left: 700px;
   width: 200px;
   color: white;
   z-index: 99998;
@@ -157,18 +159,53 @@ body {
   fill-opacity: 0.8;
 }
 
-.left-team {
-  
-}
+@media(max-width:991px){
+  .left-team {
 
-.right-team {
+  }
 
+  .right-team {
+    margin-top: 20px;
+  }
 }
 
 input[type="checkbox"] {
-  margin-right: 20px; 
+  margin-right: 20px;
 }
 
 .dc-chart rect.deselected ~ text {
   opacity: 0.5;
+}
+
+.search {
+  min-width: 220px;
+  max-width: 220px;
+  margin-top: 5px;
+}
+
+svg:not(:root) {
+  background: whitesmoke;
+}
+
+legend {
+  display: inline;
+}
+
+legend > .btn {
+  border: none;
+  font-size: 0.65em;
+}
+
+.selectize-control {
+  padding-top: 5px;
+  width: 200px;
+}
+
+.navbar-nav {
+  float: left;
+}
+
+.nav > li {
+  display: inline-block;
+  margin: 0 5px;
 }
