@@ -1,19 +1,3 @@
-var items = {};
-$(document).ready(function() {
-  items = captain_array.map(function(x) { 
-      return { item: x };
-  });
-  
-  for (i in items){
-    if (items[i].item == "") {
-      items.splice(i, i+1);
-    }
-  }
-  
-  create_selectize(items);
-  create_selectize2(items);
-});
-
 function create_selectize(items) {
   $('#captain-search').selectize({
       delimiter: ',',
@@ -24,7 +8,7 @@ function create_selectize(items) {
       valueField: "item",
       placeholder: "Pick a Captain for Team A"
   });
-  
+
   $('#captain-search').on('change', function () {
     var filter = $('#captain-search').val();
     if (filter == "") {
@@ -53,9 +37,9 @@ function create_selectize2(items){
       options: items,
       labelField: "item",
       valueField: "item",
-      placeholder: "Pick a Captain for Team B" 
+      placeholder: "Pick a Captain for Team B"
   });
-  
+
   $('#captain-search2').on('change', function () {
     var filter = $('#captain-search2').val();
     if (filter == "") {
