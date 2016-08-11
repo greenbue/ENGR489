@@ -25,10 +25,13 @@ var small_width = function(d){
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
 var team_default = d3.scale.ordinal().range(["#015B64"]);
+var generic_default = d3.scale.ordinal().range(["#44946E"]);
 var won_default = d3.scale.ordinal().range(["#45936E"]);
 var lost_default = d3.scale.ordinal().range(["#92332F"]);
+var oppo_default = d3.scale.ordinal().range(["#9FB2BE"]);
 var year_default = d3.scale.ordinal().range(["#1C293B"]);
-var default_colors = d3.scale.ordinal().range(our_colors);
+var default_colors = d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#28497B", "#8A091A", "#D9B526"])
+var gray_default = d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#454545", "#323232", "#afafaf"])
 //For pie chart
 var donut_inner = 40
 var donut_outer = 60
@@ -64,7 +67,6 @@ function cleanup(d) {
   d.Year = d.Date.slice(-2);
   d.Year = d.Year > 16 ? 1900+parseInt(d.Year) : 2000+parseInt(d.Year);
   d.Value = 1;
-  d.properDate = new Date(d.Date.split('-')[1] + " " + d.Date.split('-')[0] + ", " + d.Year);
   d.matchAgainst = d.Team + '/' + d.Opposition;
   if (d.Result != "tied") d.resultStatus = d.Team + '@' + d.Result;
 
@@ -215,40 +217,54 @@ function showCharts(err, data) {
     else return 0;
   });
 
-  year_chart = dc.rowChart('#year')
-    .dimension(year)
-    .group(year_group)
-    .colors(year_default)
+  ground_chart = dc.rowChart('#ground')
+    .dimension(ground)
+    .group(ground_group)
+    .colors(generic_default)
     .transitionDuration(200)
-    .height(large_chart_height/1.5)
-    .width(small_width)
-    .ordering(function(d){ return -d.key })
-//    .x(d3.scale.linear().domain([-25, 25]))
-    .elasticX(true);
+    .height(small_chart_height)
+    .width(small_width-50)
+    .ordering(function(d){ return -d.value })
+    .elasticX(true)
+    .rowsCap(7)
+    .label(function(d){
+      return d.key + ": " + d.value;
+    })
+    .title(function(d){
+      var title = d.key + ": " + d.value;
+      return title;
+    });
 
-  year_chart.xAxis().ticks(10).tickFormat(d3.format("g"));
-  grey_undefined(year_chart);
 
-  year_bar_chart = dc.barChart('#year-bar')
-      .dimension(year)
-      .group(year_group)
-      .colors(default_colors)
-      .transitionDuration(200)
-      .height(medium_chart_height)
-      .width(small_width)
-      .ordering(function(d){ return -d.key })
-      .x(d3.scale.linear().domain([-25, 25]))
-      .brushOn(true)
-      .elasticY(true)
-      .elasticX(true);
+  ground_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
+  grey_undefined(ground_chart);
 
-  year_bar_chart.xAxis().ticks(5).tickFormat(d3.format("g"));
-  grey_undefined(year_bar_chart);
+  ground_chart2 = dc.rowChart('#ground2')
+    .dimension(ground2)
+    .group(ground_group2)
+    .colors(generic_default)
+    .transitionDuration(200)
+    .height(small_chart_height)
+    .width(small_width-50)
+    .ordering(function(d){ return -d.value })
+    .elasticX(true)
+    .rowsCap(7)
+    .label(function(d){
+      return d.key + ": " + d.value;
+    })
+    .title(function(d){
+      var title = d.key + ": " + d.value;
+      return title;
+    });
+
+
+  ground_chart2.xAxis().ticks(5).tickFormat(d3.format("d"));
+  grey_undefined(ground_chart2);
 
   opposition_chart = dc.rowChart('#opposition')
     .dimension(opposition)
     .group(opposition_group)
-    .colors(lost_default)
+    .colors(oppo_default)
     .transitionDuration(200)
     .height(small_chart_height)
     .width(small_width-50)
@@ -282,7 +298,7 @@ function showCharts(err, data) {
   opposition_chart2 = dc.rowChart('#opposition2')
     .dimension(opposition2)
     .group(opposition_group2)
-    .colors(lost_default)
+    .colors(oppo_default)
     .transitionDuration(200)
     .height(small_chart_height)
     .width(small_width-50)
@@ -318,7 +334,7 @@ function showCharts(err, data) {
   team_chart = dc.rowChart('#team')
     .dimension(team)
     .group(team_group)
-    .colors(won_default)
+    .colors(generic_default)
     .transitionDuration(200)
     .filter('Australia')
     .height(small_chart_height)
@@ -351,7 +367,7 @@ function showCharts(err, data) {
   team_chart2 = dc.rowChart('#team2')
     .dimension(team2)
     .group(team_group2)
-    .colors(won_default)
+    .colors(generic_default)
     .transitionDuration(200)
     .filter('New Zealand')
     .height(small_chart_height)
@@ -405,7 +421,7 @@ function showCharts(err, data) {
     })
     .radius(donut_outer)
     .colors(d3.scale.ordinal().domain(["won", "lost", "tied"])
-                              .range(["#45936E","#92332F", "#3E70A1"]))
+                              .range(["#28497B", "#8A091A", "#D9B526"]))
     .colorAccessor(function(d) {
       if (d.key == "won") return "won";
       else if (d.key == "lost") return "lost";
@@ -436,7 +452,7 @@ function showCharts(err, data) {
     })
     .radius(donut_outer)
     .colors(d3.scale.ordinal().domain(["won", "lost", "tied"])
-                              .range(["#45936E","#92332F", "#3E70A1"]))
+                              .range(["#28497B", "#8A091A", "#D9B526"]))
     .colorAccessor(function(d) {
       if (d.key == "won") return "won";
       else if (d.key == "lost") return "lost";
@@ -448,8 +464,8 @@ function showCharts(err, data) {
     .dimension(ndx)
     .group(all)
     .html({
-        some: '<span class=\'data-count\'><strong>Team A: </strong></span><span class=\'data-count\'><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records</span>' +
-            ' | <a class=\'reset\' href=\'javascript:   team_chart.replaceFilter("Australia"); hideButton("#teamA"); opposition_chart.filterAll(); result_chart.filterAll(); first_time = true; perc_view = true; change_result_view(); change_title(); reset_selectize("#captain-search"); dc.redrawAll(); \'\'>Reset All</a>',
+        some: '<span class=\'data-count\'><strong>Team A: </strong><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+            ' | <a class=\'reset\' href=\'javascript:   team_chart.replaceFilter("Australia"); hideButton("#teamA"); opposition_chart.filterAll(); result_chart.filterAll(); ground_chart.filterAll(); first_time = true; perc_view = true; change_result_view(); change_title(); reset_selectize("#captain-search"); dc.redrawAll(); \'\'>Reset All</a>',
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
 
@@ -458,8 +474,8 @@ function showCharts(err, data) {
     .dimension(ndx2)
     .group(all2)
     .html({
-        some: '<span class=\'data-count\'><strong>Team B: </strong><span class=\'data-count\'><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records</span>' +
-            ' | <a class=\'reset\' href=\'javascript: team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); first_time = true; perc_view2 = true; change_result_view2(); change_title(); reset_selectize("#captain-search2"); dc.redrawAll();\'\'>Reset All</a>',
+        some: '<span class=\'data-count\'><strong>Team B: </strong><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+            ' | <a class=\'reset\' href=\'javascript: team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); ground_chart2.filterAll(); first_time = true; perc_view2 = true; change_result_view2(); change_title(); reset_selectize("#captain-search2"); dc.redrawAll();\'\'>Reset All</a>',
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
 
@@ -589,15 +605,15 @@ function change_result_view() {
       .centerBar(true)
       .height(medium_chart_height/2)
       .width(result_chart_width)
-      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .colors(default_colors)
       .x(d3.scale.linear().domain([1995, 2016]))
       .elasticX(false)
       .elasticY(true)
       .transitionDuration(200)
       .mouseZoomable(false)
       .yAxisLabel("Games")
-      .renderHorizontalGridLines(true)
-      .renderVerticalGridLines(true)
+      .renderHorizontalGridLines(false)
+      .renderVerticalGridLines(false)
       .margins({top: 10, right: 50, bottom: 30, left: 50})
       .on("renderlet.result_year", function (chart) {
           //Check if labels exist
@@ -769,15 +785,15 @@ function change_result_view() {
       .dimension(result_year)
       .height(medium_chart_height/2)
       .width(result_chart_width)
-      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .colors(default_colors)
       .x(d3.scale.linear().domain([1996, 2015]))
       .y(d3.scale.linear().domain([0, 110]))
       .elasticX(false)
       .elasticY(false)
       .transitionDuration(200)
       .yAxisLabel("Games")
-      .renderHorizontalGridLines(true)
-      .renderVerticalGridLines(true)
+      .renderHorizontalGridLines(false)
+      .renderVerticalGridLines(false)
       .mouseZoomable(false)
       .margins({top: 20, right: 50, bottom: 30, left: 50})
       .on("pretransition", stackChartTransition = function (chart) {
@@ -936,15 +952,15 @@ function change_result_view2() {
       .centerBar(true)
       .height(medium_chart_height/2)
       .width(result_chart_width)
-      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .colors(default_colors)
       .x(d3.scale.linear().domain([1995, 2016]))
       .elasticX(false)
       .elasticY(true)
       .transitionDuration(200)
       .mouseZoomable(false)
       .yAxisLabel("Games")
-      .renderHorizontalGridLines(true)
-      .renderVerticalGridLines(true)
+      .renderHorizontalGridLines(false)
+      .renderVerticalGridLines(false)
       .margins({top: 10, right: 50, bottom: 30, left: 50})
       .on("renderlet.result_year", function (chart) {
           //Check if labels exist
@@ -1116,15 +1132,15 @@ function change_result_view2() {
       .dimension(result_year)
       .height(medium_chart_height/2)
       .width(result_chart_width)
-      .colors(d3.scale.ordinal().domain(["won", "lost", "tied"]).range(["#45936E","#92332F", "#3E70A1"]))
+      .colors(default_colors)
       .x(d3.scale.linear().domain([1996, 2015]))
       .y(d3.scale.linear().domain([0, 110]))
       .elasticX(false)
       .elasticY(false)
       .transitionDuration(200)
       .yAxisLabel("Games")
-      .renderHorizontalGridLines(true)
-      .renderVerticalGridLines(true)
+      .renderHorizontalGridLines(false)
+      .renderVerticalGridLines(false)
       .mouseZoomable(false)
       .margins({top: 20, right: 50, bottom: 30, left: 50})
       .on("pretransition", stackChartTransition = function (chart) {
@@ -1151,7 +1167,6 @@ function change_result_view2() {
               })
               .on("click", function(d) {
                 console.log("clicking it");
-//                console.log(d.data.value[d.layer]);
                 list = d.data.value[d.layer];
                 console.log("Games " + d.layer);
                 for (x in list) {
@@ -1216,7 +1231,7 @@ function create_search() {
 
   create_selectize(items);
   create_selectize2(items);
-};
+}
 
 function hideshow(id){
   var a = $(id);

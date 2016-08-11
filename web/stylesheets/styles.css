@@ -23,12 +23,16 @@
 }
 
 .legend.dc-chart g.row rect:hover {
-    fill-opacity: 0.8;
+  fill-opacity: 0.8;
 }
 
 .dc-chart .pie-slice {
-  fill: black;
+  fill: white;
   font-size: 0.75em;
+}
+
+.dc-chart .pie-slice:hover {
+  opacity: 0.8
 }
 
 .grey {
@@ -177,6 +181,12 @@ input[type="checkbox"] {
   opacity: 0.5;
 }
 
+.dc-chart g.row rect {
+  fill-opacity: 1;
+}
+
+
+
 .search {
   min-width: 220px;
   max-width: 220px;
@@ -208,4 +218,13 @@ legend > .btn {
 .nav > li {
   display: inline-block;
   margin: 0 5px;
+}
+
+.title {
+  display: block;
+  margin: 10px auto;
+}
+
+legend {
+  font-size: 1.35em;
 }

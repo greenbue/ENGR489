@@ -6,6 +6,7 @@ function create_selectize(items) {
       options: items,
       labelField: "item",
       valueField: "item",
+      searchField: "item",
       placeholder: "Pick a Captain for Team A"
   });
 
@@ -37,6 +38,7 @@ function create_selectize2(items){
       options: items,
       labelField: "item",
       valueField: "item",
+      searchField: "item",
       placeholder: "Pick a Captain for Team B"
   });
 
