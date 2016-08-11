@@ -817,6 +817,8 @@ function change_result_view() {
                   .attr("visibility", "visible")
                   .attr("r", 5.5)
                   .style("fill", d.color);
+                $(".yRef").css("display", "none");
+                $(".xRef").css("display", "none");
               })
               .on("click", function() {
                 console.log("clicking it");
@@ -1164,6 +1166,8 @@ function change_result_view2() {
                   .attr("visibility", "visible")
                   .attr("r", 5.5)
                   .style("fill", d.color);
+                $(".yRef").css("display", "none");
+                $(".xRef").css("display", "none");
               })
               .on("click", function(d) {
                 console.log("clicking it");
