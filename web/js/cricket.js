@@ -1239,7 +1239,7 @@ function hideshow(id){
 };
 
 function showAll() {
-  var idList = ["#result_year", "#team_opp", "#result", "#team", "#opposition", "#result_year2", "#team_opp2", "#result2", "#team2", "#opposition2"]
+  var idList = ["#result_year", "#team_opp", "#result", "#team", "#opposition", "#ground", "#result_year2", "#team_opp2", "#result2", "#team2", "#opposition2", "#ground2"]
 
   for (x in idList) {
     var a = $(idList[x]);
