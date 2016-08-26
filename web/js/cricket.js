@@ -9,9 +9,9 @@ var resize = .425;
 var result_chart_width = function(d){
   var windowWidth = $(window).width();
   var w = windowWidth * resize;
-  if (windowWidth <= 972) return windowWidth*0.95; //default_large_width
+  if (windowWidth <= 972) return windowWidth*0.95;
   if (w < original_result_chart_width) return original_result_chart_width;
-  if (windowWidth >1080) return windowWidth*0.475; //original_result_chart_width+100;
+  if (windowWidth >1080) return windowWidth*0.475;
   return w;
 }
 var small_width = function(d){
@@ -53,10 +53,10 @@ var yearDom = [];
 $( window ).resize(function() {
   result_chart_width = function(d){
     var windowWidth = $(window).width();
-    var w =   windowWidth * resize;
-    if (windowWidth <= 972) return default_large_width;
+    var w = windowWidth * resize;
+    if (windowWidth <= 972) return windowWidth*0.95; //default_large_width
     if (w < original_result_chart_width) return original_result_chart_width;
-    if (windowWidth >1080) return original_result_chart_width+100;
+    if (windowWidth >1080) return windowWidth*0.475; //original_result_chart_width+100;
     return w;
   }
   dc.renderAll();
