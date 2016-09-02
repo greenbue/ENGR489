@@ -9,7 +9,7 @@ function create_selectize(items) {
       searchField: "item",
       placeholder: "Pick a Captain for Team A"
   });
-
+  
   $('#captain-search').on('change', function () {
     var filter = $('#captain-search').val();
     if (filter == "") {
@@ -39,9 +39,9 @@ function create_selectize2(items){
       labelField: "item",
       valueField: "item",
       searchField: "item",
-      placeholder: "Pick a Captain for Team B"
+      placeholder: "Pick a Captain for Team B" 
   });
-
+  
   $('#captain-search2').on('change', function () {
     var filter = $('#captain-search2').val();
     if (filter == "") {
