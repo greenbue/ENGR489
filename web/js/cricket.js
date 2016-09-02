@@ -1351,7 +1351,7 @@ function draw_composite_line_chart() {
     .height(medium_chart_height/3)
     .width(composite_width)
     .x(d3.scale.linear().domain([1995, 2016]))
-    .y(d3.scale.linear().domain([0, 100]))
+    .y(d3.scale.linear().domain([-5, 105]))
     .elasticX(false)
     .elasticY(false)
     .renderHorizontalGridLines(true)
