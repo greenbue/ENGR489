@@ -7,25 +7,27 @@ var default_large_width = 720;
 var original_result_chart_width = 550;
 var resize = .425;
 var result_chart_width = function(d){
-	var windowWidth = $(window).width();
-	var w = windowWidth * resize;
-	if (windowWidth <= 972) return windowWidth*0.95; //default_large_width
-	if (w < original_result_chart_width) return original_result_chart_width;
-	if (windowWidth >1080) return windowWidth*0.475; //original_result_chart_width+100;
-	return w;
+  var windowWidth = $(window).width();
+  var w = windowWidth * resize;
+    if (window.outerWidth <= 768) return windowWidth*0.9;
+  if (windowWidth <= 972) return windowWidth*0.9; //default_large_width
+  if (w < original_result_chart_width) return original_result_chart_width;
+  if (windowWidth > 1080) return windowWidth*0.475; //original_result_chart_width+100;
+  return w;
 }
 var small_width = function(d){
-	var windowWidth = $(window).width();
-	var w = windowWidth * resize;
-	if (windowWidth <= 972) return small_width;
-	if (w < original_result_chart_width) return small_width;
-	if (windowWidth >1080) return small_width+100;
-	return w;
+  var windowWidth = $(window).width();
+  var w = windowWidth * resize;
+  if (windowWidth <= 972) return small_width;
+  if (w < original_result_chart_width) return small_width;
+  if (windowWidth >1080) return small_width+100;
+  return w;
 }
 
 var composite_width = function(d) {
   var windowWidth = $(window).width();
-  return windowWidth;
+  if (window.outerWidth <= 768) return windowWidth*0.9;
+  return windowWidth*0.9;
 }
 var valueAccessor = function (d) {return d.Value < 1 ? 0 : d.Value};
 var our_colors = ["#9df5e7","#b2bfdb","#a1eda1","#fc9898", "#afedf0","#afede1", "#fc6565"];
@@ -67,7 +69,7 @@ $( window ).resize(function() {
 });
 
 function cleanup(d) {
-  
+
   d.Year = d.Date.slice(-2);
   d.Year = d.Year > 16 ? 1900+parseInt(d.Year) : 2000+parseInt(d.Year);
   d.Value = 1;
@@ -77,12 +79,12 @@ function cleanup(d) {
   return d;
 }
 
-function isOdd(num) { 
+function isOdd(num) {
 	return num % 2;
 }
 
-function capitalizeFirst(string) { 
-  return string.charAt(0).toUpperCase() + string.slice(1); 
+function capitalizeFirst(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 //Queueing defer ensures that all our datasets get loaded before any work is done
@@ -116,23 +118,23 @@ function showCharts(err, data) {
       }
     }
   }
-	
+
 	resultByYear = configureableReduce("Result", "Value", {
 		"won": 0,
 		"lost": 0,
 		"tied": 0
 	});
-	
-    
+
+
 	//---------------------------------FILTERS-----------------------------------------
   ndx = crossfilter(_data);
   ndx2 = crossfilter(_data);
   //---------------------------ORDINARY CHARTS --------------------------------------
-  
+
   //Dimensions
   year = ndx.dimension(function(d){return d.Year});
   year2 = ndx2.dimension(function(d){return d.Year});
-  
+
   result_year = year;
   result_year2 = year2;
 
@@ -147,39 +149,39 @@ function showCharts(err, data) {
 
   resultStatus = ndx.dimension(function(d) {return d.resultStatus});
   resultStatus2 = ndx.dimension(function(d) {return d.resultStatus});
-  
+
   ground = ndx.dimension(function(d){return d.Ground});
   ground2 = ndx2.dimension(function(d){return d.Ground});
-  
+
   captain = ndx.dimension(function(d){return d.Captain});
   captain2 = ndx2.dimension(function(d){return d.Captain});
-  
-  //Groups
-  year_group = year.group().reduceSum(function(d){return d.Value});	
-  year_group2 = year2.group().reduceSum(function(d){return d.Value});	
 
-  opposition_group = opposition.group().reduceSum(function(d){return d.Value});	
+  //Groups
+  year_group = year.group().reduceSum(function(d){return d.Value});
+  year_group2 = year2.group().reduceSum(function(d){return d.Value});
+
+  opposition_group = opposition.group().reduceSum(function(d){return d.Value});
   opposition_group2 = opposition2.group().reduceSum(function(d){return d.Value});
 
   team_group = team.group().reduceSum(function(d){return d.Value});
-  team_group2 = team2.group().reduceSum(function(d){return d.Value}); 
+  team_group2 = team2.group().reduceSum(function(d){return d.Value});
 
   result_pie_group = result.group().reduceSum(function(d){return d.Value});
   result_pie_group2 = result2.group().reduceSum(function(d){return d.Value});
-  
+
   ground_group = ground.group().reduceSum(function(d){return d.Value});
   ground_group2 = ground2.group().reduceSum(function(d){return d.Value});
-  
+
   captain_group = captain.group().reduceSum(function(d){return d.Value});
   captain_group2 = captain2.group().reduceSum(function(d){return d.Value});
-  
+
   captain_array = [];
   for (i in captain_group.all()) {
     captain_array.push(captain_group.all()[i].key);
   }
-  
+
 //  result_year_group = year.group().reduce(resultByYear.add, resultByYear.remove, resultByYear.init);
-  
+
   result_year_group = year.group().reduce(
     function(p, v) { // add
 			p[v.Result] = p[v.Result] || [];
@@ -196,7 +198,7 @@ function showCharts(err, data) {
       return {};
     }
 	);
-    
+
 	result_year_group2 = year2.group().reduce(
     function(p, v) { // add
 			p[v.Result] = p[v.Result] || [];
@@ -213,17 +215,17 @@ function showCharts(err, data) {
       return {};
     }
 	);
-	
+
   result_group = resultStatus.group().reduceSum(function(d){
     if (d.Result != 'tied') return d.Value;
     else return 0;
   });
-	
+
   result_group2 = resultStatus2.group().reduceSum(function(d){
     if (d.Result != 'tied') return d.Value;
     else return 0;
   });
-  
+
   ground_chart = dc.rowChart('#ground')
     .dimension(ground)
     .group(ground_group)
@@ -241,11 +243,11 @@ function showCharts(err, data) {
       var title = d.key + ": " + d.value;
       return title;
     });
-	
-	
+
+
   ground_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(ground_chart);
-  
+
   ground_chart2 = dc.rowChart('#ground2')
     .dimension(ground2)
     .group(ground_group2)
@@ -263,11 +265,11 @@ function showCharts(err, data) {
       var title = d.key + ": " + d.value;
       return title;
     });
-	
-	
+
+
   ground_chart2.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(ground_chart2);
-  
+
   opposition_chart = dc.rowChart('#opposition')
     .dimension(opposition)
     .group(opposition_group)
@@ -289,7 +291,7 @@ function showCharts(err, data) {
       var title = d.key + " \nTotal Games Against Team A: " + d.value;
       return title;
     });
-	
+
 	opposition_chart._onClick = function(d) {
 			if($.inArray(d.key, team_chart.filters()) == 0) return;
 			var filter = opposition_chart.keyAccessor()(d);
@@ -298,10 +300,10 @@ function showCharts(err, data) {
             opposition_chart.redrawGroup();
         });
    }
-	
+
   opposition_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(opposition_chart);
-	
+
   opposition_chart2 = dc.rowChart('#opposition2')
     .dimension(opposition2)
     .group(opposition_group2)
@@ -323,7 +325,7 @@ function showCharts(err, data) {
       var title = d.key + " \nTotal Games Against Team B: " + d.value;
       return title;
     });
-	
+
 	opposition_chart2._onClick = function(d) {
 			if($.inArray(d.key, team_chart2.filters()) == 0) return;
 			var filter = opposition_chart2.keyAccessor()(d);
@@ -332,12 +334,12 @@ function showCharts(err, data) {
             opposition_chart2.redrawGroup();
         });
    }
-	
+
   opposition_chart2.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(opposition_chart2);
-	
-	
-    
+
+
+
   team_chart = dc.rowChart('#team')
     .dimension(team)
     .group(team_group)
@@ -358,7 +360,7 @@ function showCharts(err, data) {
       var title = d.key + " \nTotal Games Against Opposition(s): " + d.value;
       return title;
     });
-	
+
 	team_chart._onClick = function(d) {
       dc.events.trigger(() => {
         team_chart.replaceFilter(d.key);
@@ -368,10 +370,10 @@ function showCharts(err, data) {
       change_title();
 //      dc.renderAll();
    };
-  
+
   team_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(team_chart);
-	
+
 	team_chart2 = dc.rowChart('#team2')
     .dimension(team2)
     .group(team_group2)
@@ -392,7 +394,7 @@ function showCharts(err, data) {
       var title = d.key + " \nTotal Games Against Opposition(s): " + d.value;
       return title;
     });
-	
+
 	team_chart2._onClick = function(d) {
       dc.events.trigger(() => {
         team_chart2.replaceFilter(d.key);
@@ -402,10 +404,10 @@ function showCharts(err, data) {
       change_title();
 //      dc.renderAll();
    };
-  
+
   team_chart2.xAxis().ticks(5).tickFormat(d3.format("d"));
   grey_undefined(team_chart2);
-		
+
 	result_chart = dc.pieChart('#result')
     .dimension(result)
     .group(result_pie_group)
@@ -436,7 +438,7 @@ function showCharts(err, data) {
 			else if (d.key == "lost") return "lost";
 			return "tied";
 		});
-	
+
 	result_chart2 = dc.pieChart('#result2')
     .dimension(result2)
     .group(result_pie_group2)
@@ -467,7 +469,7 @@ function showCharts(err, data) {
 			else if (d.key == "lost") return "lost";
 			return "tied";
 		});
-	
+
 //	result_chart._onClick = function(d) {
 //		dc.events.trigger(() => {
 //			result_chart.filter(d.key)
@@ -484,7 +486,7 @@ function showCharts(err, data) {
 //		}
 //		dc.renderAll();
 //	};
-//	
+//
 //	result_chart2._onClick = function(d) {
 //		dc.events.trigger(() => {
 //			result_chart2.filter(d.key)
@@ -497,11 +499,11 @@ function showCharts(err, data) {
 //		}
 //		else if (result_chart2.filters().length == 1){
 //			draw_result_year_chart2();
-//			perc_view2 = false; 
+//			perc_view2 = false;
 //		}
 //		dc.renderAll();
 //	};
-	
+
   var all = ndx.groupAll();
   data_count_chart = dc.dataCount('#data_count')
     .dimension(ndx)
@@ -511,7 +513,7 @@ function showCharts(err, data) {
             ' | <a class=\'reset\' href=\'javascript:   team_chart.replaceFilter("Australia"); hideButton("#teamA"); opposition_chart.filterAll(); result_chart.filterAll(); ground_chart.filterAll(); change_title(); reset_selectize("#captain-search"); dc.redrawAll(); draw_normalized_result_year_chart(); dc.renderAll(); \'\'>Reset All</a>',
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
-	
+
 	var all2 = ndx2.groupAll();
 	data_count_chart2 = dc.dataCount('#data_count2')
     .dimension(ndx2)
@@ -521,9 +523,9 @@ function showCharts(err, data) {
             ' | <a class=\'reset\' href=\'javascript: team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); ground_chart2.filterAll(); change_title(); reset_selectize("#captain-search2"); dc.redrawAll(); draw_normalized_result_year_chart2(); dc.renderAll();\'\'>Reset All</a>',
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
-	
+
   //pyramid chart
-  
+
   team_opp_chart = dc.pyramidChart('#team_opp')
     .dimension(resultStatus)
     .group(result_group)
@@ -549,11 +551,11 @@ function showCharts(err, data) {
     // .columnLabels(['Won','Lost'])
     .columnLabelPosition([150,0])
     .transitionDuration(200);
-  
+
   team_opp_chart.xAxis().ticks(7).tickFormat(function(x) {return d3.format('s')(Math.abs(x))})
-	
+
 	dc.renderAll();
-	
+
   initialize();
 };
 
@@ -565,7 +567,7 @@ function change_result_view() {
   else {
   	draw_result_year_chart();
 	}
-  
+
   //Need to reset the filter when the view changes or else, filter lingers
   result_year_chart.filterAll();
   dc.renderAll();
@@ -581,7 +583,7 @@ function change_result_view2() {
   else {
   	draw_result_year_chart2();
   }
-  
+
   //Need to reset the filter when the view changes or else, filter lingers
   result_year_chart2.filterAll();
   dc.renderAll();
@@ -603,7 +605,7 @@ function initialize(){
 
 function create_search() {
   var items = {};
-  items = captain_array.map(function(x) { 
+  items = captain_array.map(function(x) {
     return { item: x };
   });
 
@@ -624,14 +626,14 @@ function hideshow(id){
 
 function showAll() {
   var idList = ["#result_year", "#team_opp", "#result", "#team", "#opposition", "#ground", "#result_year2", "#team_opp2", "#result2", "#team2", "#opposition2", "#ground2"]
-  
+
   for (x in idList) {
     var a = $(idList[x]);
     if (a.css('display') == "none"){
       a.toggle('show');
     }
   }
-  $('[type=checkbox]').prop('checked', true); 
+  $('[type=checkbox]').prop('checked', true);
 };
 
 function hideButton(id){
@@ -646,13 +648,13 @@ function hideButton(id){
 function change_title() {
 	var teamA_text = team_chart.filters()[0] + "'s Overall Performance by ";
 	var teamB_text = team_chart2.filters()[0] + "'s Overall Performance by ";
-	
+
 	if (perc_view == true) teamA_text += "Percentage"
 	else teamA_text += "Games"
-	
+
 	if (perc_view2 == true) teamB_text += "Percentage"
 	else teamB_text += "Games"
-	
+
 	$('.result_year_title').text(teamA_text);
 	$('.result_year_title2').text(teamB_text);
 }
@@ -660,12 +662,12 @@ function change_title() {
 function draw_result_year_chart() {
 	var teamA_text = team_chart.filters()[0] + "'s Overall Performance by Games ";
 	$('.result_year_title').text(teamA_text);
-	
+
 	result_year_chart = dc.barChart('#result_year')
 		.group(result_year_group, "won")
 		.valueAccessor(function(d){return d.value["won"].length })
 		.stack(result_year_group, "lost", function(d) { return d.value["lost"].length })
-		.stack(result_year_group, "tied", function(d) { 
+		.stack(result_year_group, "tied", function(d) {
 			if (d.value["tied"]) return d.value["tied"].length
 			else return 0;
 		})
@@ -698,7 +700,7 @@ function draw_result_year_chart() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}	
+					}
 			}
 			else if (this.layer == "lost"){
 				if (d.value[this.layer] != undefined)
@@ -712,7 +714,7 @@ function draw_result_year_chart() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}	
+					}
 			}
 			else {
 				if (d.value[this.layer] != undefined)
@@ -726,7 +728,7 @@ function draw_result_year_chart() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}					
+					}
 			}
 
 			if (isNaN(v)) v = 0;
@@ -741,7 +743,7 @@ function draw_result_year_chart() {
 				output += "\nOthers [" + games_count + "]";
 			}
 
-			return output; 
+			return output;
 
 		})
 		.brushOn(false)
@@ -757,7 +759,7 @@ function draw_result_year_chart() {
 		.mouseZoomable(false)
 		.yAxisLabel("Games")
 		.renderHorizontalGridLines(false)
-		.renderVerticalGridLines(false)  
+		.renderVerticalGridLines(false)
 		.margins({top: 10, right: 50, bottom: 30, left: 50})
 		.on("renderlet.result_year", function (chart) {
 				//Check if labels exist
@@ -779,8 +781,8 @@ function draw_result_year_chart() {
 					.text(function(d){
 						return d3.select(d).data()[0].y
 					})
-					.attr('x', function(d){ 
-						return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+					.attr('x', function(d){
+						return +d.getAttribute('x') + (d.getAttribute('width')/2);
 					})
 					.attr('y', function(d){ return +d.getAttribute('y') + 15; })
 					.attr('style', function(d){
@@ -817,7 +819,7 @@ function draw_normalized_result_year_chart() {
 				if (isNaN(v)) return 0;
 				return parseFloat((v*100).toFixed(1));
 			})
-			.stack(result_year_group, "lost", function(d) { 
+			.stack(result_year_group, "lost", function(d) {
 				won = d.value["won"].length;
 				lost = d.value["lost"].length;
 				if (d.value["tied"]) tied = d.value["tied"].length
@@ -828,7 +830,7 @@ function draw_normalized_result_year_chart() {
 				if (isNaN(v)) return 0;
 				return parseFloat((v*100).toFixed(1));
 			})
-			.stack(result_year_group, "tied", function(d) { 
+			.stack(result_year_group, "tied", function(d) {
 			if (d.value["tied"]) {
 				won = d.value["won"].length;
 				lost = d.value["lost"].length;
@@ -836,11 +838,11 @@ function draw_normalized_result_year_chart() {
 				else tied = 0;
 				total = won + lost + tied;
 
-				var v = parseFloat(tied/total) 
+				var v = parseFloat(tied/total)
 				if (isNaN(v)) return 0;
 				return parseFloat((v*100).toFixed(1));
 			}
-			else 
+			else
 				return 0
 			})
 		.label(function(d) { return d; })
@@ -872,7 +874,7 @@ function draw_normalized_result_year_chart() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}	
+					}
 			}
 			else if (this.layer == "lost"){
 				if (d.value[this.layer] != undefined)
@@ -886,7 +888,7 @@ function draw_normalized_result_year_chart() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}	
+					}
 			}
 			else {
 				if (d.value[this.layer] != undefined)
@@ -900,7 +902,7 @@ function draw_normalized_result_year_chart() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}					
+					}
 			}
 
 			if (isNaN(v)) v = 0;
@@ -915,7 +917,7 @@ function draw_normalized_result_year_chart() {
 				output += "\nOthers [" + games_count + "]";
 			}
 
-			return output; 
+			return output;
 
 		})
 		.brushOn(false)
@@ -931,7 +933,7 @@ function draw_normalized_result_year_chart() {
 		.mouseZoomable(false)
 		.yAxisLabel("Percentage")
 		.renderHorizontalGridLines(false)
-		.renderVerticalGridLines(false)  
+		.renderVerticalGridLines(false)
 		.margins({top: 10, right: 50, bottom: 30, left: 50})
 		.on("renderlet.result_year", function (chart) {
 				//Check if labels exist
@@ -953,8 +955,8 @@ function draw_normalized_result_year_chart() {
 					.text(function(d){
 						return d3.select(d).data()[0].y
 					})
-					.attr('x', function(d){ 
-						return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+					.attr('x', function(d){
+						return +d.getAttribute('x') + (d.getAttribute('width')/2);
 					})
 					.attr('y', function(d){ return +d.getAttribute('y') + 15; })
 					.attr('style', function(d){
@@ -979,12 +981,12 @@ function draw_normalized_result_year_chart() {
 function draw_result_year_chart2() {
 	var teamB_text = team_chart2.filters()[0] + "'s Overall Performance by Games";
 	$('.result_year_title2').text(teamB_text);
-	
+
 	result_year_chart2 = dc.barChart('#result_year2')
 		.group(result_year_group2, "won")
 		.valueAccessor(function(d){return d.value["won"].length })
 		.stack(result_year_group2, "lost", function(d) { return d.value["lost"].length })
-		.stack(result_year_group2, "tied", function(d) { 
+		.stack(result_year_group2, "tied", function(d) {
 			if (d.value["tied"]) return d.value["tied"].length
 			else return 0;
 		})
@@ -1017,7 +1019,7 @@ function draw_result_year_chart2() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}	
+					}
 			}
 			else if (this.layer == "lost"){
 				if (d.value[this.layer] != undefined)
@@ -1031,7 +1033,7 @@ function draw_result_year_chart2() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}	
+					}
 			}
 			else {
 				if (d.value[this.layer] != undefined)
@@ -1045,7 +1047,7 @@ function draw_result_year_chart2() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}					
+					}
 			}
 
 			if (isNaN(v)) v = 0;
@@ -1060,7 +1062,7 @@ function draw_result_year_chart2() {
 				output += "\nOthers [" + games_count + "]";
 			}
 
-			return output; 
+			return output;
 
 		})
 		.brushOn(false)
@@ -1076,7 +1078,7 @@ function draw_result_year_chart2() {
 		.mouseZoomable(false)
 		.yAxisLabel("Games")
 		.renderHorizontalGridLines(false)
-		.renderVerticalGridLines(false)  
+		.renderVerticalGridLines(false)
 		.margins({top: 10, right: 50, bottom: 30, left: 50})
 		.on("renderlet.result_year", function (chart) {
 				//Check if labels exist
@@ -1098,8 +1100,8 @@ function draw_result_year_chart2() {
 					.text(function(d){
 						return d3.select(d).data()[0].y
 					})
-					.attr('x', function(d){ 
-						return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+					.attr('x', function(d){
+						return +d.getAttribute('x') + (d.getAttribute('width')/2);
 					})
 					.attr('y', function(d){ return +d.getAttribute('y') + 15; })
 					.attr('style', function(d){
@@ -1137,7 +1139,7 @@ function draw_normalized_result_year_chart2() {
 				if (isNaN(v)) return 0;
 				return parseFloat((v*100).toFixed(1));
 			})
-			.stack(result_year_group2, "lost", function(d) { 
+			.stack(result_year_group2, "lost", function(d) {
 				won = d.value["won"].length;
 				lost = d.value["lost"].length;
 				if (d.value["tied"]) tied = d.value["tied"].length
@@ -1148,7 +1150,7 @@ function draw_normalized_result_year_chart2() {
 				if (isNaN(v)) return 0;
 				return parseFloat((v*100).toFixed(1));
 			})
-			.stack(result_year_group2, "tied", function(d) { 
+			.stack(result_year_group2, "tied", function(d) {
 			if (d.value["tied"]) {
 				won = d.value["won"].length;
 				lost = d.value["lost"].length;
@@ -1156,11 +1158,11 @@ function draw_normalized_result_year_chart2() {
 				else tied = 0;
 				total = won + lost + tied;
 
-				var v = parseFloat(tied/total) 
+				var v = parseFloat(tied/total)
 				if (isNaN(v)) return 0;
 				return parseFloat((v*100).toFixed(1));
 			}
-			else 
+			else
 				return 0
 			})
 		.label(function(d) { return d; })
@@ -1192,7 +1194,7 @@ function draw_normalized_result_year_chart2() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}	
+					}
 			}
 			else if (this.layer == "lost"){
 				if (d.value[this.layer] != undefined)
@@ -1206,7 +1208,7 @@ function draw_normalized_result_year_chart2() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}	
+					}
 			}
 			else {
 				if (d.value[this.layer] != undefined)
@@ -1220,7 +1222,7 @@ function draw_normalized_result_year_chart2() {
 						obj = d.value[this.layer][0];
 						if (obj != undefined)
 							output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-					}					
+					}
 			}
 
 			if (isNaN(v)) v = 0;
@@ -1235,7 +1237,7 @@ function draw_normalized_result_year_chart2() {
 				output += "\nOthers [" + games_count + "]";
 			}
 
-			return output; 
+			return output;
 
 		})
 		.brushOn(false)
@@ -1251,7 +1253,7 @@ function draw_normalized_result_year_chart2() {
 		.mouseZoomable(false)
 		.yAxisLabel("Percentage")
 		.renderHorizontalGridLines(false)
-		.renderVerticalGridLines(false)  
+		.renderVerticalGridLines(false)
 		.margins({top: 10, right: 50, bottom: 30, left: 50})
 		.on("renderlet.result_year", function (chart) {
 				//Check if labels exist
@@ -1273,8 +1275,8 @@ function draw_normalized_result_year_chart2() {
 					.text(function(d){
 						return d3.select(d).data()[0].y
 					})
-					.attr('x', function(d){ 
-						return +d.getAttribute('x') + (d.getAttribute('width')/2); 
+					.attr('x', function(d){
+						return +d.getAttribute('x') + (d.getAttribute('width')/2);
 					})
 					.attr('y', function(d){ return +d.getAttribute('y') + 15; })
 					.attr('style', function(d){
@@ -1323,7 +1325,7 @@ function draw_composite_line_chart() {
 //          obj = d.value["won"][0];
 //          if (obj != undefined)
 //              output += "Date: " + obj.Date + " at " + obj.Ground +"\n";
-//      }	
+//      }
 //      if (isNaN(v)) v = 0;
 //      else v = parseFloat((v*100)).toFixed(1);
 //
@@ -1336,7 +1338,7 @@ function draw_composite_line_chart() {
 //          output += "\nOthers [" + games_count + "]";
 //      }
 //
-//      return output; 
+//      return output;
     won = d.value["won"].length;
           lost = d.value["lost"].length;
           if (d.value["tied"]) tied = d.value["tied"].length
@@ -1357,7 +1359,7 @@ function draw_composite_line_chart() {
     .renderHorizontalGridLines(true)
     .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
     .margins({top: 10, right: 50, bottom: 30, left: 50});
-  
+
     true_composite_chart
       .compose([
       dc.lineChart(true_composite_chart)
@@ -1369,7 +1371,7 @@ function draw_composite_line_chart() {
           if (d.value["tied"]) tied = d.value["tied"].length
           else tied = 0;
           total = won + lost + tied;
-          
+
           var v = parseFloat(won/total);
           if (isNaN(v)) return 0;
           return parseFloat((v*100).toFixed(1));
@@ -1396,7 +1398,7 @@ function draw_composite_line_chart() {
         .x(d3.scale.linear().domain([1995, 2016]))
     ])
     .render();
-  
+
   true_composite_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
   true_composite_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
 }
