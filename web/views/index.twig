@@ -6,8 +6,14 @@
     <div class="container-fluid">
       <div class="row"><!-- start first row -->
         <div class="col-md-12 col-xs-10 collapse-in" id="true_composite_chart">
-          <span class="composite-title">
-            Team A Vs Team B Performance
+          <span class="main title composite-title">
+            <strong>Team A</strong> Vs
+            <strong>Team B</strong>:
+            <span class="variable_title">Performance %</span>
+            <legend>
+              <a href='javascript:team_chart.replaceFilter("Australia"); hideButton("#teamA"); opposition_chart.filterAll(); result_chart.filterAll(); ground_chart.filterAll(); change_title(); reset_selectize("#captain-search"); perc_view = true; reset_composite_label(); draw_normalized_result_year_chart(); team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); ground_chart2.filterAll(); change_title(); reset_selectize("#captain-search2"); perc_view2 = true; draw_normalized_result_year_chart2();  dc.renderAll();' class='btn btn-info reset' style='float: none! important;' id="resetAll"><i class="fa fa-refresh"> Reset All</i>
+              </a>
+            </legend>
           </span>
         </div>
         <div class="col-md-6 col-sm-12 left-team">
@@ -17,13 +23,14 @@
           </div>
           <div class="col-md-12 col-sm-12 col-xs-10 collapse-in" id="result_year">
               <span class="result_year_title">Win, Loss and Ties By Team(s) Selected</span>
-              <input type='button' class='btn btn-primary btn-xs hideshow' value='change view' onclick="change_result_view()">
+              <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view()">
+              <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on" onclick="brush_on()">
               <br/>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="team">
             <span class="title">
               Team A
-              <legend><a href="javascript:team_chart.filterAll(); team_chart.filter('Australia'); dc.redrawAll(); hideButton('#teamA')" class='btn btn-info pull-right reset' style='display:none;' id="teamA"><i class="fa fa-refresh"> Reset</i> </a></legend>
+              <legend><a href="javascript:team_chart.filterAll(); team_chart.filter('Australia'); change_legends(); dc.redrawAll();  hideButton('#teamA')" class='btn btn-info pull-right reset' style='display:none;' id="teamA"><i class="fa fa-refresh"> Reset</i> </a></legend>
             </span>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="opposition">
@@ -32,10 +39,10 @@
               <legend><a href="javascript:opposition_chart.filterAll(); dc.redrawAll()" class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
             </span>
           </div>
-          <div class="col-md-4 col-xs-6 collapse-in" id="result">
+          <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="result">
               <span class="title">
                 Results A
-                <legend><a href='javascript:result_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
+                <legend><a href='javascript:result_chart.filterAll(); reset_composite_label(); change_legends(); dc.redrawAll();' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
               </span>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="ground">
@@ -46,19 +53,20 @@
           </div>
         </div>
         <div class="col-md-6 col-sm-12 right-team">
-          <div class="col-md-12 col-sm-12 col-xs-10" id='data_count2' style='padding: 0'>
+          <div class="col-md-12 col-xs-10" id='data_count2' style='padding: 0'>
               <span class='filter-count'></span>
               selected out of <span class='total-count'></span> records.
           </div>
-          <div class="col-md-12 col-xs-10 collapse-in" id="result_year2">
+          <div class="col-md-12 col-sm-12 col-xs-10 collapse-in" id="result_year2">
               <span class="result_year_title2">Win, Loss and Ties By Team(s) Selected</span>
-              <input type='button' class='btn btn-primary btn-xs hideshow' value='change view' onclick="change_result_view2()">
+              <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view2()">
+              <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on2" onclick="brush_on2()">
               <br/>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="team2">
             <span class="title">
               Team B
-              <legend><a href="javascript:team_chart2.filterAll(); team_chart2.filter('New Zealand'); dc.redrawAll(); hideButton('#teamB')" class='btn btn-info pull-right reset' style='display:none;' id="teamB"><i class="fa fa-refresh"> Reset</i> </a></legend>
+              <legend><a href="javascript:team_chart2.filterAll(); team_chart2.filter('New Zealand'); change_legends(); dc.redrawAll();  hideButton('#teamB')" class='btn btn-info pull-right reset' style='display:none;' id="teamB"><i class="fa fa-refresh"> Reset</i> </a></legend>
             </span>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="opposition2">
@@ -67,7 +75,7 @@
               <legend><a href='javascript:opposition_chart2.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
             </span>
           </div>
-          <div class="col-md-4 col-xs-6 collapse-in" id="result2">
+          <div class="col-md-4 col-sm-4 collapse-in" id="result2">
             <span class="title">
               Results B
               <legend><a href='javascript:result_chart2.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>

@@ -11,99 +11,65 @@
           <li>
             <input type="text" placeholder="Pick a Captain for Team B" class="selectized" id="captain-search2" tabindex="-1" style="display: block;">
           </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="collapse" data-target="#hide" href="#">Hide/Show Charts
+            <span class="caret"></span></a>
+            <div class="collapse" id="hide">
+              <div>
+                <ul class="no-bullets">
+                  <strong>Overall</strong>
+                  <li>
+                      <a><label>A
+                          <input type="checkbox" checked onclick="hideshow('#result_year')">
+                      </label></a>
+                      <a><label>B
+                          <input type="checkbox" checked onclick="hideshow('#result_year2')">
+                      </label></a>
+                  </li>
+                  <strong>Team</strong>
+                  <li>
+                      <a><label>A
+                          <input type="checkbox" checked onclick="hideshow('#team')">
+                      </label></a>
+                      <a><label>B
+                          <input type="checkbox" checked onclick="hideshow('#team2')">
+                      </label></a>
+                  </li>
+                  <strong>Opposition</strong>
+                  <li>
+                      <a><label>A
+                          <input type="checkbox" checked onclick="hideshow('#opposition')">
+                      </label></a>
+                      <a><label>B
+                          <input type="checkbox" checked onclick="hideshow('#opposition2')">
+                      </label></a>
+                  </li>
+                  <strong>Match Results</strong>
+                  <li>
+                      <a><label>A
+                          <input type="checkbox" checked onclick="hideshow('#result')">
+                      </label></a>
+                      <a><label>B
+                          <input type="checkbox" checked onclick="hideshow('#result2')">
+                      </label></a>
+                  </li>
+                  <strong>Location</strong>
+                  <li>
+                      <a><label>A
+                          <input type="checkbox" checked onclick="hideshow('#ground')">
+                      </label></a>
+                      <a><label>B
+                          <input type="checkbox" checked onclick="hideshow('#ground2')">
+                      </label></a>
+                  </li>
+                  <li><a onclick="showAll()"><label>
+                      Show All
+                  </label></a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
         </ul>
     </div>
   </div>
 </nav>
-<span class="draggable">
-    <a data-toggle="collapse" data-target="#sidebar">
-        <div class="sidebar-title">
-            Hide/Show Charts
-        </div>
-    </a>
-    <div class="sidebar collapse" id="sidebar">
-      <div>
-        <ul class="no-bullets">
-          <strong>Overall</strong>
-          <li>
-              <a><label>A
-                  <input type="checkbox" checked onclick="hideshow('#result_year')">
-              </label></a>
-              <a><label>B
-                  <input type="checkbox" checked onclick="hideshow('#result_year2')">
-              </label></a>
-          </li>
-          <strong>Team</strong>
-          <li>
-              <a><label>A
-                  <input type="checkbox" checked onclick="hideshow('#team')">
-              </label></a>
-              <a><label>B
-                  <input type="checkbox" checked onclick="hideshow('#team2')">
-              </label></a>
-          </li>
-          <strong>Opposition</strong>
-          <li>
-              <a><label>A
-                  <input type="checkbox" checked onclick="hideshow('#opposition')">
-              </label></a>
-              <a><label>B
-                  <input type="checkbox" checked onclick="hideshow('#opposition2')">
-              </label></a>
-          </li>
-          <strong>Match Results</strong>
-          <li>
-              <a><label>A
-                  <input type="checkbox" checked onclick="hideshow('#result')">
-              </label></a>
-              <a><label>B
-                  <input type="checkbox" checked onclick="hideshow('#result2')">
-              </label></a>
-          </li>
-          <strong>Location</strong>
-          <li>
-              <a><label>A
-                  <input type="checkbox" checked onclick="hideshow('#ground')">
-              </label></a>
-              <a><label>B
-                  <input type="checkbox" checked onclick="hideshow('#ground2')">
-              </label></a>
-          </li>
-          <li><a onclick="showAll()"><label>
-              Show All 
-          </label></a></li>
-        </ul>
-      </div>
-    </div>
-</span>
-<span class="draggable">
-    <a data-toggle="collapse" data-target="#guide">
-        <div class="guide-title">
-            Quick Guide
-        </div>
-    </a>
-    <div class="guide collapse" id="guide">
-        <div>
-            <ol>
-                <li>
-                    Clicking on a the bar, legend, etc. will filter the results.
-                        <ul>
-                            <li>Colored bars are selected, while grayed ones are deselected.</li>
-                        </ul>
-                </li>
-                <li>
-                    Filter using more than one option. Try clicking Australia and New Zealand.
-                </li>
-                <li>
-                    Try hovering over a graph segment.
-                </li>
-                <li>
-                    Try filtering from multiple charts and/graphs.
-                </li>
-                <li>
-                    The reset button will unselect all the filters for that chart.
-                </li>
-            </ol> 
-        </div>
-    </div>
-</span>
