@@ -11,7 +11,13 @@
             <strong>Team B</strong>:
             <span class="variable_title">Performance %</span>
             <legend>
-              <a href='javascript:team_chart.replaceFilter("Australia"); hideButton("#teamA"); opposition_chart.filterAll(); result_chart.filterAll(); ground_chart.filterAll(); change_title(); reset_selectize("#captain-search"); perc_view = true; reset_composite_label(); draw_normalized_result_year_chart(); team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); ground_chart2.filterAll(); change_title(); reset_selectize("#captain-search2"); perc_view2 = true; draw_normalized_result_year_chart2();  dc.renderAll();' class='btn btn-info reset' style='float: none! important;' id="resetAll"><i class="fa fa-refresh"> Reset All</i>
+              <input type="text" placeholder="Pick a Captain for Team A" class="selectized" id="captain-search" tabindex="-1" style="display: block;">
+            </legend>
+            <legend>
+              <input type="text" placeholder="Pick a Captain for Team B" class="selectized" id="captain-search2" tabindex="-1" style="display: block;">
+            </legend>
+            <legend class="reset">
+              <a href='javascript:team_chart.replaceFilter("Australia"); hideButton("#teamA"); opposition_chart.filterAll(); result_chart.filterAll(); ground_chart.filterAll(); change_title(); reset_selectize("#captain-search"); perc_view = true; reset_composite_label(); draw_normalized_result_year_chart(); team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); ground_chart2.filterAll(); change_title(); reset_selectize("#captain-search2"); perc_view2 = true; draw_normalized_result_year_chart2();  dc.renderAll();' class='btn btn-info reset' style='' id="resetAll"><i class="fa fa-refresh"> Reset All</i>
               </a>
             </legend>
           </span>

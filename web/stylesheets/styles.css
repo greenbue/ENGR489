@@ -211,6 +211,7 @@ legend > .btn {
 .selectize-control {
   padding-top: 5px;
   width: 200px;
+  display: inline-flex;
 }
 
 .navbar-nav {
@@ -257,4 +258,12 @@ legend {
 
 .main {
   font-size: 1.2em;
+}
+
+.navbar {
+  margin-bottom: 0px;
+}
+
+legend.reset {
+  margin: auto 30px;
 }
