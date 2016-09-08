@@ -9,7 +9,7 @@ function create_selectize(items) {
       searchField: "item",
       placeholder: "Pick a Captain for Team A"
   });
-  
+
   $('#captain-search').on('change', function () {
     var filter = $('#captain-search').val();
     if (filter == "") {
@@ -26,6 +26,8 @@ function create_selectize(items) {
         team_chart.filter("New Zealand");
       }
     }
+    change_title();
+    change_legends();
     dc.redrawAll();
   });
 }
@@ -39,9 +41,9 @@ function create_selectize2(items){
       labelField: "item",
       valueField: "item",
       searchField: "item",
-      placeholder: "Pick a Captain for Team B" 
+      placeholder: "Pick a Captain for Team B"
   });
-  
+
   $('#captain-search2').on('change', function () {
     var filter = $('#captain-search2').val();
     if (filter == "") {
@@ -58,6 +60,8 @@ function create_selectize2(items){
         team_chart2.filter("New Zealand");
       }
     }
+    change_title();
+    change_legends();
     dc.redrawAll();
   });
 }
@@ -67,4 +71,3 @@ function reset_selectize(id){
   var control = $select[0].selectize;
   control.clear();
 }
-
