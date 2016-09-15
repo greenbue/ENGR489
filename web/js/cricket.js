@@ -441,6 +441,13 @@ function showCharts(err, data) {
         if (d.key == "won") return "won";
         else if (d.key == "lost") return "lost";
         return "tied";
+    })
+    .on("renderlet.result_pie", function(chart) {
+      chart.selectAll('text.pie-slice').text( function(d) {
+        console.log(d);
+        v = dc.utils.printSingleValue((d.endAngle - d.startAngle) / (2*Math.PI) * 100);
+        return parseFloat(v).toFixed(1) + '%';
+      })
     });
 
   result_chart2 = dc.pieChart('#result2')
@@ -472,6 +479,13 @@ function showCharts(err, data) {
       if (d.key == "won") return "won";
       else if (d.key == "lost") return "lost";
       return "tied";
+    })
+    .on("renderlet.result_pie2", function(chart) {
+      chart.selectAll('text.pie-slice').text( function(d) {
+        console.log(d);
+        v = dc.utils.printSingleValue((d.endAngle - d.startAngle) / (2*Math.PI) * 100);
+        return parseFloat(v).toFixed(1) + '%';
+      })
     });
 
   result_chart._onClick = function(d) {
