@@ -30,8 +30,14 @@
           </div>
           <div class="col-md-12 col-sm-12 col-xs-10 collapse-in" id="result_year">
               <span class="result_year_title">Win, Loss and Ties By Team(s) Selected</span>
-              <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view()">
-              <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on" onclick="brush_on()">
+              <div class="tooltip">
+                <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view()">
+                <span class="tooltiptext right">Switch the value of the displayed data between Number of Games or Percentage of Games.</span>
+              </div>
+              <div class="tooltip">
+                <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on" onclick="brush_on()">
+                <span class="tooltiptext left">Turning on the Brush would allow you to select a range of YEARS as a filter.</span>
+              </div>
               <br/>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="team">
@@ -66,8 +72,14 @@
           </div>
           <div class="col-md-12 col-sm-12 col-xs-10 collapse-in" id="result_year2">
               <span class="result_year_title2">Win, Loss and Ties By Team(s) Selected</span>
-              <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view2()">
-              <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on2" onclick="brush_on2()">
+              <div class="tooltip">
+                <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view2()">
+                <span class="tooltiptext right">Switch the value of the displayed data between Number of Games or Percentage of Games.</span>
+              </div>
+              <div class="tooltip">
+                <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on2" onclick="brush_on2()">
+                <span class="tooltiptext left">Turning on the Brush would allow you to select a range of YEARS as a filter.</span>
+              </div>
               <br/>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="team2">
