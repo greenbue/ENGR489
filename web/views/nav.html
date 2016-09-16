@@ -1,12 +1,15 @@
 <nav class="navbar navbar-default main-nav nav-border">
   <div class="container-fluid" id="navfluid">
     <div class="navbar-header">
-        <a class="navbar-brand" href="./cricket.html">
+        <a class="navbar-brand" href="./cricket.html" data-step="1" data-intro="This is an interactive cricket visualization. Feel free to explore. Charts share similar functionalities, but not all are clickable and hoverable. Try combining different filters to achieve interesting results. ">
           Cricket Data Visualization
         </a>
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav">        
+          <li>
+            <a class="btn btn-large btn-sucess" href="javascript:void(0);" onclick="javascript:introJs().start(); ">Guide Me</a>
+          </li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="collapse" data-target="#hide" href="#">Hide/Show Charts
+            <a class="dropdown-toggle" data-toggle="collapse" data-target="#hide" href="#" data-step="2" data-intro="Hide or Show charts using this. This is useful when filters have been set or if you do not want to display specific charts.">Hide/Show Charts
             <span class="caret"></span></a>
             <div class="collapse" id="hide">
               <div>
@@ -57,7 +60,7 @@
                       </label></a>
                   </li>
                   <li><a onclick="showAll()"><label>
-                      Show All
+                      Show All 
                   </label></a></li>
                 </ul>
               </div>

@@ -3,113 +3,117 @@
 {% block content %}
 <div class="tab-content">
   <div id="summary" class="tab-pane fade in active">
-    <div class="container-fluid">
-      <div class="row"><!-- start first row -->
-        <div class="col-md-12 col-xs-10 collapse-in" id="true_composite_chart">
-          <span class="main title composite-title">
-            <strong>Team A</strong> Vs
-            <strong>Team B</strong>:
-            <span class="variable_title">Performance %</span>
-            <legend>
-              <input type="text" placeholder="Pick a Captain for Team A" class="selectized" id="captain-search" tabindex="-1" style="display: block;">
-            </legend>
-            <legend>
-              <input type="text" placeholder="Pick a Captain for Team B" class="selectized" id="captain-search2" tabindex="-1" style="display: block;">
-            </legend>
-            <legend class="reset">
-              <a href='javascript: reset_selectize("#captain-search"); reset_selectize("#captain-search2");  team_chart.replaceFilter("Australia"); hideButton("#teamA"); result_year_chart.filterAll();  result_year_chart2.filterAll(); opposition_chart.filterAll(); result_chart.filterAll(); ground_chart.filterAll(); change_title();  perc_view = true; reset_composite_label(); team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); ground_chart2.filterAll(); change_title(); perc_view2 = true; change_legends(); dc.renderAll();' class='btn btn-info reset' style='' id="resetAll">
-                <i class="fa fa-refresh"> Reset All</i>
-              </a>
-            </legend>
-          </span>
-        </div>
-        <div class="col-md-6 col-sm-12 left-team">
-          <div class="col-md-12 col-xs-10" id='data_count' style='padding: 0'>
-              <span class='filter-count'></span>
-              selected out of <span class='total-count'></span> records.
-          </div>
-          <div class="col-md-12 col-sm-12 col-xs-10 collapse-in" id="result_year">
-              <span class="result_year_title">Win, Loss and Ties By Team(s) Selected</span>
-              <div class="tooltip">
-                <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view()">
-                <span class="tooltiptext right">Switch the value of the displayed data between Number of Games or Percentage of Games.</span>
-              </div>
-              <div class="tooltip">
-                <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on" onclick="brush_on()">
-                <span class="tooltiptext left">Turning on the Brush would allow you to select a range of YEARS as a filter.</span>
-              </div>
-              <br/>
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="team">
-            <span class="title">
-              Team A
-              <legend><a href="javascript:team_chart.filterAll(); team_chart.filter('Australia'); change_legends(); dc.redrawAll();  hideButton('#teamA')" class='btn btn-info pull-right reset' style='display:none;' id="teamA"><i class="fa fa-refresh"> Reset</i> </a></legend>
+      <div class="container-fluid">
+        <div class="row"><!-- start first row -->
+          <div class="col-md-12 col-xs-10 collapse-in" id="true_composite_chart">
+            <span class="main title composite-title">
+              <strong>Team A</strong> Vs 
+              <strong>Team B</strong>: 
+              <span class="variable_title">Performance %</span>
+              <legend>
+                <input placeholder="Pick a Captain for Team A" class="selectized" id="captain-search" tabindex="-1" style="display: block;">
+              </legend>
+              <legend>
+                <input type="text" placeholder="Pick a Captain for Team B" class="selectized" id="captain-search2" tabindex="-1" style="display: block;">
+              </legend>
+              <legend class="reset">
+                <a href='javascript: reset_selectize("#captain-search"); reset_selectize("#captain-search2");  team_chart.replaceFilter("Australia"); hideButton("#teamA"); result_year_chart.filterAll();  result_year_chart2.filterAll();  opposition_chart.filterAll(); result_chart.filterAll(); ground_chart.filterAll(); change_title();  perc_view = true; reset_composite_label();  team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); ground_chart2.filterAll(); change_title(); perc_view2 = true;  change_legends(); dc.renderAll();' class='btn btn-info reset' style='' id="resetAll"><i class="fa fa-refresh"> Reset All</i>
+                </a>
+              </legend>
             </span>
           </div>
-          <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="opposition">
-            <span class="title">
-              Opposition A
-              <legend><a href="javascript:opposition_chart.filterAll(); dc.redrawAll()" class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
-            </span>
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="result">
-              <span class="title">
-                Results A
-                <legend><a href='javascript:result_chart.filterAll(); reset_composite_label(); change_legends(); dc.redrawAll();' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
+          <div class="col-md-6 col-sm-12 left-team">
+            <div class="col-md-12 col-xs-10" id='data_count' style='padding: 0'>
+                <span class='filter-count'></span>
+                selected out of <span class='total-count'></span> records.
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-10 collapse-in" id="result_year">
+                <span class="result_year_title">Win, Loss and Ties By Team(s) Selected</span>
+                <div class="tooltip" data-step="3" data-intro="Click to change view between percentage breakdown or by games." >
+                  <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view()">
+                  <span class="tooltiptext right">Switch the value of the displayed data between Number of Games or Percentage of Games.</span>
+                </div>
+                <div class="tooltip" data-step="4" data-intro="Turn this on to filter using the years. This will enable you to create box that covers a range of years." >
+                  <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on" onclick="brush_on()">
+                  <span class="tooltiptext left">Turning on the Brush would allow you to select a range of YEARS as a filter.</span>
+                </div>
+                <br/>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="team">
+              <span class="title" data-step="5" data-intro="You can click on the bars below to pick one team at a time">
+                Team A
+                <legend><a href="javascript:team_chart.filterAll(); team_chart.filter('Australia'); change_legends(); dc.redrawAll();  hideButton('#teamA')" class='btn btn-info pull-right reset' style='display:none;' id="teamA"><i class="fa fa-refresh"> Reset</i> </a></legend>
               </span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="opposition">
+              <span class="title" data-step="6" data-intro="You can click on the bars below to filter the oppositions">
+                Opposition A
+                <legend><a href="javascript:opposition_chart.filterAll(); dc.redrawAll()" class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+              </span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="result">
+                <span class="title" data-step="7" data-intro="You can click on these to filter win, loss or tied or all. Clicking on this will change the view of the Performance Chart to an appropriate view - either by Games or Percentage.">
+                  Results A
+                  <legend><a href='javascript:result_chart.filterAll(); reset_composite_label(); change_legends(); dc.redrawAll();' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
+                </span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="ground">
+              <span class="title" data-step="8" data-intro="You can click on these to filter by locations (Showing only the top locations.)">
+                Locations A
+                <legend><a href='javascript:ground_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+              </span>
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="ground">
-            <span class="title">
-              Locations A
-              <legend><a href='javascript:ground_chart.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
-            </span>
+          <div class="col-md-6 col-sm-12 right-team">
+            <div class="col-md-12 col-xs-10" id='data_count2' style='padding: 0'>
+                <span class='filter-count'></span>
+                selected out of <span class='total-count'></span> records.
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-10 collapse-in" id="result_year2">
+                <span class="result_year_title2">Win, Loss and Ties By Team(s) Selected</span>
+                <div class="tooltip">
+                  <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view2()">
+                  <span class="tooltiptext right">Switch the value of the displayed data between Number of Games or Percentage of Games.</span>
+                </div>
+                <div class="tooltip">
+                  <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on2" onclick="brush_on2()">
+                  <span class="tooltiptext left">Turning on the Brush would allow you to select a range of YEARS as a filter.</span>
+                </div>
+                <br/>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="team2">
+              <span class="title">
+                Team B
+                <legend><a href="javascript:team_chart2.filterAll(); team_chart2.filter('New Zealand'); change_legends(); dc.redrawAll();  hideButton('#teamB')" class='btn btn-info pull-right reset' style='display:none;' id="teamB"><i class="fa fa-refresh"> Reset</i> </a></legend>
+              </span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="opposition2">
+              <span class="title">
+                Opposition B
+                <legend><a href='javascript:opposition_chart2.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+              </span>
+            </div>
+            <div class="col-md-4 col-sm-4 collapse-in" id="result2">
+              <span class="title">
+                Results B
+                <legend><a href='javascript:result_chart2.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
+              </span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="ground2">
+              <span class="title">
+                Locations B
+                <legend><a href='javascript:ground_chart2 .filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
+              </span>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6 col-sm-12 right-team">
-          <div class="col-md-12 col-xs-10" id='data_count2' style='padding: 0'>
-              <span class='filter-count'></span>
-              selected out of <span class='total-count'></span> records.
-          </div>
-          <div class="col-md-12 col-sm-12 col-xs-10 collapse-in" id="result_year2">
-              <span class="result_year_title2">Win, Loss and Ties By Team(s) Selected</span>
-              <div class="tooltip">
-                <input type='button' class='btn btn-primary btn-xs hideshow' value='Change View' onclick="change_result_view2()">
-                <span class="tooltiptext right">Switch the value of the displayed data between Number of Games or Percentage of Games.</span>
-              </div>
-              <div class="tooltip">
-                <input type='button' class='btn btn-primary btn-xs hideshow' value='Turn ON Brush filter' id="brush_on2" onclick="brush_on2()">
-                <span class="tooltiptext left">Turning on the Brush would allow you to select a range of YEARS as a filter.</span>
-              </div>
-              <br/>
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="team2">
-            <span class="title">
-              Team B
-              <legend><a href="javascript:team_chart2.filterAll(); team_chart2.filter('New Zealand'); change_legends(); dc.redrawAll();  hideButton('#teamB')" class='btn btn-info pull-right reset' style='display:none;' id="teamB"><i class="fa fa-refresh"> Reset</i> </a></legend>
-            </span>
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="opposition2">
-            <span class="title">
-              Opposition B
-              <legend><a href='javascript:opposition_chart2.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
-            </span>
-          </div>
-          <div class="col-md-4 col-sm-4 collapse-in" id="result2">
-            <span class="title">
-              Results B
-              <legend><a href='javascript:result_chart2.filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i></a></legend>
-            </span>
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-6 collapse-in" id="ground2">
-            <span class="title">
-              Locations B
-              <legend><a href='javascript:ground_chart2 .filterAll(); dc.redrawAll()' class='btn btn-info pull-right reset' style='display:none;'><i class="fa fa-refresh"> Reset</i> </a></legend>
-            </span>
-          </div>
-        </div>
-      </div><!-- end of first row -->
-    </div>
+        </div><!-- end of first row -->
+      </div>
   </div>
 </div>
-
+<script type="text/javascript" src="js/intro.js" charset="utf-8"></script>
+<script>
+  $(document).ready(function() {
+    introJs().start();
+  })
+</script>
 {% endblock %}
