@@ -713,8 +713,14 @@ function change_title() {
 
   $('.result_year_title').text(teamA_text);
   $('.result_year_title2').text(teamB_text);
-  $('.A').text(A);
-  $('.B').text(B);
+    if (A == B) {
+    $('.A').text(A);
+    $('.B').text("");
+  }
+  else {
+    $('.A').text(A + " | ");
+    $('.B').text(B);  
+  }
 }
 
 function draw_result_year_chart() {
