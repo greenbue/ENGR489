@@ -700,8 +700,10 @@ function hideButton(id){
 }
 
 function change_title() {
-  var teamA_text = team_chart.filters()[0] + "'s Overall Performance by ";
-  var teamB_text = team_chart2.filters()[0] + "'s Overall Performance by ";
+  var A = team_chart.filters()[0];
+  var B = team_chart2.filters()[0];
+  var teamA_text = A + "'s Overall Performance by ";
+  var teamB_text = B + "'s Overall Performance by ";
 
   if (perc_view == true) teamA_text += "Percentage"
   else teamA_text += "Games"
@@ -711,6 +713,8 @@ function change_title() {
 
   $('.result_year_title').text(teamA_text);
   $('.result_year_title2').text(teamB_text);
+  $('.A').text(A);
+  $('.B').text(B);
 }
 
 function draw_result_year_chart() {
