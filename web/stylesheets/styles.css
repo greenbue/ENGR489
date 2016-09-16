@@ -81,7 +81,7 @@ body {
 }
 
 .main-nav {
-
+  
 }
 
 .nav-border {
@@ -96,40 +96,6 @@ body {
 
 .no-bullets li {
   margin-bottom: 5px;
-}
-
-.sidebar {
-  position: absolute;
-  padding: 10px;
-  top: -10px;
-  left: 900px;
-  width: 200px;
-  background: white;
-  z-index: 99999;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-.sidebar-title {
-  position: absolute;
-  padding: 10px;
-  top: -50px;
-  left: 900px;
-  width: 200px;
-  color: white;
-  z-index: 99999;
-  opacity: 0.8;
-  background: #92332F;
-  border-radius: 5px;
-}
-
-.sidebar-title > a, a:focus {
-  text-decoration: none;
-  color: white;
-}
-
-.sidebar-title > a:hover {
-  opacity: 0.6;
 }
 
 .draggable:hover, .draggable:focus {
@@ -167,7 +133,7 @@ body {
 
 @media(max-width:991px){
   .left-team {
-
+    
   }
 
   .right-team {
@@ -176,7 +142,7 @@ body {
 }
 
 input[type="checkbox"] {
-  margin-right: 20px;
+  margin-right: 20px; 
 }
 
 .dc-chart rect.deselected ~ text {
@@ -266,4 +232,61 @@ legend {
 
 legend.reset {
   margin: auto 30px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  opacity: 1;
+  z-index: initial;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  /* Position the tooltip */
+  padding: 5px;
+  position: absolute;
+  font-size: 1.1em;
+}
+
+.tooltiptext.left {
+  top: -5px;
+  left: 105%;
+}
+
+.tooltiptext.right {
+  top: -5px;
+  right: 105%;
+}
+
+.tooltiptext {
+  z-index: 99999999 !important;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  border-width: 5px;
+  border-style: solid;
+}
+
+.tooltip .tooltiptext.left::after {
+  top: 15%;
+  right: 100%; /* To the left of the tooltip */
+  border-color: transparent black transparent transparent;
+}
+
+.tooltip .tooltiptext.right::after {
+  top: 15%;
+  left: 100%; /* To the left of the tooltip */
+  border-color: transparent transparent transparent black;
 }
