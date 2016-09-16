@@ -113,7 +113,10 @@
 <script type="text/javascript" src="js/intro.js" charset="utf-8"></script>
 <script>
   $(document).ready(function() {
-    introJs().start();
-  })
+    if(getCookie("guide") != "true") {
+      setCookie("guide", true, 365);
+      introJs().start();
+    }
+  });
 </script>
 {% endblock %}
