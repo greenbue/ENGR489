@@ -367,7 +367,7 @@ function showCharts(err, data) {
     //     });
       dc.events.trigger(function () {
         arr = opposition_chart.filters();
-        if (arr.includes(d.key)) {
+        if ($.inArray(d.key, arr))  {
           opposition_chart.filterAll();
         }
         team_chart.replaceFilter(d.key);
@@ -406,7 +406,7 @@ function showCharts(err, data) {
   team_chart2._onClick = function(d) {
       dc.events.trigger(function () {
         arr = opposition_chart2.filters();
-        if (arr.includes(d.key)) {
+        if ($.inArray(d.key, arr))  {
           opposition_chart2.filterAll();
         }
         team_chart2.replaceFilter(d.key);
