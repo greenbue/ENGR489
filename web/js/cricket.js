@@ -360,23 +360,18 @@ function showCharts(err, data) {
     });
 
   team_chart._onClick = function(d) {
-    // var filter = opposition_chart2.keyAccessor()(d);
-    //     dc.events.trigger(function () {
-    //         opposition_chart2.filter(filter);
-    //         opposition_chart2.redrawGroup();
-    //     });
-      dc.events.trigger(function () {
-        arr = opposition_chart.filters();
-        if ($.inArray(d.key, arr))  {
-          opposition_chart.filterAll();
-        }
-        team_chart.replaceFilter(d.key);
-        team_chart.redrawGroup()
-      });
-      hideButton('#teamA');
-      change_title();
-      change_legends();
-      dc.renderAll();
+    dc.events.trigger(function () {
+      arr = opposition_chart.filters();
+      if ($.inArray(d.key, arr))  {
+        opposition_chart.filterAll();
+      }
+      team_chart.replaceFilter(d.key);
+      team_chart.redrawGroup()
+    });
+    hideButton('#teamA');
+    change_title();
+    change_legends();
+    dc.renderAll();
    };
 
   team_chart.xAxis().ticks(5).tickFormat(d3.format("d"));
@@ -404,18 +399,18 @@ function showCharts(err, data) {
     });
 
   team_chart2._onClick = function(d) {
-      dc.events.trigger(function () {
-        arr = opposition_chart2.filters();
-        if ($.inArray(d.key, arr))  {
-          opposition_chart2.filterAll();
-        }
-        team_chart2.replaceFilter(d.key);
-        team_chart2.redrawGroup();
-      });
-      hideButton('#teamB');
-      change_title();
-      change_legends();
-      dc.renderAll();
+    dc.events.trigger(function () {
+      arr = opposition_chart2.filters();
+      if ($.inArray(d.key, arr))  {
+        opposition_chart2.filterAll();
+      }
+      team_chart2.replaceFilter(d.key);
+      team_chart2.redrawGroup();
+    });
+    hideButton('#teamB');
+    change_title();
+    change_legends();
+    dc.renderAll();
    };
 
   team_chart2.xAxis().ticks(5).tickFormat(d3.format("d"));
