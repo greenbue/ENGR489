@@ -360,7 +360,12 @@ function showCharts(err, data) {
     });
 
   team_chart._onClick = function(d) {
-      dc.events.trigger(() => {
+    // var filter = opposition_chart2.keyAccessor()(d);
+    //     dc.events.trigger(function () {
+    //         opposition_chart2.filter(filter);
+    //         opposition_chart2.redrawGroup();
+    //     });
+      dc.events.trigger(function () {
         arr = opposition_chart.filters();
         if (arr.includes(d.key)) {
           opposition_chart.filterAll();
@@ -399,7 +404,7 @@ function showCharts(err, data) {
     });
 
   team_chart2._onClick = function(d) {
-      dc.events.trigger(() => {
+      dc.events.trigger(function () {
         arr = opposition_chart2.filters();
         if (arr.includes(d.key)) {
           opposition_chart2.filterAll();
