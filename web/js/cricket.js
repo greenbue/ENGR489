@@ -276,6 +276,8 @@ function showCharts(err, data) {
     .height(small_chart_height)
     .width(small_width-50)
     .ordering(function(d){ return -d.key })
+//    .xAxisLabel('Total Games')
+//    .xAxisPadding(500)
     .elasticX(true)
     .label(function(d){
       var label = d.key;
@@ -283,7 +285,7 @@ function showCharts(err, data) {
       return label + ": " + d.value;
     })
     .title(function(d){
-      if($.inArray(d.key, team_chart.filters()) == -1) return;
+//      if($.inArray(d.key, team_chart.filters()) == -1) return;
       var title = d.key + " \nTotal Games Against Team A: " + d.value;
       return title;
     });
@@ -308,6 +310,8 @@ function showCharts(err, data) {
     .height(small_chart_height)
     .width(small_width-50)
     .ordering(function(d){ return -d.key })
+//    .xAxisLabel('Total Games')
+//    .xAxisPadding(500)
     .elasticX(true)
     .label(function(d){
         var label = d.key;
@@ -315,7 +319,7 @@ function showCharts(err, data) {
         return label + ": " + d.value;
     })
     .title(function(d){
-      if($.inArray(d.key, team_chart2.filters()) == -1) return;
+//      if($.inArray(d.key, team_chart2.filters()) == -1) return;
       var title = d.key + " \nTotal Games Against Team B: " + d.value;
       return title;
     });
@@ -444,9 +448,9 @@ function showCharts(err, data) {
     })
     .on("renderlet.result_pie", function(chart) {
       chart.selectAll('text.pie-slice').text( function(d) {
-        console.log(d);
         v = dc.utils.printSingleValue((d.endAngle - d.startAngle) / (2*Math.PI) * 100);
-        return parseFloat(v).toFixed(1) + '%';
+        v = parseFloat(v).toFixed(1);
+        return v == 0 ? "" : v + '%';
       })
     });
 
@@ -482,65 +486,65 @@ function showCharts(err, data) {
     })
     .on("renderlet.result_pie2", function(chart) {
       chart.selectAll('text.pie-slice').text( function(d) {
-        console.log(d);
         v = dc.utils.printSingleValue((d.endAngle - d.startAngle) / (2*Math.PI) * 100);
-        return parseFloat(v).toFixed(1) + '%';
+        v = parseFloat(v).toFixed(1);
+        return v == 0 ? "" : v + '%';
       })
     });
 
-  result_chart._onClick = function(d) {
-      dc.events.trigger(() => {
-          result_chart.filter(d.key)
-          result_chart.renderGroup();
-      });
+//  result_chart._onClick = function(d) {
+//      dc.events.trigger(() => {
+//          result_chart.filter(d.key)
+//          result_chart.renderGroup();
+//      });
+//
+//      if (result_chart.filters().length > 0) {
+//        perc_view = true;
+//        change_result_view();
+//      }
+//      else {
+//        perc_view = false;
+//        change_result_view();
+//      }
+//
+//      if (perc_view == perc_view2){
+//        if (perc_view == true) true_composite_chart.yAxisLabel("Performance %");
+//        else true_composite_chart.yAxisLabel("Total Games");
+//      }
+//      else {
+//        true_composite_chart.yAxisLabel("Games/Percentage");
+//      }
+//      reset_composite_label();
+//      dc.redrawAll();
+//  }
 
-      if (result_chart.filters().length > 0) {
-        perc_view = true;
-        change_result_view();
-      }
-      else {
-        perc_view = false;
-        change_result_view();
-      }
-
-      if (perc_view == perc_view2){
-        if (perc_view == true) true_composite_chart.yAxisLabel("Performance %");
-        else true_composite_chart.yAxisLabel("Total Games");
-      }
-      else {
-        true_composite_chart.yAxisLabel("Games/Percentage");
-      }
-      reset_composite_label();
-      dc.redrawAll();
-  }
-
-  result_chart2._onClick = function(d) {
-      dc.events.trigger(() => {
-          result_chart2.filter(d.key)
-          result_chart2.renderGroup();
-      });
-      if (result_chart.filters().length > 0 && result_chart2.filters().length > 0) {
-          true_composite_chart.yAxisLabel("Games (Selected)");
-//        $('.variable_title').text(" Total Games (Selected)");
-      }
-      else if ((result_chart.filters().length > 0 && result_chart2.filters().length == 0) || (result_chart.filters().length == 0 && result_chart2.filters().length > 0)) {
-          true_composite_chart.yAxisLabel("Games/Percentage");
-      }
-      else {
-          true_composite_chart.yAxisLabel("Performance %");
-      }
-
-      if (result_chart2.filters().length > 0) {
-        perc_view2 = true;
-        change_result_view2();
-      }
-      else {
-        perc_view2 = false;
-        change_result_view2();
-      }
-      reset_composite_label();
-      dc.redrawAll();
-  }
+//  result_chart2._onClick = function(d) {
+//      dc.events.trigger(() => {
+//          result_chart2.filter(d.key)
+//          result_chart2.renderGroup();
+//      });
+//      if (result_chart.filters().length > 0 && result_chart2.filters().length > 0) {
+//          true_composite_chart.yAxisLabel("Games (Selected)");
+////        $('.variable_title').text(" Total Games (Selected)");
+//      }
+//      else if ((result_chart.filters().length > 0 && result_chart2.filters().length == 0) || (result_chart.filters().length == 0 && result_chart2.filters().length > 0)) {
+//          true_composite_chart.yAxisLabel("Games/Percentage");
+//      }
+//      else {
+//          true_composite_chart.yAxisLabel("Performance %");
+//      }
+//
+//      if (result_chart2.filters().length > 0) {
+//        perc_view2 = true;
+//        change_result_view2();
+//      }
+//      else {
+//        perc_view2 = false;
+//        change_result_view2();
+//      }
+//      reset_composite_label();
+//      dc.redrawAll();
+//  }
 
   var all = ndx.groupAll();
   data_count_chart = dc.dataCount('#data_count')
@@ -548,7 +552,7 @@ function showCharts(err, data) {
     .group(all)
     .html({
         some: '<span class=\'title data-count\'><strong>Team A: </strong><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
-            ' | <a class=\'btn btn-info reset\' href=\'javascript:   team_chart.replaceFilter("Australia"); hideButton("#teamA"); opposition_chart.filterAll(); result_chart.filterAll(); ground_chart.filterAll(); change_title(); reset_selectize("#captain-search"); perc_view = true; reset_composite_label(); draw_normalized_result_year_chart(); change_legends(); dc.renderAll(); \'\'><i class="fa fa-refresh"> Reset Team A</i></a>',
+            ' | <a class=\'btn btn-info reset\' href=\'javascript:   team_chart.replaceFilter("Australia"); hideButton("#teamA"); opposition_chart.filterAll(); result_chart.filterAll(); ground_chart.filterAll(); change_title(); reset_selectize("#captain-search"); perc_view = true; reset_composite_label(); draw_normalized_result_year_chart(); change_legends(); result_year_chart.brushOn(true); brush_on(); dc.renderAll(); \'\'><i class="fa fa-refresh"> Reset Team A</i></a>',
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
 
@@ -558,7 +562,7 @@ function showCharts(err, data) {
     .group(all2)
     .html({
         some: '<span class=\'title data-count\'><strong>Team B: </strong><strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
-            ' | <a class=\'btn btn-info reset\' href=\'javascript: team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); ground_chart2.filterAll(); change_title(); reset_selectize("#captain-search2"); perc_view2 = true; reset_composite_label(); draw_normalized_result_year_chart2(); change_legends(); dc.renderAll();\'\'><i class="fa fa-refresh"> Reset Team B</i></a>',
+            ' | <a class=\'btn btn-info reset\' href=\'javascript: team_chart2.replaceFilter("New Zealand"); hideButton("#teamB"); opposition_chart2.filterAll(); result_chart2.filterAll(); ground_chart2.filterAll(); change_title(); reset_selectize("#captain-search2"); perc_view2 = true; reset_composite_label(); draw_normalized_result_year_chart2(); change_legends(); result_year_chart2.brushOn(true); brush_on2(); dc.renderAll();\'\'><i class="fa fa-refresh"> Reset Team B</i></a>',
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
 
@@ -713,13 +717,14 @@ function change_title() {
 
   $('.result_year_title').text(teamA_text);
   $('.result_year_title2').text(teamB_text);
-    if (A == B) {
+
+  if (A == B) {
     $('.A').text(A);
     $('.B').text("");
   }
   else {
     $('.A').text(A + " | ");
-    $('.B').text(B);  
+    $('.B').text(B);
   }
 }
 
@@ -826,48 +831,49 @@ function draw_result_year_chart() {
       .renderVerticalGridLines(false)
       .margins({top: 10, right: 50, bottom: 30, left: 50})
       .on("renderlet.result_year", function (chart) {
-          //Check if labels exist
-          var gLabels = chart.select(".labels");
-          if (gLabels.empty()){
-              gLabels = chart.select(".chart-body").append('g').classed('labels', true);
-          }
+              //Check if labels exist
+              var gLabels = chart.select(".labels");
+              if (gLabels.empty()){
+                  gLabels = chart.select(".chart-body").append('g').classed('labels', true);
+              }
 
-          var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
+              var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
 
-          gLabelsData.exit().remove(); //Remove unused elements
+              gLabelsData.exit().remove(); //Remove unused elements
 
-          gLabelsData.enter().append("text") //Add new elements
+              gLabelsData.enter().append("text") //Add new elements
 
-          gLabelsData
-              .attr('text-anchor', 'middle  ')
-              .attr('fill', 'white')
-              .attr("font-size", "11px")
-              .text(function(d){
-                  return d3.select(d).data()[0].y
-              })
-              .attr('x', function(d){
-                  return +d.getAttribute('x') + (d.getAttribute('width')/2);
-              })
-              .attr('y', function(d){ return +d.getAttribute('y') + 15; })
-              .attr('style', function(d){
-                  if (+d.getAttribute('height') < 18) return "display:none";
-              });
-      })
-      .on("preRedraw", function (chart) {
-              chart.rescale();
-      })
-      .on("preRender", function (chart) {
-              chart.rescale();
-      })
-      .on("pretransition", function (chart) {
-              chart.rescale();
-      });
+              gLabelsData
+                  .attr('text-anchor', 'middle  ')
+                  .attr('fill', 'white')
+                  .attr("font-size", "11px")
+                  .text(function(d){
+                      return d3.select(d).data()[0].y
+                  })
+                  .attr('x', function(d){
+                      return +d.getAttribute('x') + (d.getAttribute('width')/2);
+                  })
+                  .attr('y', function(d){ return +d.getAttribute('y') + 15; })
+                  .attr('style', function(d){
+                      if (+d.getAttribute('height') < 18) return "display:none";
+                  });
+          })
+          .on("preRedraw", function (chart) {
+                  chart.rescale();
+          })
+          .on("preRender", function (chart) {
+                  chart.rescale();
+          })
+          .on("pretransition", function (chart) {
+                  chart.rescale();
+          });
   result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
   result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
   grey_undefined(result_year_chart);
 }
 
 function draw_normalized_result_year_chart() {
+  if (first_time == false) dc.deregisterChart(result_year_chart);
   var teamA_text = team_chart.filters()[0] + "'s Overall Performance by Percentage";
   $('.result_year_title').text(teamA_text);
   result_year_chart = dc.barChart('#result_year')
@@ -1000,42 +1006,42 @@ function draw_normalized_result_year_chart() {
       .renderVerticalGridLines(false)
       .margins({top: 10, right: 20, bottom: 30, left: 50})
       .on("renderlet.result_year", function (chart) {
-          //Check if labels exist
-          var gLabels = chart.select(".labels");
-          if (gLabels.empty()){
-              gLabels = chart.select(".chart-body").append('g').classed('labels', true);
-          }
+              //Check if labels exist
+              var gLabels = chart.select(".labels");
+              if (gLabels.empty()){
+                  gLabels = chart.select(".chart-body").append('g').classed('labels', true);
+              }
 
-          var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
+              var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
 
-          gLabelsData.exit().remove(); //Remove unused elements
+              gLabelsData.exit().remove(); //Remove unused elements
 
-          gLabelsData.enter().append("text") //Add new elements
+              gLabelsData.enter().append("text") //Add new elements
 
-          gLabelsData
-              .attr('text-anchor', 'middle  ')
-              .attr('fill', 'white')
-              .attr("font-size", "11px")
-              .text(function(d){
-                  return d3.select(d).data()[0].y
-              })
-              .attr('x', function(d){
-                  return +d.getAttribute('x') + (d.getAttribute('width')/2);
-              })
-              .attr('y', function(d){ return +d.getAttribute('y') + 15; })
-              .attr('style', function(d){
-                  if (+d.getAttribute('height') < 18) return "display:none";
-              });
-      })
-      .on("preRedraw", function (chart) {
-              chart.rescale();
-      })
-      .on("preRender", function (chart) {
-              chart.rescale();
-      })
-      .on("pretransition", function (chart) {
-              chart.rescale();
-      });
+              gLabelsData
+                  .attr('text-anchor', 'middle  ')
+                  .attr('fill', 'white')
+                  .attr("font-size", "11px")
+                  .text(function(d){
+                      return d3.select(d).data()[0].y
+                  })
+                  .attr('x', function(d){
+                      return +d.getAttribute('x') + (d.getAttribute('width')/2);
+                  })
+                  .attr('y', function(d){ return +d.getAttribute('y') + 15; })
+                  .attr('style', function(d){
+                      if (+d.getAttribute('height') < 18) return "display:none";
+                  });
+          })
+          .on("preRedraw", function (chart) {
+                  chart.rescale();
+          })
+          .on("preRender", function (chart) {
+                  chart.rescale();
+          })
+          .on("pretransition", function (chart) {
+                  chart.rescale();
+          });
   result_year_chart.xAxis().ticks(10).tickFormat(d3.format("d"));
   result_year_chart.yAxis().ticks(5).tickFormat(d3.format("g"));
   grey_undefined(result_year_chart);
@@ -1145,42 +1151,42 @@ function draw_result_year_chart2() {
       .renderVerticalGridLines(false)
       .margins({top: 10, right: 50, bottom: 30, left: 50})
       .on("renderlet.result_year", function (chart) {
-        //Check if labels exist
-        var gLabels = chart.select(".labels");
-        if (gLabels.empty()){
-            gLabels = chart.select(".chart-body").append('g').classed('labels', true);
-        }
+              //Check if labels exist
+              var gLabels = chart.select(".labels");
+              if (gLabels.empty()){
+                  gLabels = chart.select(".chart-body").append('g').classed('labels', true);
+              }
 
-        var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
+              var gLabelsData = gLabels.selectAll("text").data(chart.selectAll(".bar")[0]);
 
-        gLabelsData.exit().remove(); //Remove unused elements
+              gLabelsData.exit().remove(); //Remove unused elements
 
-        gLabelsData.enter().append("text") //Add new elements
+              gLabelsData.enter().append("text") //Add new elements
 
-        gLabelsData
-            .attr('text-anchor', 'middle  ')
-            .attr('fill', 'white')
-            .attr("font-size", "11px")
-            .text(function(d){
-                return d3.select(d).data()[0].y
-            })
-            .attr('x', function(d){
-                return +d.getAttribute('x') + (d.getAttribute('width')/2);
-            })
-            .attr('y', function(d){ return +d.getAttribute('y') + 15; })
-            .attr('style', function(d){
-                if (+d.getAttribute('height') < 18) return "display:none";
-            });
-      })
-      .on("preRedraw", function (chart) {
-              chart.rescale();
-      })
-      .on("preRender", function (chart) {
-              chart.rescale();
-      })
-      .on("pretransition", function (chart) {
-              chart.rescale();
-      });
+              gLabelsData
+                  .attr('text-anchor', 'middle  ')
+                  .attr('fill', 'white')
+                  .attr("font-size", "11px")
+                  .text(function(d){
+                      return d3.select(d).data()[0].y
+                  })
+                  .attr('x', function(d){
+                      return +d.getAttribute('x') + (d.getAttribute('width')/2);
+                  })
+                  .attr('y', function(d){ return +d.getAttribute('y') + 15; })
+                  .attr('style', function(d){
+                      if (+d.getAttribute('height') < 18) return "display:none";
+                  });
+          })
+          .on("preRedraw", function (chart) {
+                  chart.rescale();
+          })
+          .on("preRender", function (chart) {
+                  chart.rescale();
+          })
+          .on("pretransition", function (chart) {
+                  chart.rescale();
+          });
 
   result_year_chart2.xAxis().ticks(10).tickFormat(d3.format("d"));
   result_year_chart2.yAxis().ticks(5).tickFormat(d3.format("g"));
@@ -1188,6 +1194,7 @@ function draw_result_year_chart2() {
 }
 
 function draw_normalized_result_year_chart2() {
+  if (first_time == false) dc.deregisterChart(result_year_chart2);
   var teamB_text = team_chart2.filters()[0] + "'s Overall Performance by Percentage";
   $('.result_year_title2').text(teamB_text);
   result_year_chart2 = dc.barChart('#result_year2')
@@ -1374,6 +1381,21 @@ function draw_composite_line_chart() {
 
       var v = 0;
       var text = "";
+//      if (won != 0){
+//        v = parseFloat(won/(total-tied));
+//        text = "Won: " + won + "\n";
+//      }
+//      else won -= 1;
+//
+//      if (lost != 0) {
+//        text += "Lost: " + lost + "\n";
+//      }
+//      else lost -= 1;
+//
+//      if (tied != 0) {
+//        text += "Tied: " + tied + "\n";
+//      }
+//      else tied -= 1;
       won_v = parseFloat(won/(total-tied));
       lost_v = parseFloat(lost/(total-tied));
       text = "Won: " + won + "\n";
@@ -1389,7 +1411,7 @@ function draw_composite_line_chart() {
         text += "Incomplete result selection (Won AND Lost must be selected). Unable to get % of performance."
       }
       else {
-        text += "Win/Loss Performance: " + parseFloat((won_v*100).toFixed(1))  + "%";
+        text += "Win Performance: " + parseFloat((won_v*100).toFixed(1))  + "%";
       }
       return d.key + "\n" + text;
     })
@@ -1397,6 +1419,7 @@ function draw_composite_line_chart() {
     .height(medium_chart_height/3)
     .width(composite_width)
     .x(d3.scale.linear().domain([1996, 2016]))
+//    .y(d3.scale.linear().domain([-5, 105]))
     .yAxisLabel("Performance %")
     .yAxisPadding(35)
     .elasticX(false)
@@ -1435,6 +1458,26 @@ function draw_composite_line_chart() {
         return parseFloat((v*100).toFixed(1));
       })
       .label(function(d) { return d; })
+      .title(function(d) {
+          won = d.value["won"].length;
+          lost = d.value["lost"].length;
+          if (d.value["tied"]) tied = d.value["tied"].length
+          else tied = 0;
+          total = won + lost + tied;
+
+          if (result_chart.filters().length == 1) {
+              if (won != 0) return  "Total Games (Won): " + won;
+//              if (lost != 0) return "Total Games (Lost): " + lost;
+//              if (tied != 0) return "Total Games (Tied): " + tied;
+          }
+          else if (result_chart.filters().length >= 2) {
+              return "Total Games (Won): " + won;
+          }
+
+          var v = parseFloat(won/total);
+          if (isNaN(v)) return 0 + "%";
+          return "Yearly Performance: " + parseFloat((v*100).toFixed(1)) + "%";
+      })
       .colors("blue")
       .x(d3.scale.linear().domain([1995, 2016]));
 
@@ -1468,6 +1511,26 @@ function draw_composite_line_chart() {
         return parseFloat((v*100).toFixed(1));
       })
       .label(function(d) { return d; })
+      .title(function(d) {
+          won = d.value["won"].length;
+          lost = d.value["lost"].length;
+          if (d.value["tied"]) tied = d.value["tied"].length
+          else tied = 0;
+          total = won + lost + tied;
+
+          if (result_chart2.filters().length == 1) {
+              if (won != 0) return  "Total Games (Won): " + won;
+//              if (lost != 0) return "Total Games (Lost): " + lost;
+//              if (tied != 0) return "Total Games (Tied): " + tied;
+          }
+          else if (result_chart2.filters().length >= 2) {
+              return "Total Games (Won): " + won;
+          }
+
+          var v = parseFloat(won/total);
+          if (isNaN(v)) return 0 + "%";
+          return "Yearly Performance: " + parseFloat((v*100).toFixed(1)) + "%";
+      })
       .colors("black")
       .x(d3.scale.linear().domain([1995, 2016]))
       .dashStyle([5,5]);
@@ -1486,36 +1549,65 @@ function draw_composite_line_chart() {
 
 
 function reset_composite_label() {
-  if (perc_view == perc_view2){
-    if (perc_view == true) {
-      true_composite_chart.yAxisLabel("Performance %");
-      $('.variable_title').text(" Performance %");
+//  if (result_chart.filters().length == 0 && result_chart2.filters().length == 0) {
+//    if (perc_view == false && perc_view2 == false) {
+//      true_composite_chart.yAxisLabel("Games");
+//      $('.variable_title').text(" Total Games (All)");
+//      dc.redrawAll();
+//      return;
+//    }
+//    true_composite_chart.yAxisLabel("Performance %");
+//    dc.redrawAll();
+//  }
+//
+//  if ((result_chart.filters().length > 0 && result_chart2.filters().length > 0) || (result_chart.filters().length > 0 && result_chart2.filters().length > 0) && (perc_view == false && perc_view2 == false)) {
+//    true_composite_chart.yAxisLabel("Games (Selected)");
+//    $('.variable_title').text(" Total Games (Selected)");
+//  }
+//  else if ((result_chart.filters().length > 0 && result_chart2.filters().length == 0) || (result_chart.filters().length == 0 && result_chart2.filters().length > 0)) {
+//    if (perc_view == false && perc_view2 == false) {
+//      true_composite_chart.yAxisLabel("Games (Selected)");
+//      $('.variable_title').text(" Total Games (Selected)");
+//      return;
+//    }
+//
+//    true_composite_chart.yAxisLabel("Games/Percentage");
+//    $('.variable_title').text(" Games/Percentage Comparison");
+//  }
+//  else {
+//    true_composite_chart.yAxisLabel("Performance %");
+//    $('.variable_title').text(" Performance %");
+//  }
+    if (perc_view == perc_view2){
+      if (perc_view == true) {
+        true_composite_chart.yAxisLabel("Performance %");
+        $('.variable_title').text(" Performance %");
+      }
+      else {
+        $('.variable_title').text(" Total Games");
+        true_composite_chart.yAxisLabel("Total Games");
+      }
     }
     else {
-      $('.variable_title').text(" Total Games");
-      true_composite_chart.yAxisLabel("Total Games");
+      $('.variable_title').text(" Games/Percentage Comparison");
+      true_composite_chart.yAxisLabel("Games/Percentage");
     }
-  }
-  else {
-    $('.variable_title').text(" Games/Percentage Comparison");
-    true_composite_chart.yAxisLabel("Games/Percentage");
-  }
   dc.redrawAll();
 }
 
 function change_legends() {
   if (perc_view == false) {
-    legend = team_chart.filter() + " (Games)";
+    legend = team_chart.filter() + " (Games) - Team A";
   }
   else {
-    legend = team_chart.filter() + " (Percentage)";
+    legend = team_chart.filter() + " (Percentage) - Team A";
   }
 
   if (perc_view2 == false) {
-    legend2 = team_chart2.filter() + " (Games)";
+    legend2 = team_chart2.filter() + " (Games) - Team B";
   }
   else {
-    legend2 = team_chart2.filter() + " (Percentage)";
+    legend2 = team_chart2.filter() + " (Percentage) - Team B";
   }
   normaline_chart.group(result_year_group, legend) ;
   normaline_chart2.group(result_year_group2, legend2);
