@@ -566,41 +566,6 @@ function showCharts(err, data) {
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
 
-  //pyramid chart
-
-  team_opp_chart = dc.pyramidChart('#team_opp')
-    .dimension(resultStatus)
-    .group(result_group)
-    .colors(d3.scale.ordinal().domain(["won", "lost"])
-                              .range(["#45936E","#92332F"]))
-    .colorAccessor(function(d) {
-      if (d.key.split('@')[1] == "won") return "won";
-      else if (d.key.split('@')[1] == "lost") return "lost";
-    })
-    .height(small_chart_height)
-    .width(medium_width-200)
-    .leftColumn(function (d){ return d.key.split('@')[1] == "won"})
-    .rowAccessor(function(d){ return d.key.split('@')[0]})
-    .label(function(d){return d.key.split('@')[0]})
-    .title(function(d){
-      if (d.key.split('@')[1] == "won") return "Won: " + d.value;
-      else if (d.key.split('@')[1] == "lost") return "Lost: " + d.value;
-      else return NaN;
-    })
-    .elasticX(true)
-    .twoLabels(false)
-    .rowOrdering(d3.ascending)
-    // .columnLabels(['Won','Lost'])
-    .columnLabelPosition([150,0])
-    .transitionDuration(200);
-
-  team_opp_chart.xAxis().ticks(7).tickFormat(function(x) {return d3.format('s')(Math.abs(x))})
-
-  dc.renderAll();
-
-  initialize();
-};
-
 function change_result_view() {
   if(first_time == false) dc.deregisterChart(result_year_chart);
   if (perc_view == false) {
