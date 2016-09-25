@@ -53,10 +53,10 @@ India,won,39 runs,0,won,1st,Pakistan,Bangalore,3/9/1996,
 Pakistan,lost,39 runs,0,lost,2nd,India,Bangalore,3/9/1996,
 England,lost,5 wickets,56,won,1st,Sri Lanka,Faisalabad,3/9/1996,
 Sri Lanka,won,5 wickets,56,lost,2nd,England,Faisalabad,3/9/1996,
-Australia,won,6 wickets,13,lost,2nd,New Zealand,Chennai,3/11/1996,Lee Germon (NZ)
-New Zealand,lost,6 wickets,13,won,1st,Australia,Chennai,3/11/1996,Lee Germon (NZ)
 South Africa,lost,19 runs,0,lost,2nd,West Indies,Karachi,3/11/1996,
 West Indies,won,19 runs,0,won,1st,South Africa,Karachi,3/11/1996,
+Australia,won,6 wickets,13,lost,2nd,New Zealand,Chennai,3/11/1996,Lee Germon (NZ)
+New Zealand,lost,6 wickets,13,won,1st,Australia,Chennai,3/11/1996,Lee Germon (NZ)
 India,lost,,0,won,2nd,Sri Lanka,Kolkata,3/13/1996,
 Sri Lanka,won,,0,lost,1st,India,Kolkata,3/13/1996,
 Australia,won,5 runs,0,won,1st,West Indies,Mohali,3/14/1996,
@@ -71,10 +71,10 @@ New Zealand,lost,7 wickets,26,won,1st,West Indies,Port of Spain,3/30/1996,Lee Ge
 West Indies,won,7 wickets,26,lost,2nd,New Zealand,Port of Spain,3/30/1996,Lee Germon (NZ)
 Pakistan,lost,34 runs,0,won,2nd,Sri Lanka,Singapore,4/2/1996,
 Sri Lanka,won,34 runs,0,lost,1st,Pakistan,Singapore,4/2/1996,
-New Zealand,won,4 runs,0,lost,1st,West Indies,Georgetown,4/3/1996,Lee Germon (NZ)
-West Indies,lost,4 runs,0,won,2nd,New Zealand,Georgetown,4/3/1996,Lee Germon (NZ)
 India,won,12 runs,0,won,1st,Sri Lanka,Singapore,4/3/1996,
 Sri Lanka,lost,12 runs,0,lost,2nd,India,Singapore,4/3/1996,
+New Zealand,won,4 runs,0,lost,1st,West Indies,Georgetown,4/3/1996,Lee Germon (NZ)
+West Indies,lost,4 runs,0,won,2nd,New Zealand,Georgetown,4/3/1996,Lee Germon (NZ)
 India,lost,8 wickets,30,lost,1st,Pakistan,Singapore,4/5/1996,
 Pakistan,won,8 wickets,30,won,2nd,India,Singapore,4/5/1996,
 New Zealand,lost,7 wickets,9,lost,1st,West Indies,Kingstown,4/6/1996,Lee Germon (NZ)
@@ -357,10 +357,10 @@ Australia,won,131 runs,0,won,1st,New Zealand,Sydney,1/14/1998,Stephen Fleming (N
 New Zealand,lost,131 runs,0,lost,2nd,Australia,Sydney,1/14/1998,Stephen Fleming (NZ)
 India,won,8 wickets,53,lost,2nd,Pakistan,Dhaka,1/14/1998,
 Pakistan,lost,8 wickets,53,won,1st,India,Dhaka,1/14/1998,
-New Zealand,lost,67 runs,0,lost,2nd,South Africa,Perth,1/16/1998,Stephen Fleming (NZ)
-South Africa,won,67 runs,0,won,1st,New Zealand,Perth,1/16/1998,Stephen Fleming (NZ)
 India,lost,6 wickets,111,won,1st,Pakistan,Dhaka,1/16/1998,
 Pakistan,won,6 wickets,111,lost,2nd,India,Dhaka,1/16/1998,
+New Zealand,lost,67 runs,0,lost,2nd,South Africa,Perth,1/16/1998,Stephen Fleming (NZ)
+South Africa,won,67 runs,0,won,1st,New Zealand,Perth,1/16/1998,Stephen Fleming (NZ)
 India,won,3 wickets,1,won,2nd,Pakistan,Dhaka,1/18/1998,
 Pakistan,lost,3 wickets,1,lost,1st,India,Dhaka,1/18/1998,
 Australia,lost,7 wickets,130,won,1st,South Africa,Perth,1/18/1998,
@@ -505,10 +505,10 @@ India,won,5 wickets,37,won,2nd,New Zealand,Auckland,1/16/1999,Dion  Nash (NZ)
 New Zealand,lost,5 wickets,37,lost,1st,India,Auckland,1/16/1999,Dion  Nash (NZ)
 Australia,lost,7 runs,0,lost,2nd,England,Sydney,1/17/1999,
 England,won,7 runs,0,won,1st,Australia,Sydney,1/17/1999,
-India,lost,70 runs,0,won,2nd,New Zealand,Christchurch,1/19/1999,Dion  Nash (NZ)
-New Zealand,won,70 runs,0,lost,1st,India,Christchurch,1/19/1999,Dion  Nash (NZ)
 England,won,7 wickets,28,lost,2nd,Sri Lanka,Melbourne,1/19/1999,
 Sri Lanka,lost,7 wickets,28,won,1st,England,Melbourne,1/19/1999,
+India,lost,70 runs,0,won,2nd,New Zealand,Christchurch,1/19/1999,Dion  Nash (NZ)
+New Zealand,won,70 runs,0,lost,1st,India,Christchurch,1/19/1999,Dion  Nash (NZ)
 Australia,lost,3 wickets,3,lost,1st,Sri Lanka,Hobart,1/21/1999,
 Sri Lanka,won,3 wickets,3,won,2nd,Australia,Hobart,1/21/1999,
 South Africa,won,2 wickets,0,won,2nd,West Indies,Johannesburg,1/22/1999,
@@ -559,10 +559,10 @@ India,lost,143 runs,0,lost,2nd,Pakistan,Jaipur,3/24/1999,
 Pakistan,won,143 runs,0,won,1st,India,Jaipur,3/24/1999,
 New Zealand,lost,2 wickets,0,lost,1st,South Africa,Napier,3/26/1999,Stephen Fleming (NZ)
 South Africa,won,2 wickets,0,won,2nd,New Zealand,Napier,3/26/1999,Stephen Fleming (NZ)
-New Zealand,lost,143 runs,0,lost,2nd,South Africa,Auckland,3/27/1999,Stephen Fleming (NZ)
-South Africa,won,143 runs,0,won,1st,New Zealand,Auckland,3/27/1999,Stephen Fleming (NZ)
 Pakistan,lost,12 runs,0,lost,2nd,Sri Lanka,Visakhapatnam,3/27/1999,
 Sri Lanka,won,12 runs,0,won,1st,Pakistan,Visakhapatnam,3/27/1999,
+New Zealand,lost,143 runs,0,lost,2nd,South Africa,Auckland,3/27/1999,Stephen Fleming (NZ)
+South Africa,won,143 runs,0,won,1st,New Zealand,Auckland,3/27/1999,Stephen Fleming (NZ)
 India,won,51 runs,0,lost,1st,Sri Lanka,Pune,3/30/1999,
 Sri Lanka,lost,51 runs,0,won,2nd,India,Pune,3/30/1999,
 India,lost,7 wickets,30,won,1st,Pakistan,Mohali,4/1/1999,
@@ -747,10 +747,10 @@ England,lost,38 runs,0,won,2nd,South Africa,Johannesburg,2/13/2000,
 South Africa,won,38 runs,0,lost,1st,England,Johannesburg,2/13/2000,
 Pakistan,lost,34 runs,0,won,2nd,Sri Lanka,Gujranwala,2/16/2000,
 Sri Lanka,won,34 runs,0,lost,1st,Pakistan,Gujranwala,2/16/2000,
-Australia,won,5 wickets,152,lost,2nd,New Zealand,Auckland,2/19/2000,Stephen Fleming (NZ)
-New Zealand,lost,5 wickets,152,won,1st,Australia,Auckland,2/19/2000,Stephen Fleming (NZ)
 Pakistan,lost,104 runs,0,won,2nd,Sri Lanka,Lahore,2/19/2000,
 Sri Lanka,won,104 runs,0,lost,1st,Pakistan,Lahore,2/19/2000,
+Australia,won,5 wickets,152,lost,2nd,New Zealand,Auckland,2/19/2000,Stephen Fleming (NZ)
+New Zealand,lost,5 wickets,152,won,1st,Australia,Auckland,2/19/2000,Stephen Fleming (NZ)
 Australia,won,50 runs,0,lost,1st,New Zealand,Dunedin,2/23/2000,Stephen Fleming (NZ)
 New Zealand,lost,50 runs,0,won,2nd,Australia,Dunedin,2/23/2000,Stephen Fleming (NZ)
 Australia,won,48 runs,0,lost,1st,New Zealand,Christchurch,2/26/2000,Stephen Fleming (NZ)
@@ -1033,13 +1033,13 @@ Australia,lost,4 wickets,9,won,1st,South Africa,Melbourne,1/13/2002,
 South Africa,won,4 wickets,9,lost,2nd,Australia,Melbourne,1/13/2002,
 New Zealand,lost,26 runs,0,lost,2nd,South Africa,Hobart,1/15/2002,Stephen Fleming (NZ)
 South Africa,won,26 runs,0,won,1st,New Zealand,Hobart,1/15/2002,Stephen Fleming (NZ)
-New Zealand,won,23 runs,0,won,1st,Australia,Sydney,1/17/2002,Stephen Fleming (NZ)
 Australia,lost,23 runs,0,lost,2nd,New Zealand,Sydney,1/17/2002,
-New Zealand,won,4 wickets,5,lost,2nd,South Africa,Brisbane,1/19/2002,Stephen Fleming (NZ)
-South Africa,lost,4 wickets,5,won,1st,New Zealand,Brisbane,1/19/2002,Stephen Fleming (NZ)
+New Zealand,won,23 runs,0,won,1st,Australia,Sydney,1/17/2002,Stephen Fleming (NZ)
 England,lost,22 runs,0,lost,2nd,India,Kolkata,1/19/2002,
 India,won,22 runs,0,won,1st,England,Kolkata,1/19/2002,
+New Zealand,won,4 wickets,5,lost,2nd,South Africa,Brisbane,1/19/2002,Stephen Fleming (NZ)
 South Africa,lost,4 wickets,5,won,1st,New Zealand,Brisbane,1/19/2002,
+South Africa,lost,4 wickets,5,won,1st,New Zealand,Brisbane,1/19/2002,Stephen Fleming (NZ)
 Australia,won,27 runs,0,won,1st,South Africa,Brisbane,1/20/2002,
 South Africa,lost,27 runs,0,lost,2nd,Australia,Brisbane,1/20/2002,
 England,won,16 runs,0,lost,1st,India,Cuttack,1/22/2002,
@@ -1117,8 +1117,8 @@ Pakistan,won,153 runs,0,won,1st,New Zealand,Karachi,4/21/2002,
 New Zealand,lost,3 wickets,17,won,1st,Pakistan,Rawalpindi,4/24/2002,Stephen Fleming (NZ)
 Pakistan,won,3 wickets,17,lost,2nd,New Zealand,Rawalpindi,4/24/2002,Stephen Fleming (NZ)
 New Zealand,lost,66 runs,0,lost,2nd,Pakistan,Lahore,4/27/2002,Stephen Fleming (NZ)
-Pakistan,won,66 runs,0,won,1st,New Zealand,Lahore,4/27/2002,Stephen Fleming (NZ)
 Pakistan,won,66 runs,0,won,1st,New Zealand,Lahore,4/27/2002,
+Pakistan,won,66 runs,0,won,1st,New Zealand,Lahore,4/27/2002,Stephen Fleming (NZ)
 India,won,7 wickets,31,won,2nd,West Indies,Bridgetown,5/29/2002,
 West Indies,lost,7 wickets,31,lost,1st,India,Bridgetown,5/29/2002,
 India,lost,7 wickets,17,won,1st,West Indies,Port of Spain,6/1/2002,
@@ -1129,10 +1129,10 @@ New Zealand,lost,6 wickets,5,lost,1st,West Indies,Gros Islet,6/8/2002,Stephen Fl
 West Indies,won,6 wickets,5,won,2nd,New Zealand,Gros Islet,6/8/2002,Stephen Fleming (NZ)
 New Zealand,lost,7 wickets,60,won,1st,West Indies,Gros Islet,6/9/2002,Stephen Fleming (NZ)
 West Indies,won,7 wickets,60,lost,2nd,New Zealand,Gros Islet,6/9/2002,Stephen Fleming (NZ)
-New Zealand,won,9 runs,0,won,1st,West Indies,Port of Spain,6/12/2002,Stephen Fleming (NZ)
-West Indies,lost,9 runs,0,lost,2nd,New Zealand,Port of Spain,6/12/2002,Stephen Fleming (NZ)
 Australia,won,7 wickets,103,won,2nd,Pakistan,Melbourne (Docklands),6/12/2002,
 Pakistan,lost,7 wickets,103,lost,1st,Australia,Melbourne (Docklands),6/12/2002,
+New Zealand,won,9 runs,0,won,1st,West Indies,Port of Spain,6/12/2002,Stephen Fleming (NZ)
+West Indies,lost,9 runs,0,lost,2nd,New Zealand,Port of Spain,6/12/2002,Stephen Fleming (NZ)
 Australia,lost,2 wickets,7,won,1st,Pakistan,Melbourne (Docklands),6/15/2002,
 Pakistan,won,2 wickets,7,lost,2nd,Australia,Melbourne (Docklands),6/15/2002,
 New Zealand,lost,4 wickets,0,won,1st,West Indies,Kingstown,6/16/2002,Stephen Fleming (NZ)
@@ -1433,10 +1433,10 @@ Australia,won,84 runs,0,won,1st,Sri Lanka,Dambulla,2/20/2004,
 Sri Lanka,lost,84 runs,0,lost,2nd,Australia,Dambulla,2/20/2004,
 Australia,lost,1 runs,0,lost,2nd,Sri Lanka,Dambulla,2/22/2004,
 Sri Lanka,won,1 runs,0,won,1st,Australia,Dambulla,2/22/2004,
-New Zealand,won,6 wickets,6,won,2nd,South Africa,Dunedin,2/25/2004,Stephen Fleming (NZ)
-South Africa,lost,6 wickets,6,lost,1st,New Zealand,Dunedin,2/25/2004,Stephen Fleming (NZ)
 Australia,won,5 wickets,9,lost,2nd,Sri Lanka,Colombo (RPS),2/25/2004,
 Sri Lanka,lost,5 wickets,9,won,1st,Australia,Colombo (RPS),2/25/2004,
+New Zealand,won,6 wickets,6,won,2nd,South Africa,Dunedin,2/25/2004,Stephen Fleming (NZ)
+South Africa,lost,6 wickets,6,lost,1st,New Zealand,Dunedin,2/25/2004,Stephen Fleming (NZ)
 Australia,won,40 runs,0,won,1st,Sri Lanka,Colombo (RPS),2/27/2004,
 Sri Lanka,lost,40 runs,0,lost,2nd,Australia,Colombo (RPS),2/27/2004,
 New Zealand,won,2 runs,0,lost,1st,South Africa,Auckland,2/29/2004,Stephen Fleming (NZ)
@@ -1877,10 +1877,10 @@ England,won,3 wickets,1,lost,2nd,New Zealand,Hobart,1/16/2007,Stephen Fleming (N
 New Zealand,lost,3 wickets,1,won,1st,England,Hobart,1/16/2007,Stephen Fleming (NZ)
 Australia,won,4 wickets,68,lost,2nd,England,Brisbane,1/19/2007,
 England,lost,4 wickets,68,won,1st,Australia,Brisbane,1/19/2007,
-Australia,won,2 wickets,8,lost,2nd,New Zealand,Sydney,1/21/2007,Stephen Fleming (NZ)
-New Zealand,lost,2 wickets,8,won,1st,Australia,Sydney,1/21/2007,Stephen Fleming (NZ)
 India,won,14 runs,0,lost,1st,West Indies,Nagpur,1/21/2007,
 West Indies,lost,14 runs,0,won,2nd,India,Nagpur,1/21/2007,
+Australia,won,2 wickets,8,lost,2nd,New Zealand,Sydney,1/21/2007,Stephen Fleming (NZ)
+New Zealand,lost,2 wickets,8,won,1st,Australia,Sydney,1/21/2007,Stephen Fleming (NZ)
 England,lost,90 runs,0,lost,2nd,New Zealand,Adelaide,1/23/2007,Stephen Fleming (NZ)
 New Zealand,won,90 runs,0,won,1st,England,Adelaide,1/23/2007,Stephen Fleming (NZ)
 India,won,20 runs,0,won,1st,West Indies,Cuttack,1/24/2007,
@@ -1897,10 +1897,10 @@ India,won,160 runs,0,lost,1st,West Indies,Vadodara,1/31/2007,
 West Indies,lost,160 runs,0,won,2nd,India,Vadodara,1/31/2007,
 Australia,lost,92 runs,0,lost,2nd,England,Sydney,2/2/2007,
 England,won,92 runs,0,won,1st,Australia,Sydney,2/2/2007,
-Australia,won,5 wickets,10,lost,2nd,New Zealand,Melbourne,2/4/2007,Stephen Fleming (NZ)
-New Zealand,lost,5 wickets,10,won,1st,Australia,Melbourne,2/4/2007,Stephen Fleming (NZ)
 Pakistan,lost,164 runs,0,won,2nd,South Africa,Centurion,2/4/2007,
 South Africa,won,164 runs,0,lost,1st,Pakistan,Centurion,2/4/2007,
+Australia,won,5 wickets,10,lost,2nd,New Zealand,Melbourne,2/4/2007,Stephen Fleming (NZ)
+New Zealand,lost,5 wickets,10,won,1st,Australia,Melbourne,2/4/2007,Stephen Fleming (NZ)
 England,won,14 runs,0,won,1st,New Zealand,Brisbane,2/6/2007,Stephen Fleming (NZ)
 New Zealand,lost,14 runs,0,lost,2nd,England,Brisbane,2/6/2007,Stephen Fleming (NZ)
 Pakistan,won,141 runs,0,won,1st,South Africa,Durban,2/7/2007,
@@ -2295,10 +2295,10 @@ Australia,won,50 runs,0,lost,1st,West Indies,Johannesburg,9/26/2009,
 West Indies,lost,50 runs,0,won,2nd,Australia,Johannesburg,9/26/2009,
 India,lost,54 runs,0,lost,2nd,Pakistan,Centurion,9/26/2009,
 Pakistan,won,54 runs,0,won,1st,India,Centurion,9/26/2009,
-New Zealand,won,38 runs,0,lost,1st,Sri Lanka,Johannesburg,9/27/2009,Daniel Vettori (NZ)
-Sri Lanka,lost,38 runs,0,won,2nd,New Zealand,Johannesburg,9/27/2009,Daniel Vettori (NZ)
 England,won,22 runs,0,won,1st,South Africa,Centurion,9/27/2009,
 South Africa,lost,22 runs,0,lost,2nd,England,Centurion,9/27/2009,
+New Zealand,won,38 runs,0,lost,1st,Sri Lanka,Johannesburg,9/27/2009,Daniel Vettori (NZ)
+Sri Lanka,lost,38 runs,0,won,2nd,New Zealand,Johannesburg,9/27/2009,Daniel Vettori (NZ)
 England,lost,4 wickets,137,lost,1st,New Zealand,Johannesburg,9/29/2009,Daniel Vettori (NZ)
 New Zealand,won,4 wickets,137,won,2nd,England,Johannesburg,9/29/2009,Daniel Vettori (NZ)
 Australia,won,2 wickets,0,won,2nd,Pakistan,Centurion,9/30/2009,
@@ -3093,10 +3093,10 @@ New Zealand,won,108 runs,0,lost,1st,Sri Lanka,Dunedin,1/23/2015,Brendon McCullum
 Sri Lanka,lost,108 runs,0,won,2nd,New Zealand,Dunedin,1/23/2015,Brendon McCullum (NZ)
 Australia,won,3 wickets,1,won,2nd,England,Hobart,1/23/2015,
 England,lost,3 wickets,1,lost,1st,Australia,Hobart,1/23/2015,
-New Zealand,won,120 runs,0,won,1st,Sri Lanka,Dunedin,1/25/2015,Brendon McCullum (NZ)
-Sri Lanka,lost,120 runs,0,lost,2nd,New Zealand,Dunedin,1/25/2015,Brendon McCullum (NZ)
 South Africa,lost,1 wickets,9,lost,1st,West Indies,Port Elizabeth,1/25/2015,
 West Indies,won,1 wickets,9,won,2nd,South Africa,Port Elizabeth,1/25/2015,
+New Zealand,won,120 runs,0,won,1st,Sri Lanka,Dunedin,1/25/2015,Brendon McCullum (NZ)
+Sri Lanka,lost,120 runs,0,lost,2nd,New Zealand,Dunedin,1/25/2015,Brendon McCullum (NZ)
 South Africa,won,131 runs,0,lost,1st,West Indies,Centurion,1/28/2015,
 West Indies,lost,131 runs,0,won,2nd,South Africa,Centurion,1/28/2015,
 New Zealand,lost,34 runs,0,lost,2nd,Sri Lanka,Wellington,1/29/2015,
@@ -3109,10 +3109,10 @@ Australia,won,112 runs,0,lost,1st,England,Perth,2/1/2015,
 England,lost,112 runs,0,won,2nd,Australia,Perth,2/1/2015,
 New Zealand,won,119 runs,0,won,1st,Pakistan,Napier,2/3/2015,Brendon McCullum (NZ)
 Pakistan,lost,119 runs,0,lost,2nd,New Zealand,Napier,2/3/2015,Brendon McCullum (NZ)
-New Zealand,won,98 runs,0,lost,1st,Sri Lanka,Christchurch,2/14/2015,Brendon McCullum (NZ)
-Sri Lanka,lost,98 runs,0,won,2nd,New Zealand,Christchurch,2/14/2015,Brendon McCullum (NZ)
 Australia,won,111 runs,0,lost,1st,England,Melbourne,2/14/2015,
 England,lost,111 runs,0,won,2nd,Australia,Melbourne,2/14/2015,
+New Zealand,won,98 runs,0,lost,1st,Sri Lanka,Christchurch,2/14/2015,Brendon McCullum (NZ)
+Sri Lanka,lost,98 runs,0,won,2nd,New Zealand,Christchurch,2/14/2015,Brendon McCullum (NZ)
 India,won,76 runs,0,won,1st,Pakistan,Adelaide,2/15/2015,
 Pakistan,lost,76 runs,0,lost,2nd,India,Adelaide,2/15/2015,
 England,lost,8 wickets,226,won,1st,New Zealand,Wellington,2/20/2015,Brendon McCullum (NZ)

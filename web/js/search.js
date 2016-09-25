@@ -26,6 +26,8 @@ function create_selectize(items) {
         team_chart.filter("New Zealand");
       }
     }
+    change_title();
+    change_legends();
     dc.redrawAll();
   });
 }
@@ -58,6 +60,8 @@ function create_selectize2(items){
         team_chart2.filter("New Zealand");
       }
     }
+    change_title();
+    change_legends();
     dc.redrawAll();
   });
 }
@@ -67,4 +71,3 @@ function reset_selectize(id){
   var control = $select[0].selectize;
   control.clear();
 }
-

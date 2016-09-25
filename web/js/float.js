@@ -1,3 +1,8 @@
+$(function() {
+		$( ".draggable" ).draggable({
+		});
+});
+
 $(document).ready(function(){
     titleloc = parseInt($('.sidebar-title').css("top").substring(0,$('.sidebar-title').css("top").indexOf("px")))
 		menuloc = parseInt($('.sidebar').css("top").substring(0,$('.sidebar').css("top").indexOf("px")))
@@ -7,8 +12,4 @@ $(document).ready(function(){
 			var menu_offset = menuloc+$(document).scrollTop()+"px";
 			$('.sidebar').animate({top:menu_offset},{duration:300,queue:false});
     });
-});
-
-$(function() {
-		$( ".draggable" ).draggable();
 });
