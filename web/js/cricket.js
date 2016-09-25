@@ -566,6 +566,11 @@ function showCharts(err, data) {
         all: '<span class=\'data-count\'>All records selected. Please click on the graph to apply filters.<span>'
     });
 
+  dc.renderAll();
+
+  initialize();
+};
+
 function change_result_view() {
   if(first_time == false) dc.deregisterChart(result_year_chart);
   if (perc_view == false) {
