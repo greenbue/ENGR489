@@ -454,6 +454,14 @@ function showCharts(err, data) {
       })
     });
 
+  result_chart._onClick = function(d) {
+    dc.events.trigger(function () {
+      result_chart.replaceFilter(d.key);
+      result_chart.redrawGroup();
+    });
+    dc.renderAll();
+  };
+
   result_chart2 = dc.pieChart('#result2')
     .dimension(result2)
     .group(result_pie_group2)
@@ -491,6 +499,14 @@ function showCharts(err, data) {
         return v == 0 ? "" : v + '%';
       })
     });
+
+  result_chart2._onClick = function(d) {
+    dc.events.trigger(function () {
+      result_chart2.replaceFilter(d.key);
+      result_chart2.redrawGroup();
+    });
+    dc.renderAll();
+  };
 
 //  result_chart._onClick = function(d) {
 //      dc.events.trigger(() => {
@@ -1376,11 +1392,12 @@ function draw_composite_line_chart() {
       tied -= 1;
       performance = (won_v == 0) ? parseFloat((won_v*100).toFixed(1)) : parseFloat((lost_v*100).toFixed(1));
 
-      if (isNaN(won_v)) return 0; //Something went wrong if this happens
-      if (won == -1 && lost == -1) {
-        text += "Incomplete result selection (Won AND Lost must be selected). Unable to get % of performance."
-      }
-      else {
+//      if (isNaN(won_v)) return 0; //Something went wrong if this happens
+//      if (won == -1 && lost == -1) {
+//        text += "Incomplete result selection (Won OR Lost must be selected). Unable to get % of performance."
+//      }
+//      else
+      if (!isNaN(won_v))  {
         text += "Win Performance: " + parseFloat((won_v*100).toFixed(1))  + "%";
       }
       return d.key + "\n" + text;
@@ -1408,7 +1425,10 @@ function draw_composite_line_chart() {
         else tied = 0;
         total = won + lost + tied;
         if (perc_view == false) {
-          if (result_chart.filters().length <= 1) {
+          if (result_chart.filters().length == 0) {
+            return total;
+          }
+          else if (result_chart.filters().length == 1) {
               if (won != 0) return  won;
               if (lost != 0) return lost;
               if (tied != 0) return tied;
@@ -1461,7 +1481,10 @@ function draw_composite_line_chart() {
         else tied = 0;
         total = won + lost + tied;
         if (perc_view2 == false) {
-          if (result_chart2.filters().length <= 1) {
+          if (result_chart2.filters().length == 0) {
+            return total;
+          }
+          else if (result_chart2.filters().length == 1) {
               if (won != 0) return  won;
               if (lost != 0) return lost;
               if (tied != 0) return tied;
